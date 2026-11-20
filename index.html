@@ -1258,6 +1258,7 @@ tr.alterada{background:#fff8e1!important}
 @media (max-width:640px){.conf-stats{grid-template-columns:1fr 1fr}}
 
 .abas{flex-wrap:wrap;justify-content:center;overflow:visible!important;width:auto!important;max-width:100%}
+.conf-comp{margin:18px 0}.conf-comp-tit{color:#fff;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:18px;margin:0 0 10px}.conf-comp-tit svg{width:20px;height:20px;color:var(--ouro-esc)}.conf-comp-tit small{font-size:13px;font-weight:600;color:rgba(255,255,255,.75)}
 </style>
 </head>
 <body>
@@ -2539,7 +2540,7 @@ const FMT_ROT={pres:"Presencial",semi:"Semipresencial",eadp:"EAD + Prática",ext
 const FMT_DB={presencial:"pres",semipresencial:"semi",ead_pratica:"eadp",ead_extra:"extra"};
 const FMT_DB_INV={pres:"presencial",semi:"semipresencial",eadp:"ead_pratica",extra:"ead_extra"};
 const fmtDe=v=>FMT_MAP[normTxt(v).replace(/\s+/g,"")]||null;
-const COL_OBRIG=["PRIM VENDEDOR","FORMATO OFERTA","CURSO"], COL_CPF="CPF";
+const COL_DATA="DT MATRICULA", COL_OBRIG=["PRIM VENDEDOR","FORMATO OFERTA","CURSO",COL_DATA], COL_CPF="CPF";
 /* CPF só com dígitos. Excel costuma apagar zeros à esquerda: completa até 11 apenas se vierem 9 ou 10 dígitos. */
 const cpfDig=v=>{const d=String(v??"").replace(/\D/g,""); if(!d) return null; if(d.length>=9&&d.length<=11) return d.padStart(11,"0"); return "INVALIDO";};
 const mascaraCpf=d=>d&&d.length===11?`${d.slice(0,3)}.***.***-${d.slice(9)}`:"—";
@@ -2714,22 +2715,41 @@ function carregarXLSX(){
 async function lerArquivoExcel(file){
   if(!/\.(xlsx|xls)$/i.test(file.name)) throw new Error("Envie um arquivo Excel (.xlsx ou .xls).");
   await carregarXLSX();
-  const wb=XLSX.read(await file.arrayBuffer(),{type:"array"}), abas={};
-  wb.SheetNames.forEach(n=>abas[n]=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:false,defval:""}));
-  return abas;
+  const wb=XLSX.read(await file.arrayBuffer(),{type:"array"}), abas={}, brutos={};
+  wb.SheetNames.forEach(n=>{
+    abas[n]=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:false,defval:""});
+    brutos[n]=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:""});
+  });
+  return {abas,brutos};
 }
+/* DT MATRICULA → "AAAA-MM-DD". Aceita data do Excel (número de série) ou texto DD/MM/AAAA. Nada é adivinhado. */
+function lerDataMatricula(bruto,texto){
+  const ok=(a,m,d)=>{if(a<2000||a>2100||m<1||m>12||d<1)return null;const ult=new Date(Date.UTC(a,m,0)).getUTCDate();if(d>ult)return null;
+    return `${a}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;};
+  if(typeof bruto==="number"&&isFinite(bruto)){
+    if(bruto<36526||bruto>73051) return null; /* fora de 2000–2100: não é data */
+    const x=new Date(Date.UTC(1899,11,30)+Math.floor(bruto)*86400000);
+    return ok(x.getUTCFullYear(),x.getUTCMonth()+1,x.getUTCDate());
+  }
+  if(bruto instanceof Date&&!isNaN(bruto)) return ok(bruto.getFullYear(),bruto.getMonth()+1,bruto.getDate());
+  const t=String(texto??bruto??"").trim(); if(!t) return null;
+  let m=t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s.*)?$/); if(m) return ok(+m[3],+m[2],+m[1]);
+  m=t.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T\s].*)?$/); if(m) return ok(+m[1],+m[2],+m[3]);
+  return null;
+}
+const dataBR=iso=>iso?iso.slice(8)+"/"+iso.slice(5,7)+"/"+iso.slice(0,4):"";
 function acharCabecalho(m){
   for(let i=0;i<Math.min(m.length,25);i++){const cols=(m[i]||[]).map(normTxt); if(COL_OBRIG.every(c=>cols.includes(c))) return {linha:i,cols};}
   return null;
 }
 function analisarPlanilha(m,opt){
-  const cab=acharCabecalho(m);
+  const cab=acharCabecalho(m), raw=opt.brutos||m;
   if(!cab){
     let melhor={n:-1,cols:[]};
     for(let i=0;i<Math.min(m.length,25);i++){const cols=(m[i]||[]).map(normTxt).filter(Boolean),n=COL_OBRIG.filter(c=>cols.includes(c)).length;if(n>melhor.n)melhor={n,cols};}
     return {erro:`Coluna obrigatória ausente: ${COL_OBRIG.filter(c=>!melhor.cols.includes(c)).join(", ")}.`,encontradas:melhor.cols};
   }
-  const iV=cab.cols.indexOf("PRIM VENDEDOR"),iF=cab.cols.indexOf("FORMATO OFERTA"),iC=cab.cols.indexOf("CURSO"),iP=cab.cols.indexOf(COL_CPF);
+  const iV=cab.cols.indexOf("PRIM VENDEDOR"),iF=cab.cols.indexOf("FORMATO OFERTA"),iC=cab.cols.indexOf("CURSO"),iD=cab.cols.indexOf(COL_DATA),iP=cab.cols.indexOf(COL_CPF);
   const temCpf=iP>=0, usar=temCpf&&!!opt.usarCpf;
   const r={temCpf,usarCpf:usar,linhaCab:cab.linha+1,linhasLidas:0,nove:0,outros:{},registros:[]};
   for(let i=cab.linha+1;i<m.length;i++){
@@ -2739,25 +2759,30 @@ function analisarPlanilha(m,opt){
     if(!a){const k=bruto||"(vendedor em branco)";r.outros[k]=(r.outros[k]||0)+1;continue;}
     r.nove++;
     const fmtTxt=String(row[iF]??"").trim(), fmt=fmtDe(fmtTxt), curso=String(row[iC]??"").trim(), cpf=usar?cpfDig(row[iP]):null;
+    const dtTxt=String(row[iD]??"").trim(), dt=lerDataMatricula((raw[i]||[])[iD],dtTxt);
     let problema=null;
-    if(!fmt) problema="formato"; else if(!curso) problema="curso"; else if(usar&&(!cpf||cpf==="INVALIDO")) problema="cpf";
+    if(!dt) problema="data"; else if(!fmt) problema="formato"; else if(!curso) problema="curso"; else if(usar&&(!cpf||cpf==="INVALIDO")) problema="cpf";
     const cpfOk=cpf&&cpf!=="INVALIDO"?cpf:null;
-    r.registros.push({linha:i+1,login:a.login,nome:a.nome,fmtTxt,fmt,curso,cpf:cpfOk,cpfTxt:usar?String(row[iP]??""):"",
+    r.registros.push({linha:i+1,login:a.login,nome:a.nome,fmtTxt,fmt,curso,dt,dtTxt,comp:dt?dt.slice(0,7):null,cpf:cpfOk,cpfTxt:usar?String(row[iP]??""):"",
       chave:cpfOk&&fmt?[cpfOk,normTxt(curso),fmt,a.login].join("|"):null,problema});
   }
   const vistos={};
-  r.registros.forEach(x=>{if(!x.chave)return; x.dupArquivo=!!vistos[x.chave]; vistos[x.chave]=true; x.jaImportada=!!opt.existentes?.has(x.chave);});
+  r.registros.forEach(x=>{if(!x.chave||!x.comp)return; const k=x.comp+"#"+x.chave; x.dupArquivo=!!vistos[k]; vistos[k]=true;
+    x.jaImportada=!!opt.existentes?.[x.comp]?.chaves?.has(x.chave);});
+  r.comps=[...new Set(r.registros.map(x=>x.comp).filter(Boolean))].sort();
   r.parecidos=Object.keys(r.outros).map(nome=>{const t=normTxt(nome).split(" ");
     const a=AUTORIZADOS.find(x=>{const p=x.n.split(" ");return t.length>1&&t[0]===p[0]&&(t.at(-1)===p.at(-1)||p.includes(t[1]));});
     return a?{nome,qtd:r.outros[nome],de:a.nome}:null;}).filter(Boolean);
   return r;
 }
+/* problemas que nunca podem ser incluídos: data inválida e formato não reconhecido */
+const BLOQUEIA=new Set(["data","formato"]);
 function contaveis(A,imp){
   return A.registros.filter(x=>{
-    if(x.problema==="formato") return false;
+    if(!x.comp||BLOQUEIA.has(x.problema)) return false;
     if(x.problema&&!imp.incluir.has(x.linha)) return false;
     if(x.dupArquivo&&!imp.incluir.has(x.linha)) return false;
-    if(x.jaImportada&&imp.modo!=="substituir") return false;
+    if(x.jaImportada&&imp.modos[x.comp]!=="substituir") return false;
     return true;});
 }
 async function existentesDaCompetencia(comp,chaves){
@@ -2771,20 +2796,30 @@ async function existentesDaCompetencia(comp,chaves){
 }
 async function reanalisar(){
   const I2=S.imp; if(!I2) return;
-  const m=I2.abas[I2.aba]||[];
-  let A=analisarPlanilha(m,{usarCpf:I2.usarCpf});
-  if(!A.erro){I2.ex=await existentesDaCompetencia(I2.comp,[...new Set(A.registros.map(x=>x.chave).filter(Boolean))]); A=analisarPlanilha(m,{usarCpf:I2.usarCpf,existentes:I2.ex.chaves});}
-  I2.analise=A; if(I2.ex&&I2.ex.qtd===0) I2.modo="primeira"; else if(I2.modo==="primeira") I2.modo=null;
-  if(I2.modo==="somar"&&!A.usarCpf) I2.modo=I2.modoSemCpfOk?"somar":null;
+  const m=I2.abas[I2.aba]||[], brutos=I2.brutos?.[I2.aba];
+  let A=analisarPlanilha(m,{usarCpf:I2.usarCpf,brutos});
+  if(!A.erro){
+    I2.ex={};
+    for(const comp of A.comps){
+      const ch=[...new Set(A.registros.filter(x=>x.comp===comp).map(x=>x.chave).filter(Boolean))];
+      I2.ex[comp]=await existentesDaCompetencia(comp,ch);
+    }
+    A=analisarPlanilha(m,{usarCpf:I2.usarCpf,brutos,existentes:I2.ex});
+    A.comps.forEach(comp=>{
+      if(I2.ex[comp].qtd===0) I2.modos[comp]="primeira";
+      else if(I2.modos[comp]==="primeira") delete I2.modos[comp];
+    });
+  }
+  I2.analise=A;
 }
 async function receberArquivo(file){
   const st=$("#imp-status"); if(st) st.textContent="Lendo "+file.name+"…";
-  try{const abas=await lerArquivoExcel(file); await iniciarConferencia(abas,file.name);}
+  try{const {abas,brutos}=await lerArquivoExcel(file); await iniciarConferencia(abas,file.name,brutos);}
   catch(e){if(st) st.innerHTML=`<span class="erro-txt">${esc(e.message)}</span>`;}
 }
-async function iniciarConferencia(abas,nomeArquivo){
+async function iniciarConferencia(abas,nomeArquivo,brutos){
   const nomes=Object.keys(abas);
-  S.imp={arquivo:nomeArquivo,abas,aba:nomes[0],comp:S.imp?.comp||compAtual(),usarCpf:false,modo:null,autorizo:false,incluir:new Set()};
+  S.imp={arquivo:nomeArquivo,abas,brutos:brutos||null,aba:nomes[0],usarCpf:false,modos:{},autorizo:false,incluir:new Set()};
   await reanalisar(); renderPagina();
 }
 window.__mpImportarMatriz=iniciarConferencia; /* usado só nos testes automáticos */
@@ -2798,7 +2833,7 @@ function renderImportar(c){
     <input type="file" id="arq" accept=".xlsx,.xls" hidden>
     <span class="dz-ic">${I.upload}</span>
     <b>Arraste a planilha aqui ou clique para selecionar</b>
-    <small>Arquivos .xlsx ou .xls · lidas apenas as colunas PRIM VENDEDOR, FORMATO OFERTA, CURSO e, se você confirmar, CPF</small>
+    <small>Arquivos .xlsx ou .xls · lidas apenas as colunas PRIM VENDEDOR, FORMATO OFERTA, CURSO, DT MATRICULA e, se você confirmar, CPF · o mês de cada matrícula vem da DT MATRICULA</small>
     <span id="imp-status" class="dz-status"></span>
   </label>`}
   <section class="historico-imp"><h3>Histórico de importações</h3><div id="hist-imp" class="card tabela-wrap"><p class="vazio-txt">Carregando…</p></div></section>`;
@@ -2811,65 +2846,78 @@ function renderImportar(c){
   } else ligarConferencia(c);
   carregarHistoricoImp();
 }
+function tabelaCompHTML(L){
+  const porC={}; AUTORIZADOS.forEach(a=>porC[a.login]={pres:0,semi:0,eadp:0,extra:0});
+  L.forEach(x=>porC[x.login][x.fmt]++);
+  const tot={pres:0,semi:0,eadp:0,extra:0}; Object.values(porC).forEach(p=>["pres","semi","eadp","extra"].forEach(k=>tot[k]+=p[k]));
+  return `<div class="card tabela-wrap"><table class="conf-tab"><thead><tr><th>Consultor</th><th>Presencial</th><th>Semipresencial</th><th>EAD + Prática</th><th>Total para Meta</th><th>EAD Extra</th></tr></thead>
+    <tbody>${AUTORIZADOS.map(a=>{const p=porC[a.login];return `<tr><td><span class="pessoa"><img src="${FOTOS[a.login]}" alt="">${esc(a.completo)}</span></td><td>${p.pres}</td><td>${p.semi}</td><td>${p.eadp}</td><td><b>${p.pres+p.semi+p.eadp}</b></td><td style="color:var(--muted)">${p.extra}</td></tr>`;}).join("")}</tbody>
+    <tfoot><tr><td>Total</td><td>${tot.pres}</td><td>${tot.semi}</td><td>${tot.eadp}</td><td><b>${tot.pres+tot.semi+tot.eadp}</b></td><td>${tot.extra}</td></tr></tfoot></table></div>`;
+}
 function conferenciaHTML(I2){
   const A=I2.analise, abas=Object.keys(I2.abas);
   const topo=`<div class="conf-topo card">
     <div><small>Arquivo</small><b>${esc(I2.arquivo)}</b></div>
     ${abas.length>1?`<div><small>Aba</small><select id="cf-aba">${abas.map(a=>`<option${a===I2.aba?" selected":""}>${esc(a)}</option>`).join("")}</select></div>`:""}
-    <div><small>Competência (mês dos resultados)</small><input type="month" id="cf-comp" value="${I2.comp}"></div>
+    <div><small>Competência</small><b>Definida pela DT MATRICULA de cada linha</b></div>
     <button class="btn-sec" id="cf-trocar">Escolher outro arquivo</button></div>`;
   if(A.erro) return `<section class="conferencia"><h2 class="conf-titulo">CONFERÊNCIA DE IMPORTAÇÃO</h2>${topo}
     <div class="alerta erro"><b>Importação interrompida.</b> ${esc(A.erro)}<br><small>Colunas encontradas: ${A.encontradas.map(esc).join(", ")||"nenhuma"}. Nenhuma coluna diferente é tratada como equivalente. Ajuste a planilha e envie de novo.</small></div>
     <div class="conf-botoes"><button class="btn-sec" id="cf-cancelar">CANCELAR IMPORTAÇÃO</button></div></section>`;
-  const L=contaveis(A,I2), porC={};
-  AUTORIZADOS.forEach(a=>porC[a.login]={nome:a.nome,pres:0,semi:0,eadp:0,extra:0});
-  L.forEach(x=>porC[x.login][x.fmt]++);
-  const tot={pres:0,semi:0,eadp:0,extra:0}; Object.values(porC).forEach(p=>["pres","semi","eadp","extra"].forEach(k=>tot[k]+=p[k]));
-  const dupArq=A.registros.filter(x=>x.dupArquivo), ja=A.registros.filter(x=>x.jaImportada&&!x.dupArquivo), inc=A.registros.filter(x=>x.problema);
-  const outrosQtd=Object.values(A.outros).reduce((a,b)=>a+b,0), E=I2.ex?.qtd||0;
-  const precisaModo=E>0, modoOk=!precisaModo||!!I2.modo;
-  const podeConfirmar=modoOk&&I2.autorizo&&L.length>0;
-  const linhaRev=(x,tipo)=>`<tr><td class="num">${x.linha}</td><td>${esc(x.nome)}</td><td>${esc(x.fmtTxt||"(vazio)")}</td><td>${esc(x.curso||"(vazio)")}</td>
+  const L=contaveis(A,I2), comps=A.comps;
+  const dupArq=A.registros.filter(x=>x.dupArquivo), ja=A.registros.filter(x=>x.jaImportada&&!x.dupArquivo&&I2.modos[x.comp]!=="substituir"), inc=A.registros.filter(x=>x.problema);
+  const outrosQtd=Object.values(A.outros).reduce((a,b)=>a+b,0);
+  const pendModo=comps.filter(c=>(I2.ex[c]?.qtd||0)>0&&!I2.modos[c]);
+  const podeConfirmar=!pendModo.length&&I2.autorizo&&L.length>0;
+  const nMeta=L.filter(x=>x.fmt!=="extra").length;
+  const linhaRev=(x,tipo)=>`<tr><td class="num">${x.linha}</td><td>${esc(x.nome)}</td><td>${esc(x.dtTxt||"(vazio)")}</td><td>${esc(x.fmtTxt||"(vazio)")}</td><td>${esc(x.curso||"(vazio)")}</td>
     ${A.usarCpf?`<td class="cpf-n">${x.cpf?mascaraCpf(x.cpf):esc(x.cpfTxt||"(vazio)")}</td>`:""}
-    <td>${tipo==="formato"?'<span class="sit pend">Formato não reconhecido · não será contada</span>':
+    <td>${BLOQUEIA.has(tipo)?`<span class="sit pend">${tipo==="data"?"Data inválida · não atribuída a nenhum mês":"Formato não reconhecido · não será contada"}</span>`:
       `<label class="inc-chk"><input type="checkbox" data-inc="${x.linha}"${I2.incluir.has(x.linha)?" checked":""}> contar esta linha</label>`}</td></tr>`;
-  const motivo={formato:"Formato não reconhecido",curso:"Curso em branco",cpf:"CPF vazio ou inválido"};
+  const cabRev=`<thead><tr><th>Linha</th><th>Consultor</th><th>DT Matrícula</th><th>Formato</th><th>Curso</th>${A.usarCpf?"<th>CPF</th>":""}<th></th></tr></thead>`;
+  const motivo={data:"DT MATRICULA vazia ou inválida",formato:"Formato não reconhecido",curso:"Curso em branco",cpf:"CPF vazio ou inválido"};
+  const blocoComp=comp=>{
+    const Lc=L.filter(x=>x.comp===comp), E=I2.ex[comp]?.qtd||0, jaC=A.registros.filter(x=>x.comp===comp&&x.jaImportada&&!x.dupArquivo).length;
+    return `<section class="conf-comp">
+      <h3 class="conf-comp-tit">${I.cal} ${nomeMes(comp)} <small>${Lc.length} ${Lc.length===1?"matrícula":"matrículas"} · ${Lc.filter(x=>x.fmt!=="extra").length} para meta · ${Lc.filter(x=>x.fmt==="extra").length} EAD Extra</small></h3>
+      ${E>0?`<div class="modo-imp card"><b>${nomeMes(comp)} já tem ${E} ${E===1?"matrícula aprovada":"matrículas aprovadas"} em ${I2.ex[comp].imps} ${I2.ex[comp].imps===1?"importação":"importações"}. Como tratar as linhas deste mês?</b>
+        <label><input type="radio" name="modo-${comp}" data-comp="${comp}" value="substituir"${I2.modos[comp]==="substituir"?" checked":""}> <span><b>Substituir os resultados de ${nomeMes(comp)}</b> pelas linhas deste mês no arquivo (use quando a planilha traz o mês inteiro). A importação anterior fica no histórico e pode ser restaurada.</span></label>
+        ${A.usarCpf?`<label><input type="radio" name="modo-${comp}" data-comp="${comp}" value="somar"${I2.modos[comp]==="somar"?" checked":""}> <span><b>Somar apenas as matrículas novas.</b> As ${jaC} já importadas (mesmo CPF, curso, formato e consultor) serão ignoradas.</span></label>`
+          :`<label><input type="radio" name="modo-${comp}" data-comp="${comp}" value="somar"${I2.modos[comp]==="somar"?" checked":""}> <span><b>Somar como matrículas novas.</b> Sem CPF não dá para conferir: marque só se tiver certeza de que nenhuma linha deste mês foi importada antes.</span></label>`}
+      </div>`:""}
+      ${tabelaCompHTML(Lc)}
+    </section>`;
+  };
   return `<section class="conferencia">
     <h2 class="conf-titulo">CONFERÊNCIA DE IMPORTAÇÃO</h2>
     ${topo}
     ${A.temCpf?`<label class="opcao-cpf card"><input type="checkbox" id="cf-cpf"${I2.usarCpf?" checked":""}>
-      <span><b>Usar a coluna CPF</b> para identificar cada matrícula e evitar contagem duplicada entre arquivos.<small>O CPF fica protegido e aparece sempre mascarado. Um mesmo CPF com cursos diferentes conta como matrículas diferentes.</small></span></label>`
+      <span><b>Usar a coluna CPF</b> para identificar cada matrícula e evitar contagem duplicada entre arquivos.<small>O CPF fica protegido e aparece sempre mascarado. Um CPF repetido sozinho não é duplicidade: mesmo CPF com curso ou formato diferente conta como matrícula diferente.</small></span></label>`
       :`<div class="alerta info">Esta planilha <b>não tem coluna CPF</b>. Sem CPF, não é possível reconhecer a mesma matrícula entre arquivos diferentes.</div>`}
-    ${precisaModo?`<div class="modo-imp card"><b>${nomeMes(I2.comp)} já tem ${E} ${E===1?"matrícula aprovada":"matrículas aprovadas"} em ${I2.ex.imps} ${I2.ex.imps===1?"importação":"importações"}. Como tratar este arquivo?</b>
-      <label><input type="radio" name="modo" value="substituir"${I2.modo==="substituir"?" checked":""}> <span><b>Substituir os resultados de ${nomeMes(I2.comp)}</b> por este arquivo (use quando a planilha é o acumulado do mês). A importação anterior fica no histórico e pode ser restaurada.</span></label>
-      ${A.usarCpf?`<label><input type="radio" name="modo" value="somar"${I2.modo==="somar"?" checked":""}> <span><b>Somar apenas as matrículas novas.</b> As ${ja.length} já importadas (mesmo CPF, curso, formato e consultor) serão ignoradas.</span></label>`
-        :`<label><input type="radio" name="modo" value="somar"${I2.modo==="somar"?" checked":""}> <span><b>Somar como matrículas novas.</b> Sem CPF não dá para conferir: marque só se tiver certeza de que nenhuma linha foi importada antes.</span></label>`}
-    </div>`:""}
     <div class="conf-stats">
       <div><small>Linhas lidas</small><b class="num">${A.linhasLidas}</b></div>
       <div><small>Linhas dos 9 consultores</small><b class="num">${A.nove}</b></div>
       <div><small>Outros vendedores desconsiderados</small><b class="num">${outrosQtd}</b></div>
-      <div><small>Duplicados identificados</small><b class="num">${dupArq.length+(I2.modo==="substituir"?0:ja.length)}</b></div>
+      <div><small>Meses encontrados (DT MATRICULA)</small><b class="num">${comps.length}</b></div>
+      <div><small>Duplicados identificados</small><b class="num">${dupArq.length+ja.length}</b></div>
       <div><small>Com inconsistências</small><b class="num" style="color:${inc.length?'var(--vermelho)':'inherit'}">${inc.length}</b></div>
-      <div class="dest"><small>Matrículas que serão atribuídas</small><b class="num">${L.length}</b><em>${tot.pres+tot.semi+tot.eadp} entram nas metas · ${tot.extra} EAD Extra</em></div>
+      <div class="dest"><small>Matrículas que serão atribuídas</small><b class="num">${L.length}</b><em>${nMeta} entram nas metas · ${L.length-nMeta} EAD Extra</em></div>
     </div>
-    <div class="card tabela-wrap"><table class="conf-tab"><thead><tr><th>Consultor</th><th>Presencial</th><th>Semipresencial</th><th>EAD + Prática</th><th>Total para Meta</th><th>EAD Extra</th></tr></thead>
-      <tbody>${AUTORIZADOS.map(a=>{const p=porC[a.login];return `<tr><td><span class="pessoa"><img src="${FOTOS[a.login]}" alt="">${esc(a.completo)}</span></td><td>${p.pres}</td><td>${p.semi}</td><td>${p.eadp}</td><td><b>${p.pres+p.semi+p.eadp}</b></td><td style="color:var(--muted)">${p.extra}</td></tr>`;}).join("")}</tbody>
-      <tfoot><tr><td>Total</td><td>${tot.pres}</td><td>${tot.semi}</td><td>${tot.eadp}</td><td><b>${tot.pres+tot.semi+tot.eadp}</b></td><td>${tot.extra}</td></tr></tfoot></table></div>
+    ${comps.length?comps.map(blocoComp).join(""):`<div class="alerta erro">Nenhuma linha com DT MATRICULA válida. Nada pode ser atribuído a um mês.</div>`}
     ${inc.length?`<details class="revisao" open><summary>Revisar ${inc.length} ${inc.length===1?"linha com inconsistência":"linhas com inconsistência"}</summary>
-      <p>Linhas com formato fora dos quatro reconhecidos nunca são classificadas. As demais só entram se você marcar.</p>
-      ${["formato","curso","cpf"].filter(t=>inc.some(x=>x.problema===t)).map(t=>`<h4>${motivo[t]}</h4><table class="rev-tab"><thead><tr><th>Linha</th><th>Consultor</th><th>Formato</th><th>Curso</th>${A.usarCpf?"<th>CPF</th>":""}<th></th></tr></thead>
+      <p>Linhas sem DT MATRICULA válida ou com formato fora dos quatro reconhecidos nunca são atribuídas. As demais só entram se você marcar.</p>
+      ${["data","formato","curso","cpf"].filter(t=>inc.some(x=>x.problema===t)).map(t=>`<h4>${motivo[t]}</h4><table class="rev-tab">${cabRev}
         <tbody>${inc.filter(x=>x.problema===t).map(x=>linhaRev(x,t)).join("")}</tbody></table>`).join("")}</details>`:""}
     ${dupArq.length?`<details class="revisao" open><summary>Revisar ${dupArq.length} ${dupArq.length===1?"linha repetida":"linhas repetidas"} dentro do arquivo</summary>
-      <p>Mesmo CPF, curso, formato e consultor aparecem mais de uma vez. A primeira ocorrência conta; as repetições só entram se você marcar.</p>
-      <table class="rev-tab"><thead><tr><th>Linha</th><th>Consultor</th><th>Formato</th><th>Curso</th><th>CPF</th><th></th></tr></thead><tbody>${dupArq.map(x=>linhaRev(x,"dup")).join("")}</tbody></table></details>`:""}
-    ${ja.length&&I2.modo!=="substituir"?`<details class="revisao"><summary>${ja.length} ${ja.length===1?"matrícula já importada":"matrículas já importadas"} antes (não serão somadas de novo)</summary>
-      <table class="rev-tab"><thead><tr><th>Linha</th><th>Consultor</th><th>Formato</th><th>Curso</th><th>CPF</th></tr></thead><tbody>${ja.map(x=>`<tr><td>${x.linha}</td><td>${esc(x.nome)}</td><td>${esc(x.fmtTxt)}</td><td>${esc(x.curso)}</td><td class="cpf-n">${mascaraCpf(x.cpf)}</td></tr>`).join("")}</tbody></table></details>`:""}
+      <p>Mesmo CPF, curso, formato, consultor e mês aparecem mais de uma vez. A primeira ocorrência conta; as repetições só entram se você marcar.</p>
+      <table class="rev-tab">${cabRev}<tbody>${dupArq.map(x=>linhaRev(x,"dup")).join("")}</tbody></table></details>`:""}
+    ${ja.length?`<details class="revisao"><summary>${ja.length} ${ja.length===1?"matrícula já importada":"matrículas já importadas"} antes (não serão somadas de novo)</summary>
+      <table class="rev-tab"><thead><tr><th>Linha</th><th>Consultor</th><th>DT Matrícula</th><th>Formato</th><th>Curso</th><th>CPF</th></tr></thead><tbody>${ja.map(x=>`<tr><td>${x.linha}</td><td>${esc(x.nome)}</td><td>${dataBR(x.dt)}</td><td>${esc(x.fmtTxt)}</td><td>${esc(x.curso)}</td><td class="cpf-n">${mascaraCpf(x.cpf)}</td></tr>`).join("")}</tbody></table></details>`:""}
     ${outrosQtd?`<details class="revisao"><summary>${outrosQtd} ${outrosQtd===1?"linha de outro vendedor desconsiderada":"linhas de outros vendedores desconsideradas"}</summary>
       ${A.parecidos.length?`<div class="alerta info">Nomes parecidos com consultores autorizados <b>não foram atribuídos</b>. Se for a mesma pessoa, corrija o nome na planilha e importe de novo:<ul>${A.parecidos.map(p=>`<li>"${esc(p.nome)}" (${p.qtd}) · parecido com ${esc(p.de)}</li>`).join("")}</ul></div>`:""}
       <table class="rev-tab"><thead><tr><th>Vendedor na planilha</th><th>Linhas</th></tr></thead><tbody>${Object.entries(A.outros).sort((a,b)=>b[1]-a[1]).map(([n,q])=>`<tr><td>${esc(n)}</td><td>${q}</td></tr>`).join("")}</tbody></table></details>`:""}
-    <label class="autorizo card"><input type="checkbox" id="cf-autorizo"${I2.autorizo?" checked":""}> <span>Conferi a prévia e <b>autorizo atualizar o Performance Hunter</b> com ${L.length} ${L.length===1?"matrícula":"matrículas"} em ${nomeMes(I2.comp)}${I2.modo==="substituir"?`, <b>substituindo</b> as ${E} aprovadas hoje`:""}.</span></label>
-    ${!modoOk?`<p class="aviso-conf">Escolha como tratar este arquivo antes de confirmar.</p>`:""}${L.length===0?`<p class="aviso-conf">Nenhuma matrícula para atribuir.</p>`:""}
+    <label class="autorizo card"><input type="checkbox" id="cf-autorizo"${I2.autorizo?" checked":""}> <span>Conferi a prévia e <b>autorizo atualizar o Performance Hunter</b> com ${L.length} ${L.length===1?"matrícula":"matrículas"}: ${comps.map(c=>{const n=L.filter(x=>x.comp===c).length;return `<b>${nomeMes(c)}</b> ${n}${I2.modos[c]==="substituir"?" (substituindo o mês)":""}`;}).join(" · ")}.</span></label>
+    ${pendModo.length?`<p class="aviso-conf">Escolha como tratar ${pendModo.map(nomeMes).join(", ")} antes de confirmar.</p>`:""}${L.length===0?`<p class="aviso-conf">Nenhuma matrícula para atribuir.</p>`:""}
     <div class="conf-botoes"><button class="btn-sec" id="cf-cancelar">CANCELAR IMPORTAÇÃO</button>
       <button class="btn-ouro" id="cf-confirmar" ${podeConfirmar?"":"disabled"}>CONFIRMAR E ATUALIZAR RESULTADOS</button></div>
     <p class="erro" id="cf-erro" role="alert"></p>
@@ -2879,10 +2927,9 @@ function ligarConferencia(c){
   const I2=S.imp, rerender=async()=>{const y=scrollY;await reanalisar();renderImportar(c);scrollTo(0,y);};
   $("#cf-trocar").onclick=()=>{S.imp=null;renderImportar(c);};
   $("#cf-cancelar").onclick=()=>{S.imp=null;renderImportar(c);toast(`<span>Importação cancelada. Nenhum resultado foi alterado.</span>`);};
-  $("#cf-aba")?.addEventListener("change",e=>{I2.aba=e.target.value;I2.incluir=new Set();I2.autorizo=false;rerender();});
-  $("#cf-comp")?.addEventListener("change",e=>{if(!/^\d{4}-\d{2}$/.test(e.target.value))return;I2.comp=e.target.value;I2.modo=null;I2.autorizo=false;rerender();});
-  $("#cf-cpf")?.addEventListener("change",e=>{I2.usarCpf=e.target.checked;I2.modo=null;I2.incluir=new Set();I2.autorizo=false;rerender();});
-  c.querySelectorAll('input[name="modo"]').forEach(r=>r.onchange=()=>{I2.modo=r.value;I2.autorizo=false;const y=scrollY;renderImportar(c);scrollTo(0,y);});
+  $("#cf-aba")?.addEventListener("change",e=>{I2.aba=e.target.value;I2.incluir=new Set();I2.modos={};I2.autorizo=false;rerender();});
+  $("#cf-cpf")?.addEventListener("change",e=>{I2.usarCpf=e.target.checked;I2.modos={};I2.incluir=new Set();I2.autorizo=false;rerender();});
+  c.querySelectorAll('input[data-comp]').forEach(r=>r.onchange=()=>{I2.modos[r.dataset.comp]=r.value;I2.autorizo=false;const y=scrollY;renderImportar(c);scrollTo(0,y);});
   c.querySelectorAll("[data-inc]").forEach(k=>k.onchange=()=>{const n=+k.dataset.inc;k.checked?I2.incluir.add(n):I2.incluir.delete(n);I2.autorizo=false;const y=scrollY;renderImportar(c);scrollTo(0,y);});
   $("#cf-autorizo")?.addEventListener("change",e=>{I2.autorizo=e.target.checked;const y=scrollY;renderImportar(c);scrollTo(0,y);});
   $("#cf-confirmar")?.addEventListener("click",async e=>{
@@ -2891,28 +2938,40 @@ function ligarConferencia(c){
   });
 }
 async function confirmarImportacao(){
-  const I2=S.imp, A=I2.analise, L=contaveis(A,I2), modo=I2.modo||"primeira";
+  const I2=S.imp, A=I2.analise, L=contaveis(A,I2);
   if(!I2.autorizo||!L.length) throw new Error("confirmação incompleta");
-  const por={}; L.forEach(x=>{const p=por[x.login]||(por[x.login]={pres:0,semi:0,eadp:0,extra:0});p[x.fmt]++;});
-  const resumo={linhas_lidas:A.linhasLidas,linhas_nove:A.nove,outros:Object.values(A.outros).reduce((a,b)=>a+b,0),
-    duplicados:A.registros.filter(x=>x.dupArquivo).length+(modo==="substituir"?0:A.registros.filter(x=>x.jaImportada&&!x.dupArquivo).length),
-    inconsistencias:A.registros.filter(x=>x.problema).length,atribuidas:L.length,usa_cpf:A.usarCpf,por_consultor:por};
-  if(MODO==="supabase"){
-    const idDe=login=>(S.fonte?.cons||[]).find(x=>x.login===login)?.id;
-    const linhas=L.map(x=>({consultor_id:idDe(x.login),formato:FMT_DB_INV[x.fmt],curso:x.curso,cpf:A.usarCpf?x.cpf:null,chave:x.chave}));
-    if(linhas.some(l=>!l.consultor_id)) throw new Error("Há consultor autorizado sem cadastro no banco. Rode o SQL de cadastro da equipe.");
-    const {error}=await S.sb.rpc("mp_confirmar_importacao",{p_comp:I2.comp+"-01",p_arquivo:I2.arquivo,p_modo:modo,p_usa_cpf:A.usarCpf,p_resumo:resumo,p_linhas:linhas});
-    if(error) throw new Error(error.message);
-  } else {
-    const id="imp"+Date.now(), agora=new Date();
-    if(modo==="substituir") S.local.importacoes.forEach(i=>{if(i.comp===I2.comp&&i.status==="confirmada"){i.status="substituida";i.substituida_por=id;}});
-    S.local.importacoes.push({id,comp:I2.comp,arquivo:I2.arquivo,modo,usaCpf:A.usarCpf,em:agora.toISOString(),dia:isoDia(hojeSP()),autor:S.usuario.nome,status:"confirmada",resumo,
-      linhas:L.map(x=>({cid:x.login,fmt:x.fmt,curso:x.curso,cpf:A.usarCpf?x.cpf:null,chave:x.chave}))});
-    gravarLocal();
+  const comps=[...new Set(L.map(x=>x.comp))].sort(), feitos=[];
+  if(MODO==="supabase"&&L.some(x=>!(S.fonte?.cons||[]).find(c=>c.login===x.login))) throw new Error("Há consultor autorizado sem cadastro no banco. Rode o SQL de cadastro da equipe.");
+  for(const comp of comps){
+    const Lc=L.filter(x=>x.comp===comp), modo=I2.modos[comp]||"primeira";
+    const por={}; Lc.forEach(x=>{const p=por[x.login]||(por[x.login]={pres:0,semi:0,eadp:0,extra:0});p[x.fmt]++;});
+    const resumo={competencia_por:"DT MATRICULA",linhas_lidas:A.linhasLidas,linhas_nove:A.nove,meses_no_arquivo:A.comps,
+      outros:Object.values(A.outros).reduce((a,b)=>a+b,0),
+      duplicados:A.registros.filter(x=>x.comp===comp&&x.dupArquivo).length+(modo==="substituir"?0:A.registros.filter(x=>x.comp===comp&&x.jaImportada&&!x.dupArquivo).length),
+      inconsistencias:A.registros.filter(x=>x.problema).length,datas_invalidas:A.registros.filter(x=>x.problema==="data").length,
+      atribuidas:Lc.length,usa_cpf:A.usarCpf,por_consultor:por};
+    try{
+      if(MODO==="supabase"){
+        const idDe=login=>S.fonte.cons.find(x=>x.login===login).id;
+        const linhas=Lc.map(x=>({consultor_id:idDe(x.login),formato:FMT_DB_INV[x.fmt],curso:x.curso,cpf:A.usarCpf?x.cpf:null,chave:x.chave}));
+        const {error}=await S.sb.rpc("mp_confirmar_importacao",{p_comp:comp+"-01",p_arquivo:I2.arquivo,p_modo:modo,p_usa_cpf:A.usarCpf,p_resumo:resumo,p_linhas:linhas});
+        if(error) throw new Error(error.message);
+      } else {
+        const id="imp"+Date.now()+comp, agora=new Date();
+        if(modo==="substituir") S.local.importacoes.forEach(i=>{if(i.comp===comp&&i.status==="confirmada"){i.status="substituida";i.substituida_por=id;}});
+        S.local.importacoes.push({id,comp,arquivo:I2.arquivo,modo,usaCpf:A.usarCpf,em:agora.toISOString(),dia:isoDia(hojeSP()),autor:S.usuario.nome,status:"confirmada",resumo,
+          linhas:Lc.map(x=>({cid:x.login,fmt:x.fmt,curso:x.curso,cpf:A.usarCpf?x.cpf:null,chave:x.chave}))});
+        gravarLocal();
+      }
+      feitos.push(comp);
+    }catch(err){
+      if(feitos.length){S.imp=null;S.competencias=[];await carregarDados();montarApp();}
+      throw new Error(`${nomeMes(comp)} não foi salvo (${err.message}).${feitos.length?" Já salvos: "+feitos.map(nomeMes).join(", ")+". Veja o histórico.":" Nenhum mês foi alterado."}`);
+    }
   }
-  const comp=I2.comp; S.imp=null; S.competencia=comp; S.competencias=[];
+  S.imp=null; S.competencia=comps.at(-1); S.competencias=[];
   await carregarDados(); montarApp();
-  toast(`<span class="mov sobe">✓</span><span>Resultados de ${nomeMes(comp)} atualizados com ${L.length} ${L.length===1?"matrícula":"matrículas"}.</span>`); confete(120,true);
+  toast(`<span class="mov sobe">✓</span><span>Resultados atualizados: ${comps.map(c=>nomeMes(c)+" "+L.filter(x=>x.comp===c).length).join(" · ")}.</span>`); confete(120,true);
 }
 async function listarImportacoes(){
   if(MODO==="supabase"){
