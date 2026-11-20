@@ -1644,6 +1644,165 @@ tr.alterada{background:#fff8e1!important}
 @media (max-width:760px){.rk-grade .podio-card{grid-column:auto}}
 .rk-cab{font-size:9.5px}
 .am-botoes.dois{grid-template-columns:1fr 1fr}
+.rm-col{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr);gap:12px}
+.rmc{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(244,197,82,.35);display:flex;flex-direction:column;gap:6px}
+.rmc h4{margin:0;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#f1d784;letter-spacing:.3px}.rmc h4 svg{width:16px;height:16px}
+.rmc-n{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rmc-n small{display:block;font-size:11px;font-weight:700;color:#cbb8f0}
+.rmc-n b{display:block;font-family:var(--font-display);font-weight:900;font-size:clamp(20px,1.8vw,28px);line-height:1.05;color:#fff}
+.rmc-n .rm-sem{font-size:15px!important}
+.rmc-barra{height:7px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}.rmc-barra i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#c58d22,#ffe08a)}
+.rmc-nota{font-style:normal;font-size:10.5px;color:#cbb8f0;font-weight:600}
+@media(max-width:900px){.rm-col{grid-template-columns:1fr}}
+/* pódio maior */
+.pz-foto{width:150px;height:150px}.pz-1 .pz-foto{width:196px;height:196px}
+.pz-coroa{width:76px;margin-bottom:-18px}.pz-1 .pz-coroa{width:104px;margin-bottom:-22px}
+.pz-l{width:40%;height:100%;bottom:-6px}.pz-l.e{left:-24%}.pz-l.d{right:-24%}
+.pz-placa{padding:6px 14px;margin-top:-14px}.pz-placa b{font-size:15px}.pz-1 .pz-placa b{font-size:19px}
+.pz-mat{font-size:13px}.pz-mat b{font-size:28px}.pz-1 .pz-mat b{font-size:36px}
+.pz-pills{width:min(220px,98%);gap:6px;margin-top:6px}
+.pz-lin small{font-size:12.5px}.pz-pill{font-size:17px;min-width:74px;padding:3px 10px}.pz-1 .pz-pill{font-size:19px}
+.pz-base{height:58px}.pz-1 .pz-base{height:80px}.pz-3 .pz-base{height:46px}
+.pz-num{font-size:36px}.pz-1 .pz-num{font-size:48px}
+.pz-voce{top:40px}.pz-mov{top:58px}
+.rk-linhas{flex:1;justify-content:space-around}
+.gl-dica{font-size:11px;font-weight:700;color:#f1d784;opacity:.85;margin-left:auto;margin-right:10px}
+.rk-podio{cursor:zoom-in}
+/* Modo Glória */
+.gloria-veu{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:rgba(14,4,32,.0);backdrop-filter:blur(0);transition:background .35s,backdrop-filter .35s}
+.gloria-veu.on{background:rgba(14,4,32,.72);backdrop-filter:blur(8px)}
+.gloria{position:relative;width:90vw;height:85vh;border-radius:28px;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;
+  transform:scale(.6);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.25,1.05),opacity .35s;
+  box-shadow:0 0 0 4px #d9a03a,0 0 0 6px #fff0b5,0 0 0 9px rgba(34,10,69,.95),0 0 0 11px #c58d22,0 0 80px rgba(244,197,82,.45),0 40px 90px -30px #000}
+.gloria-veu.on .gloria{transform:none;opacity:1}.gloria-veu.sai .gloria{transform:scale(.85);opacity:0}
+.gloria .cenario{position:absolute;inset:-12px;z-index:-3;background-size:cover;background-position:50% 40%;filter:blur(2px) brightness(.4) saturate(1.2)}
+.gloria::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(55% 55% at 50% 35%,rgba(244,197,82,.22),transparent 70%),linear-gradient(0deg,rgba(22,6,48,.95),rgba(22,6,48,.15) 45%,rgba(22,6,48,.5))}
+.gl-fogos{z-index:-1}
+.gl-fechar{z-index:5;top:18px;right:18px}
+.gl-titulo{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;padding-top:16px;color:#fff}
+.gl-titulo h2{margin:0;font-family:var(--font-display);font-weight:900;font-size:clamp(26px,3.6vw,48px);letter-spacing:3px;color:transparent;background:linear-gradient(180deg,#fff8dc,#ffe08a 45%,#d9a03a);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 4px 14px rgba(244,197,82,.5))}
+.gl-titulo span{font-weight:700;color:#e2d3ff;font-size:14px}
+.gl-palco{flex:1;padding:0 4vw 3vh;gap:2vw}
+.gl-palco .pz-foto{width:min(24vh,230px);height:min(24vh,230px)}.gl-palco .pz-1 .pz-foto{width:min(32vh,310px);height:min(32vh,310px)}
+.gl-palco .pz-coroa{width:min(11vh,110px)}.gl-palco .pz-1 .pz-coroa{width:min(15vh,150px)}
+.gl-palco .pz-placa b{font-size:clamp(16px,2vh,22px)}.gl-palco .pz-1 .pz-placa b{font-size:clamp(20px,2.8vh,30px)}
+.gl-palco .pz-mat b{font-size:clamp(30px,4.4vh,44px)}.gl-palco .pz-1 .pz-mat b{font-size:clamp(38px,6vh,58px)}.gl-palco .pz-mat{font-size:clamp(13px,1.7vh,17px)}
+.gl-palco .pz-pills{width:min(300px,96%)}.gl-palco .pz-lin small{font-size:clamp(12px,1.6vh,16px)}.gl-palco .pz-pill{font-size:clamp(17px,2.4vh,24px);min-width:96px}
+.gl-palco .pz-base{height:9vh}.gl-palco .pz-1 .pz-base{height:13vh}.gl-palco .pz-3 .pz-base{height:7vh}
+.gl-palco .pz-num{font-size:clamp(36px,5.5vh,60px)}.gl-palco .pz-1 .pz-num{font-size:clamp(46px,7.5vh,80px)}
+.gl-palco .pz-1 .pz-anel{box-shadow:0 0 0 3px rgba(0,0,0,.35),0 0 60px rgba(255,214,102,.8),0 0 120px rgba(255,214,102,.35)}
+/* checkpoint top 3 */
+.checkpoint{--m1:#fff4c4;--m2:#d9a03a;--m3:#8e5f10;display:flex;align-items:center;gap:16px;max-width:860px;margin:0 0 14px;padding:12px 18px;border-radius:20px;color:#fff;position:relative;overflow:hidden;
+  background:radial-gradient(400px 120px at 10% 0%,rgba(255,224,138,.25),transparent 70%),linear-gradient(120deg,#2c0f5c,#170735);
+  box-shadow:0 0 0 2px var(--m2),0 0 0 4px rgba(20,4,40,.9),0 0 0 5.5px var(--m1),0 0 34px rgba(244,197,82,.35),0 18px 30px -16px #000}
+.checkpoint.prata{--m1:#fff;--m2:#b8bfcc;--m3:#6b7383}.checkpoint.bronze{--m1:#ffe2c4;--m2:#c27a43;--m3:#7a4422}
+.checkpoint::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);animation:cpBrilho 4.5s ease-in-out infinite}
+@keyframes cpBrilho{60%,100%{left:120%}}
+.cp-coroa{position:relative;flex:none;width:84px;display:flex;flex-direction:column;align-items:center}
+.cp-coroa svg{width:84px;filter:drop-shadow(0 0 14px rgba(255,214,102,.6))}
+.cp-coroa span{margin-top:-6px;font-family:var(--font-display);font-weight:900;font-size:22px;color:transparent;background:linear-gradient(180deg,var(--m1),var(--m2) 60%,var(--m3));-webkit-background-clip:text;background-clip:text}
+.cp-corpo{flex:1;min-width:0}
+.cp-corpo small{font-size:10.5px;font-weight:900;letter-spacing:1.6px;color:#f1d784}
+.cp-corpo h2{margin:2px 0 8px;font-family:var(--font-display);font-weight:900;font-size:clamp(18px,1.9vw,26px);letter-spacing:.5px}
+.cp-itens{display:flex;flex-wrap:wrap;gap:6px}
+.cp-i{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(244,197,82,.4)}
+.cp-i em{font-style:normal}.cp-i b{color:#5df59a}.cp-i.vazio{font-weight:600;color:#e2d3ff}
+.cp-btn{flex:none;width:auto!important;display:flex;align-items:center;gap:8px;padding:12px 16px!important;font-size:13px!important;position:relative;z-index:2}.cp-btn svg{width:18px;height:18px}
+@media(max-width:1250px){.pz-foto{width:118px;height:118px}.pz-1 .pz-foto{width:150px;height:150px}.pz-pill{font-size:15px;min-width:60px}.pz-mat b{font-size:24px}.pz-1 .pz-mat b{font-size:30px}}
+@media(max-width:760px){.checkpoint{flex-wrap:wrap}.cp-btn{width:100%!important;justify-content:center}.gl-dica{display:none}
+ .pz-foto{width:78px;height:78px}.pz-1 .pz-foto{width:100px;height:100px}.pz-coroa{width:44px;margin-bottom:-10px}.pz-1 .pz-coroa{width:58px}
+ .pz-placa b,.pz-1 .pz-placa b{font-size:10.5px}.pz-mat{font-size:9px}.pz-mat b{font-size:16px}.pz-1 .pz-mat b{font-size:20px}
+ .pz-lin small{font-size:8.5px}.pz-pill,.pz-1 .pz-pill{font-size:11.5px;min-width:44px;padding:1px 5px}.pz-num{font-size:24px}.pz-1 .pz-num{font-size:30px}
+ .pz-base{height:40px}.pz-1 .pz-base{height:54px}.pz-3 .pz-base{height:34px}
+ .gloria{width:96vw;height:88vh}.gl-palco .pz-foto{width:22vw;height:22vw}.gl-palco .pz-1 .pz-foto{width:28vw;height:28vw}.gl-palco .pz-pill{font-size:12px;min-width:44px}.gl-palco .pz-lin small{font-size:9px}}
+.am-botoes{grid-template-columns:1fr 1fr!important}.am-botoes.dois{grid-template-columns:1fr 1fr!important}
+.am-btn{flex-direction:row!important;justify-content:flex-start!important;gap:8px!important;padding:10px 12px!important;text-align:left!important}.am-ic{font-size:24px}
+.am-tag.com{background:rgba(244,197,82,.3);color:#ffe08a}
+.arena-topo-acoes{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.arena-topo-acoes .btn-ouro{width:auto;padding:11px 16px}
+.silencio{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#efe4ff;cursor:pointer}
+.fixados{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}
+.fixado-item{padding:10px 14px;border-radius:14px;cursor:pointer;color:#2a1050;font-size:14px;background:linear-gradient(90deg,#fff3c4,#ffe08a);box-shadow:0 0 0 1.5px #c58d22,0 6px 14px -8px rgba(0,0,0,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg.oficial{max-width:94%}
+.msg-com{display:flex;gap:10px;align-items:flex-start;margin:4px 0;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#2c0f5c,#1a0838);color:#fff;box-shadow:inset 0 0 0 1.5px #e6b23f,0 0 16px rgba(244,197,82,.35)}
+.msg-com small{font-size:10px;font-weight:900;letter-spacing:1.4px;color:#f1d784}.msg-com p{margin:2px 0 0;font-size:15px;font-weight:700;line-height:1.4}
+.msg-com .mencao{background:rgba(255,255,255,.15);color:#ffe08a}
+.msg-trofeu{display:flex;gap:10px;align-items:center;margin:4px 0;padding:8px 12px;border-radius:12px;background:linear-gradient(180deg,#2c0f5c,#1a0838);color:#fff;box-shadow:inset 0 0 0 1.5px #e6b23f}
+.msg-trofeu small{display:block;font-size:10px;font-weight:900;letter-spacing:1.4px;color:#f1d784}.msg-trofeu b{display:block;font-size:15px}.msg-trofeu span{display:block;font-size:12px;color:#cbb8f0;margin-bottom:4px}
+.msg.destaque .msg-corpo{animation:destaqueMsg 2.4s ease}
+@keyframes destaqueMsg{0%,60%{box-shadow:0 0 0 3px #f1c24f,0 0 26px rgba(244,197,82,.8)}}
+.badge-nl.quieto{animation:none}
+.aviso-pop{position:fixed;right:22px;bottom:22px;z-index:400;width:min(420px,calc(100vw - 30px));padding:16px;border-radius:20px;color:#fff;
+  background:radial-gradient(300px 120px at 20% 0%,rgba(244,197,82,.28),transparent 70%),linear-gradient(160deg,#3a137a,#1a0838);
+  box-shadow:0 0 0 2px #e6b23f,0 0 0 4px rgba(20,4,40,.9),0 0 40px rgba(244,197,82,.45),0 30px 60px -20px #000;transform:translateY(30px) scale(.94);opacity:0;transition:.4s cubic-bezier(.2,.9,.25,1.1)}
+.aviso-pop.on{transform:none;opacity:1}
+.av-x{top:10px;right:10px;width:32px;height:32px}
+.aviso-card .av-cab{display:flex;align-items:center;gap:10px;padding-right:34px}
+.av-foto{flex:none;width:52px;height:52px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#fff4c4,#c58d22,#ffe08a,#8e5f10,#fff4c4);box-shadow:0 0 18px rgba(244,197,82,.6)}
+.av-foto img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #fff}
+.av-cab b{display:block;font-family:var(--font-display);font-weight:900;font-size:14px;color:#ffe08a;letter-spacing:.3px}.av-cab small{color:#cbb8f0;font-weight:700;font-size:12px}
+.av-pulso{margin-left:auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(244,197,82,.2);color:#ffe08a;animation:pulsoNl 1.8s ease-in-out infinite}.av-pulso svg{width:20px;height:20px}
+.av-txt{margin:12px 0 4px;font-size:16px;font-weight:700;line-height:1.4}
+.av-trofeu{display:flex;align-items:center;gap:12px;margin-top:10px}.av-trofeu strong{display:block;font-family:var(--font-display);font-size:17px;color:#fff}
+.av-trofeu span{display:block;color:#f1d784;font-weight:800;font-size:13px}.av-trofeu em{display:block;font-style:normal;font-size:12.5px;color:#e2d3ff;margin-top:2px}
+.av-acoes{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}.av-acoes small{color:#cbb8f0;font-size:12px}.av-acoes .btn-ouro{width:auto;padding:10px 16px}
+.aviso-card{padding:2px}
+#com-prev .aviso-card{margin:6px 0 4px;padding:14px;border-radius:16px;color:#fff;background:linear-gradient(160deg,#3a137a,#1a0838);box-shadow:0 0 0 2px #e6b23f}
+.mc-museu{position:relative;border-radius:var(--raio);padding:22px;color:#fff;overflow:hidden;isolation:isolate;
+  background:radial-gradient(700px 260px at 50% 0%,rgba(244,197,82,.22),transparent 70%),linear-gradient(170deg,#2c0f5c,#12042a);
+  box-shadow:0 0 0 3px #d9a03a,0 0 0 5px #fff0b5,0 0 0 8px rgba(34,10,69,.95),0 0 0 10px #c58d22,0 0 40px rgba(244,197,82,.25),0 30px 60px -28px rgba(0,0,0,.9)}
+.mc-cab{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}.mc-cab>div{flex:1;min-width:240px}
+.mc-cab small{font-size:11px;font-weight:900;letter-spacing:2px;color:#f1d784}.mc-cab h2{margin:2px 0;font-family:var(--font-display);font-weight:900;font-size:clamp(22px,2.4vw,32px);color:transparent;background:linear-gradient(180deg,#fff8dc,#ffe08a 45%,#d9a03a);-webkit-background-clip:text;background-clip:text}
+.mc-cab p{margin:0;color:#e2d3ff;font-size:13.5px}
+.mc-acoes{display:flex;gap:10px;flex-wrap:wrap}.mc-acoes .btn-ouro,.mc-acoes .btn-roxo{width:auto;padding:12px 18px}
+.mc-mes h4{margin:18px 0 10px;display:flex;align-items:center;gap:12px;font-family:var(--font-display);color:#ffe08a;font-size:15px;letter-spacing:1px;text-transform:uppercase}
+.mc-mes h4::before,.mc-mes h4::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,transparent,#c58d22,transparent)}
+.mc-vitrine{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.mc-t{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 12px 14px;border-radius:18px;text-align:center;color:#fff;isolation:isolate;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(244,197,82,.35),0 14px 26px -16px #000;transition:transform .3s,box-shadow .3s}
+.mc-t:hover{transform:translateY(-6px);box-shadow:inset 0 0 0 1.5px #f1c24f,0 0 26px rgba(244,197,82,.35),0 20px 30px -16px #000}
+.mc-t svg{filter:drop-shadow(0 10px 14px rgba(0,0,0,.5));animation:mcFlut 4s ease-in-out infinite}
+@keyframes mcFlut{50%{transform:translateY(-5px)}}
+.mc-luz{position:absolute;top:0;left:50%;width:160px;height:160px;transform:translateX(-50%);z-index:-1;background:radial-gradient(closest-side,rgba(255,214,102,.45),transparent);filter:blur(4px)}
+.mc-t.prata .mc-luz{background:radial-gradient(closest-side,rgba(220,228,255,.45),transparent)}.mc-t.bronze .mc-luz{background:radial-gradient(closest-side,rgba(255,170,110,.4),transparent)}.mc-t.especial .mc-luz{background:radial-gradient(closest-side,rgba(184,146,255,.6),transparent)}
+.mc-ped{width:70%;height:10px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent);margin-top:-6px}
+.mc-t b{font-family:var(--font-display);font-weight:900;font-size:14px;letter-spacing:.3px;text-transform:uppercase;line-height:1.2}
+.mc-t small{font-size:12px;color:#f1d784;font-weight:700}.mc-t em{font-style:normal;font-size:12px;color:#e2d3ff;line-height:1.35}
+.mc-vazio{display:flex;flex-direction:column;align-items:center;gap:6px;padding:24px;text-align:center;color:#e2d3ff}.mc-vazio b{color:#fff;font-size:16px}.mc-vazio svg{opacity:.5}
+.mc-form{width:min(760px,100%)!important}
+.mc-grade-form{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px}
+.mc-grade-form label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:800;color:var(--roxo-700);margin-bottom:10px}
+.mc-grade-form input,.mc-grade-form select,.mc-grade-form textarea{font:inherit;font-size:14px;font-weight:600;padding:9px 11px;border-radius:10px;border:1.5px solid #e2d4fb;color:var(--roxo-900)}
+.mc-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mc-modelos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:-4px 0 10px}
+.mc-mod{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;border-radius:12px;background:#faf6ff;box-shadow:inset 0 0 0 1px #e2d4fb;font-size:12px;font-weight:800;color:var(--roxo-900)}
+.mc-mod.sel{background:#fff3c4;box-shadow:inset 0 0 0 2px #c58d22}
+.mc-prev{border-radius:18px;padding:12px;background:linear-gradient(170deg,#2c0f5c,#12042a);display:flex;align-items:center;justify-content:center}
+.mc-prev .mc-t{width:100%;box-shadow:inset 0 0 0 1px rgba(244,197,82,.45)}
+.mc-det{width:min(520px,100%)!important;background:linear-gradient(170deg,#2c0f5c,#12042a)!important}
+.mc-det .mc-t.grande{box-shadow:none;background:none}.mc-det .mc-t.grande b{font-size:20px}.mc-det .mc-t.grande small{font-size:13.5px}.mc-det .mc-t.grande em{font-size:14px}
+.mc-det .btn-sec.perigo{color:#b4243a}
+@media(max-width:760px){.mc-grade-form{grid-template-columns:1fr}}
+.revela-veu{position:fixed;inset:0;z-index:420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,2,24,0);transition:background .6s;overflow:hidden;color:#fff;text-align:center}
+.revela-veu.on{background:rgba(10,2,24,.9)}.revela-veu.sai{opacity:0;transition:opacity .35s}
+.rv-raios{position:absolute;left:50%;top:38%;width:180vmax;height:180vmax;transform:translate(-50%,-50%) scale(0);opacity:0;background:conic-gradient(from 0deg,transparent 0 8deg,rgba(255,214,102,.18) 10deg,transparent 14deg 34deg,rgba(255,214,102,.14) 36deg,transparent 40deg 60deg,rgba(255,214,102,.18) 62deg,transparent 66deg);transition:transform 1.2s .3s,opacity 1s .3s}
+.revela-veu.on .rv-raios{transform:translate(-50%,-50%) scale(1);opacity:1;animation:gira 30s linear infinite 1.5s}
+.rv-palco{position:relative;display:flex;flex-direction:column;align-items:center}
+.rv-trofeu{transform:translateY(120px) scale(.4);opacity:0;transition:transform 1.1s cubic-bezier(.2,.9,.25,1.15) .5s,opacity .8s .5s;filter:drop-shadow(0 0 40px rgba(255,214,102,.7))}
+.revela-veu.on .rv-trofeu{transform:none;opacity:1}
+.rv-pedestal{width:280px;height:56px;margin-top:-10px;border-radius:12px 12px 50% 50%/12px 12px 26px 26px;background:linear-gradient(180deg,#fff4c4,#d9a03a 35%,#8e5f10 75%,#c58d22);box-shadow:inset 0 3px 0 rgba(255,255,255,.7),0 0 50px rgba(244,197,82,.55);transform:scaleX(0);transition:transform .7s .2s}
+.revela-veu.on .rv-pedestal{transform:none}
+.rv-txt{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;transform:translateY(20px);transition:1s 1.3s}
+.revela-veu.on .rv-txt{opacity:1;transform:none}
+.rv-txt small{font-size:12px;font-weight:900;letter-spacing:2px;color:#f1d784}
+.rv-txt h2{margin:0;max-width:90vw;font-family:var(--font-display);font-weight:900;font-size:clamp(26px,4vw,52px);text-transform:uppercase;color:transparent;background:linear-gradient(180deg,#fff8dc,#ffe08a 45%,#d9a03a);-webkit-background-clip:text;background-clip:text}
+.rv-txt span{font-weight:800;color:#e2d3ff;font-size:16px}.rv-txt em{font-style:normal;color:#fff;max-width:600px}
+.rv-txt .btn-ouro{width:auto;padding:12px 24px;margin-top:8px}
+.rk-grade{grid-template-columns:minmax(0,1.75fr) minmax(0,1.15fr) minmax(0,.72fr)}
+.pz-palco{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr)}
+.pz-pills{width:100%;max-width:220px}
+.pz-lin small{font-size:11px}.pz-pill{font-size:15px;min-width:62px;padding:3px 8px}.pz-1 .pz-pill{font-size:17px;min-width:70px}
+.gl-palco .pz-pills{max-width:320px}
+.cp-itens{gap:5px}.cp-i{padding:4px 9px;font-size:12px}
 </style>
 </head>
 <body>
@@ -1835,7 +1994,7 @@ const MENU=[
  {id:"arena",   rot:"Arena Hunter",       ic:"chat",  aba:true},
  {id:"perfil",  rot:"Meu Perfil",         ic:"pessoa",consultor:true},
  {id:"geral",   rot:"Visão Geral da Unidade",ic:"casa",gestor:true},
- {id:"galeria", rot:"Galeria da Unidade",ic:"trofeu",gestor:true},
+ {id:"galeria", rot:"Galeria da Unidade",ic:"trofeu"},
  {id:"destaques",rot:"Plataforma de Destaques",ic:"estrela",gestor:true,etapa:6,txt:"Artes de reconhecimento em PNG para o grupo de WhatsApp."},
  {id:"equipe",  rot:"Gestão dos Consultores",ic:"equipe",gestor:true},
  {id:"importar",rot:"Importar Resultados",ic:"upload",gestor:true},
@@ -1844,6 +2003,16 @@ const MENU=[
 ];
 const ehGestor=()=>S.usuario?.perfil==="gestor";
 const hunters=()=>S.consultores.filter(c=>!c.pos);
+/* Indicadores coletivos: Graduação (meta oficial da unidade) e Pós (separado). Nunca a soma das metas individuais. */
+function unidadeInd(comp=S.competencia){
+  const F=S.fonte||{}, mu=(F.metasUnid||{})[comp]||{};
+  const lista=comp===S.competencia?S.consultores:(S.calc?.porComp[comp]?.lista||[]).filter(c=>!c.pos).map(c=>({valido:c.pres+c.semi+c.eadp}));
+  const gReal=lista.reduce((t,c)=>t+(c.valido||0),0), gMeta=mu.grad??null;
+  const pr=(F.posReal||[]).filter(r=>r.comp===comp), pReal=pr.length?pr.reduce((t,r)=>t+(r.real||0),0):null;
+  const indiv=(F.metas||[]).filter(m=>m.comp===comp&&m.pos!=null).reduce((t,m)=>t+m.pos,0);
+  const pMeta=mu.pos??(indiv||null);
+  return {gMeta,gReal,gPct:gMeta?gReal/gMeta*100:null,pMeta,pReal,pPct:pMeta&&pReal!=null?pReal/pMeta*100:null};
+}
 
 /* ---------- ENTRADA ---------- */
 async function listaPublica(){
@@ -1902,7 +2071,7 @@ function demoFonte(){
   const fotosDemo=lerLS("mp_fotos_demo",{}), comp=DEMO_COMPETENCIA, ate=19, linhas=[], metas=[], porA={}, porB={};
   const posReal=[];
   EQUIPE.forEach(e=>{const D=DEMO_NUM[e.login], r=rng(e.login+"dt");
-    if(e.pos){metas.push({cid:e.login,comp,pos:D.meta_pos});posReal.push({cid:e.login,comp,real:D.pos_real});return;}
+    if(e.pos){const lr=S.local.posReal?.[e.login+"|"+comp];posReal.push({cid:e.login,comp,real:lr??D.pos_real});return;}
     metas.push({cid:e.login,comp,pres:D.meta_pres,ead:D.meta-D.meta_pres});
     const cursos=[]; (D.cursos||[]).forEach(([n,q])=>{for(let i=0;i<q;i++)cursos.push(n);});
     let k=0; const curso=()=>cursos[k++]||CURSOS_EXTRA[Math.floor(r()*CURSOS_EXTRA.length)];
@@ -1914,7 +2083,8 @@ function demoFonte(){
   });
   const imps=[{id:"d1",comp,em:"2026-11-19T09:10:00-03:00",dataBase:"2026-11-18",status:"substituida",modo:"substituir",por:porA},
               {id:"d2",comp,em:"2026-11-20T09:05:00-03:00",dataBase:"2026-11-19",status:"confirmada",modo:"substituir",por:porB}];
-  return {cons:EQUIPE.map(e=>({id:e.login,login:e.login,nome:e.nome,foto:fotosDemo[e.login]||FOTOS[e.login],pos:!!e.pos})),metas,linhas,imps,posReal};
+  const mu={...S.local.metasUnid}; if(!mu[comp]) mu[comp]={grad:170,pos:15};
+  return {cons:EQUIPE.map(e=>({id:e.login,login:e.login,nome:e.nome,foto:fotosDemo[e.login]||FOTOS[e.login],pos:!!e.pos})),metas,linhas,imps,posReal,metasUnid:mu,unidConq:(S.local.unidConq||[]).filter(x=>x.publicado!==false)};
 }
 async function sair(){ if(S.sb&&ehGestor()) S.sb.auth.signOut(); else await API.sair().catch(()=>{}); S.usuario=null; telaLogin(); }
 
@@ -1970,7 +2140,7 @@ function renderPagina(){
   if(S.pagina==="reis") return renderReis(c);
   if(S.pagina==="metas") return renderMetas(c);
   if(S.pagina==="geral"&&ehGestor()) return renderGeral(c);
-  if(S.pagina==="galeria"&&ehGestor()) return renderGaleria(c);
+  if(S.pagina==="galeria") return renderGaleria(c);
   if(S.pagina==="arena") return renderArena(c);
   if(S.pagina==="perfil") return renderPerfil(c);
   if(S.pagina==="equipe"&&ehGestor()) return renderEquipe(c);
@@ -1995,11 +2165,18 @@ function faixaKpis(comFiltro=true){
   const f=FILTROS.find(x=>x.id===S.filtro);
   const eu=!ehGestor()?cs.find(c=>c.id===S.usuario.id):null, euPos=eu?ranquear(cs,"total").linhas.find(l=>l.c.id===eu.id)?.pos:null;
   const kpi=(cor,ic,rot,val)=>`<div class="kpi">${iconeKpi(cor,ic)}<div><div class="rot">${rot}</div>${val}</div></div>`;
-  const kpis=ehGestor()||!eu?
-     kpi("var(--roxo-500)",I.alvo,"Meta da Unidade",`<div class="val num" data-conta="${meta}">${fmtN(meta)}</div>`)
-    +kpi("var(--roxo-500)",I.barras,"Realizado da Unidade",`<div class="val num" data-conta="${real}">${fmtN(real)}</div>`)
-    +kpi("var(--ouro-esc)",I.trofeu,"Atingimento da Unidade",`<div class="val num" style="color:${corPct(pct)}" ${pct!=null?`data-conta="${pct}" data-fmt="pct"`:""}>${fmtPct(pct)}</div>`)
-    +kpi("var(--roxo-500)",I.equipe,"Consultores ativos",`<div class="val num">${cs.length}</div>`)
+  const U=unidadeInd(), souPos=!ehGestor()&&S.usuario?.pos;
+  const pctV=p=>p!=null?`<div class="val num" style="color:${corPct(p)}" data-conta="${p}" data-fmt="pct">${fmtPct(p)}</div>`:`<div class="val sem-meta">Sem meta</div>`;
+  const kpis=souPos?
+     kpi("var(--roxo-500)",I.alvo,"Meta Pós da Unidade",U.pMeta?`<div class="val num">${fmtN(U.pMeta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
+    +kpi("var(--roxo-500)",I.barras,"Realizado Pós",`<div class="val num">${U.pReal!=null?fmtN(U.pReal):"—"}</div>`)
+    +kpi("var(--ouro-esc)",I.trofeu,"Atingimento Pós",pctV(U.pPct))
+    +kpi("var(--roxo-500)",I.casa,"Graduação da Unidade",pctV(U.gPct))
+    :ehGestor()||!eu?
+     kpi("var(--roxo-500)",I.alvo,"Meta Graduação (oficial)",U.gMeta?`<div class="val num" data-conta="${U.gMeta}">${fmtN(U.gMeta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
+    +kpi("var(--roxo-500)",I.barras,"Realizado Graduação",`<div class="val num" data-conta="${U.gReal}">${fmtN(U.gReal)}</div>`)
+    +kpi("var(--ouro-esc)",I.trofeu,"Atingimento Graduação",pctV(U.gPct))
+    +kpi("var(--roxo-500)",I.estrela,"Pós-Graduação",U.pPct!=null?`<div class="val num" style="color:${corPct(U.pPct)}">${fmtPct(U.pPct)}<small class="de-n"> ${fmtN(U.pReal)}/${fmtN(U.pMeta)}</small></div>`:`<div class="val sem-meta">${U.pMeta?"Sem resultado":"Sem meta"}</div>`)
     : kpi("var(--roxo-500)",I.alvo,"Minha Meta",eu.meta!=null?`<div class="val num" data-conta="${eu.meta}">${fmtN(eu.meta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
     +kpi("var(--roxo-500)",I.barras,"Meu Realizado",`<div class="val num" data-conta="${eu.valido}">${fmtN(eu.valido)}</div>`)
     +kpi("var(--ouro-esc)",I.trofeu,"Meu Atingimento",eu.pct!=null?`<div class="val num" style="color:${corPct(eu.pct)}" data-conta="${eu.pct}" data-fmt="pct">${fmtPct(eu.pct)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
@@ -2077,7 +2254,7 @@ function renderRanking(c){
     c.innerHTML=faixaKpis()+`<div class="card vazio-txt"><h3 style="font-family:var(--font-display);color:var(--roxo-700)">Ainda não há resultados para ${nomeMes(S.competencia)}</h3><p>Os resultados aparecem aqui depois da primeira importação confirmada pelo gestor.</p></div>`;
     ligarSeletores(); return;
   }
-  c.innerHTML=faixaKpis()+`
+  c.innerHTML=checkpointHTML()+faixaKpis()+`
   <section class="rk-grade">
     <div class="podio-card rk-podio" id="podio-card">
       <div class="cenario" style="background-image:url('${IMG_MUSEU}')"></div>
@@ -2085,7 +2262,7 @@ function renderRanking(c){
       <div class="holofote" style="--hx:50%;--hw:40%;--hc:rgba(255,222,140,.7);--hd:0s"></div>
       <div class="holofote" style="--hx:18%;--hw:30%;--hc:rgba(220,228,255,.5);--hd:-2s"></div>
       <div class="holofote" style="--hx:82%;--hw:30%;--hc:rgba(255,190,150,.45);--hd:-4s"></div>
-      <div class="podio-titulo"><h2>${I.louro.replace('class="louro"','class="louro pt-louro"')}PÓDIO HUNTER</h2><span id="chip-filtro"></span></div>
+      <div class="podio-titulo"><h2>${I.louro.replace('class="louro"','class="louro pt-louro"')}PÓDIO HUNTER</h2><span class="gl-dica">✨ Passe o mouse para o Modo Glória</span><span id="chip-filtro"></span></div>
       <div class="pz-palco" id="podio"></div>
     </div>
     <div class="card rk-lista fio">
@@ -2099,7 +2276,8 @@ function renderRanking(c){
   <section class="rk-resumo">${blocosResumo()}</section>`;
   ligarSeletores(); topoAnterior=""; atualizarRanking(false); ligarReacao(c); ligarCarta(); fogos($("#fogos"));
   c.querySelectorAll("[data-det]").forEach(el=>{el.onclick=()=>abrirDetalhe(el.dataset.det);el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();abrirDetalhe(el.dataset.det);}};});
-  ligarArenaMini(c);
+  ligarArenaMini(c); ligarGloria();
+  $("#cp-arena")?.addEventListener("click",exibirConquistas);
   avisoMeta();
 }
 const corPill=p=>p==null?"sem":p>=100?"verde":p>=70?"ouro":"verm";
@@ -2116,22 +2294,7 @@ function atualizarRanking(animar){
   const top=linhas.slice(0,3),assin=top.map(l=>l.c.id+":"+l.c.valido+":"+l.c.foto.length).join(),metais=["ouro","prata","bronze"],podio=$("#podio");
   if(assin!==topoAnterior){
     topoAnterior=assin;
-    const ordem=[1,0,2].filter(i=>top[i]);
-    podio.innerHTML=ordem.map(i=>{const l=top[i];return `
-      <div class="pz pz-${i+1} ${metais[i]}" style="--d:${[120,0,240][i]}ms" data-id="${l.c.id}">
-        <div class="pz-stage">
-          ${coroaSVG(metais[i],"pz-coroa")}
-          <button class="pz-foto" data-abrir="${l.c.id}" aria-label="Ver resultados de ${esc(l.c.nome)}">
-            ${I.louro.replace('class="louro"','class="louro pz-l e"')}${I.louro.replace('class="louro"','class="louro pz-l d"')}
-            <span class="pz-anel"><img src="${l.c.foto}" alt="${esc(l.c.nome)}"></span></button>
-          ${l.c.id===meuId?'<span class="voce-tag pz-voce">VOCÊ</span>':''}
-          ${ant?setaMov(ant[l.c.id],l.pos).replace('class="mov','class="mov pz-mov'):""}
-          <div class="pz-placa"><b>${esc(l.c.nome)}</b>${tagPos(l.c)}</div>
-          <div class="pz-mat"><b class="num">${fmtN(l.c.valido)}</b> ${l.c.valido===1?"MATRÍCULA":"MATRÍCULAS"}</div>
-          <div class="pz-pills" data-val>${pillsPodio(l.c)}</div>
-        </div>
-        <div class="pz-base"><span class="pz-num">${i+1}º</span></div>
-      </div>`;}).join("");
+    podio.innerHTML=podioHTML(top,ant,meuId);
     ligarTiltPz();
   } else top.forEach(l=>{const el=podio.querySelector(`[data-id="${l.c.id}"] [data-val]`);if(el)el.innerHTML=pillsPodio(l.c);});
   const lista=$("#lista"),antes={};
@@ -2162,6 +2325,76 @@ function atualizarRanking(animar){
       const nomes=passou.map(x=>`<b>${esc(x.nome)}</b>`); const lista=nomes.length>1?nomes.slice(0,-1).join(", ")+" e "+nomes.at(-1):nomes[0];
       setTimeout(()=>ultrapassagem(passou,lista,eu.pos),S.metaAvisoAgora?5200:1400);}}
 }
+function podioHTML(top,ant,meuId){
+  const metais=["ouro","prata","bronze"];
+  return [1,0,2].filter(i=>top[i]).map(i=>{const l=top[i];return `
+      <div class="pz pz-${i+1} ${metais[i]}" style="--d:${[120,0,240][i]}ms" data-id="${l.c.id}">
+        <div class="pz-stage">
+          ${coroaSVG(metais[i],"pz-coroa")}
+          <button class="pz-foto" data-abrir="${l.c.id}" aria-label="Ver resultados de ${esc(l.c.nome)}">
+            ${I.louro.replace('class="louro"','class="louro pz-l e"')}${I.louro.replace('class="louro"','class="louro pz-l d"')}
+            <span class="pz-anel"><img src="${l.c.foto}" alt="${esc(l.c.nome)}"></span></button>
+          ${l.c.id===meuId?'<span class="voce-tag pz-voce">VOCÊ</span>':''}
+          ${ant?setaMov(ant[l.c.id],l.pos).replace('class="mov','class="mov pz-mov'):""}
+          <div class="pz-placa"><b>${esc(l.c.nome)}</b></div>
+          <div class="pz-mat"><b class="num">${fmtN(l.c.valido)}</b> ${l.c.valido===1?"MATRÍCULA":"MATRÍCULAS"}</div>
+          <div class="pz-pills" data-val>${pillsPodio(l.c)}</div>
+        </div>
+        <div class="pz-base"><span class="pz-num">${i+1}º</span></div>
+      </div>`;}).join("");
+}
+/* ---------- MODO GLÓRIA: pódio em tela cheia ---------- */
+function abrirGloria(){
+  if(document.querySelector(".gloria-veu")) return;
+  const {linhas}=ranquear(S.consultores,S.filtro), top=linhas.slice(0,3); if(!top.length) return;
+  const primeira=!sessionStorage.getItem("mp_gloria"); try{sessionStorage.setItem("mp_gloria","1");}catch(e){}
+  const v=document.createElement("div"); v.className="gloria-veu";
+  v.innerHTML=`<div class="gloria" role="dialog" aria-modal="true" aria-label="Pódio Hunter em tela cheia">
+    <div class="cenario" style="background-image:url('${IMG_MUSEU}')"></div><canvas class="fogos gl-fogos" aria-hidden="true"></canvas>
+    <div class="holofote" style="--hx:50%;--hw:36%;--hc:rgba(255,222,140,.8);--hd:0s"></div>
+    <div class="holofote" style="--hx:20%;--hw:28%;--hc:rgba(220,228,255,.55);--hd:-2s"></div>
+    <div class="holofote" style="--hx:80%;--hw:28%;--hc:rgba(255,180,130,.5);--hd:-4s"></div>
+    <div class="poeira">${[...Array(24)].map((_,i)=>`<i style="left:${4+(i*37)%92}%;top:${20+(i*23)%70}%;animation-delay:${(i*0.35).toFixed(2)}s"></i>`).join("")}</div>
+    <button class="fechar gl-fechar" aria-label="Fechar">${I.x}</button>
+    <div class="gl-titulo">${coroaSVG("ouro","","width:46px")}<h2>PÓDIO HUNTER</h2><span>${nomeMes(S.competencia)} · ${esc(FILTROS.find(f=>f.id===S.filtro).rot)}</span></div>
+    <div class="pz-palco gl-palco">${podioHTML(top,null,S.usuario.id)}</div></div>`;
+  document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on"));
+  fogos(v.querySelector(".gl-fogos")); confete(primeira?220:60,true,.3);
+  const fechar=()=>{v.classList.remove("on");v.classList.add("sai");document.removeEventListener("keydown",tecla);setTimeout(()=>v.remove(),320);S.gloriaArmada=false;};
+  const tecla=e=>{if(e.key==="Escape")fechar();};
+  document.addEventListener("keydown",tecla);
+  v.addEventListener("click",e=>{if(e.target===v)fechar();});
+  v.querySelector(".gl-fechar").onclick=fechar;
+  v.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>{fechar();setTimeout(()=>abrirPainel(b.dataset.abrir),330);});
+}
+function ligarGloria(){
+  const card=$("#podio-card"); if(!card) return; let t=null; S.gloriaArmada=true;
+  const montado=Date.now();
+  /* só abre com movimento real do mouse sobre o pódio (não dispara se a tela abrir com o cursor parado em cima) */
+  card.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse"||!S.gloriaArmada||t||Date.now()-montado<900)return;t=setTimeout(()=>{t=null;abrirGloria();},400);});
+  card.addEventListener("pointerleave",e=>{clearTimeout(t);t=null;if(!document.querySelector(".gloria-veu"))S.gloriaArmada=true;});
+  card.addEventListener("click",e=>{if(e.target.closest("[data-abrir]"))return;clearTimeout(t);t=null;abrirGloria();});
+}
+/* ---------- CHECKPOINT DE CONQUISTAS · TOP 3 ---------- */
+function checkpointHTML(){
+  if(ehGestor()) return "";
+  const rk=ranquear(S.consultores,"total").linhas, eu=rk.find(l=>l.c.id===S.usuario.id);
+  if(!eu||eu.pos>3) return "";
+  const c=eu.c, metal=["ouro","prata","bronze"][eu.pos-1], emo=["👑","🥈","🥉"][eu.pos-1];
+  const q=conquistasDe(c.id), seq=sequenciaAtual(c.id), reis=reinados(c.id).length, nivel=q.length?q.at(-1).nivel:null;
+  const itens=[];
+  if(c.pct!=null&&c.pct>=100) itens.push(["🎯",`Meta de ${nomeMes(S.competencia)} entregue`,fmtPct(c.pct)]);
+  if(q.length) itens.push(["🏆",`${q.length} ${q.length===1?"troféu desbloqueado":"troféus desbloqueados"}`,""]);
+  if(seq>=2) itens.push(["🔥",`${seq} meses seguidos de meta`,""]);
+  if(reis) itens.push(["👑","Membro da Galeria dos Reis",""]);
+  if(nivel) itens.push(["⭐",`Nível ${ROT_NIVEL[nivel]}`,""]);
+  return `<section class="checkpoint ${metal} entra">
+    <div class="cp-coroa">${coroaSVG(metal,"")}<span class="num">${eu.pos}º</span></div>
+    <div class="cp-corpo"><small>CHECKPOINT DE CONQUISTAS</small><h2>VOCÊ ESTÁ EM ${eu.pos}º LUGAR! ${emo}</h2>
+      <div class="cp-itens">${itens.length?itens.map(([i,t,v])=>`<span class="cp-i"><em>${i}</em>${esc(t)}${v?` <b class="num">${v}</b>`:""}</span>`).join(""):`<span class="cp-i vazio">Suas conquistas aparecem aqui assim que forem desbloqueadas. ${c.restante?`Faltam ${c.restante} para a meta do mês.`:""}</span>`}</div></div>
+    ${q.length?`<button class="btn-ouro cp-btn" id="cp-arena">${I.chat}EXIBIR MINHAS CONQUISTAS NA ARENA</button>`:""}
+  </section>`;
+}
 function ligarTiltPz(){
   if(reduzMov()) return;
   document.querySelectorAll(".pz").forEach(p=>{const st=p.querySelector(".pz-stage");
@@ -2177,24 +2410,25 @@ function arenaMiniHTML(){
     <div class="am-cab"><h3>${I.espadas||"⚔️"}<span>ARENA HUNTER</span></h3><p>Desafie, comemore, provoque e mostre suas conquistas!</p></div>
     <div class="am-corpo">
       <div class="am-botoes${g?" dois":""}">${g?`
-        <button class="am-btn" id="am-escrever"><span class="am-ic">💬</span><b>Escrever para a equipe</b></button>
+        <button class="am-btn fogo" id="am-comunicado"><span class="am-ic">👑</span><b>Enviar comunicado para todos</b></button>
         <button class="am-btn" id="am-ver2"><span class="am-ic">🛡️</span><b>Moderar a Arena</b></button>`:`
         <button class="am-btn fogo" id="am-chegando"><span class="am-ic">🔥</span><b>Estou chegando!</b></button>
         <button class="am-btn" id="am-conq"><span class="am-ic">🏆</span><b>Exibir minhas conquistas</b></button>
-        <button class="am-btn" id="am-defender"><span class="am-ic">👑</span><b>Defender minha posição</b></button>`}</div>
+        <button class="am-btn" id="am-defender"><span class="am-ic">👑</span><b>Defender minha posição</b></button>
+        <button class="am-btn" id="am-subir"><span class="am-ic">⚡</span><b>Acabei de subir!</b></button>`}</div>
       <div class="am-mov"><div class="am-mov-cab"><b>💬 Movimentações da Arena</b><button class="am-ver" id="am-ver">Ver Arena Completa →</button></div>
         <div class="am-lista" id="am-lista"><p class="vazio-txt">Carregando…</p></div></div>
     </div></div>`;
 }
 const tempoRel=iso=>{const s=(Date.now()-Date.parse(iso))/1000;if(s<60)return "Agora";if(s<3600)return `Há ${Math.floor(s/60)} min`;if(s<86400)return `Há ${Math.floor(s/3600)} h`;return dataHora(iso).slice(0,5);};
-function tipoMov(m){ if(m.tipo==="conquistas") return ["conq","🏆 Conquista"]; const t=semAcento(m.texto); if(/chegando|defend|desafi|alcanc|ultrapass|⚔|👑|primeiro lugar/.test(t+m.texto)) return ["desafio","🔥 Desafio"]; return ["msg","💬 Mensagem"]; }
+function tipoMov(m){ if(m.tipo==="comunicado") return ["com","👑 Comunicado"]; if(m.tipo==="trofeu") return ["conq","🏆 Troféu da unidade"]; if(m.tipo==="conquistas") return ["conq","🏆 Conquista"]; const t=semAcento(m.texto); if(/chegando|defend|desafi|alcanc|ultrapass|⚔|👑|primeiro lugar/.test(t+m.texto)) return ["desafio","🔥 Desafio"]; return ["msg","💬 Mensagem"]; }
 async function carregarArenaMini(){
   const box=$("#am-lista"); if(!box) return;
   if(MODO==="supabase"&&!ehGestor()&&!S.tok){box.innerHTML=`<p class="vazio-txt">Entre com seu PIN para ver a Arena.</p>`;return;}
   let L; try{L=await API.arena.listar(0);}catch(e){box.innerHTML=`<p class="vazio-txt">${esc(errMsg(e))}</p>`;return;}
-  const ult=L.filter(m=>!m.oculta).slice(-3).reverse();
+  const fixo=L.filter(m=>m.fixado&&!m.oculta).slice(-1), ult=[...fixo,...L.filter(m=>!m.oculta&&!fixo.includes(m)).slice(-(fixo.length?2:3)).reverse()];
   box.innerHTML=ult.length?ult.map(m=>{const a=autorDe(m),[cl,rot]=tipoMov(m),tot=Object.values(m.reacoes||{}).reduce((s,x)=>s+x,0),minha=(m.minhas||[]).includes("💜");
-    const txt=m.tipo==="conquistas"?`Compartilhou ${(m.payload?.meses||[]).length} ${(m.payload?.meses||[]).length===1?"troféu conquistado":"troféus conquistados"} 🏆`:m.texto;
+    const txt=m.tipo==="trofeu"?`Nova conquista da unidade: ${m.payload?.nome||m.texto}`:m.tipo==="conquistas"?`Compartilhou ${(m.payload?.meses||[]).length} ${(m.payload?.meses||[]).length===1?"troféu conquistado":"troféus conquistados"} 🏆`:m.texto;
     return `<div class="am-item" data-ir-arena><img src="${a.foto}" alt=""><div class="am-txt"><div><b>${esc(a.nome)}</b><em class="am-tag ${cl}">${rot}</em><small>${tempoRel(m.criado_em)}</small></div><p>${esc(txt)}</p></div>
       <button class="am-rx${minha?' minha':''}" data-amrx="${m.id}" aria-label="Reagir com coração">💜<b class="num">${tot||""}</b></button></div>`;}).join("")
     :`<div class="am-vazio">A Arena está aberta! Seja o primeiro a lançar um desafio.</div>`;
@@ -2222,7 +2456,7 @@ function ligarArenaMini(c){
   carregarArenaMini();
   $("#am-ver").onclick=()=>irPara("arena");
   $("#am-ver2")?.addEventListener("click",()=>irPara("arena"));
-  $("#am-escrever")?.addEventListener("click",()=>confirmarEnvio("Mensagem para a equipe","Bora, time! 🚀 "));
+  $("#am-comunicado")?.addEventListener("click",abrirComunicado);
   $("#am-conq")?.addEventListener("click",exibirConquistas);
   const rk=ranquear(S.consultores,"total").linhas, eu=rk.find(l=>l.c.id===S.usuario.id);
   const pctTxt=c=>c.pct!=null?fmtPct(c.pct):`${fmtN(c.valido)} matrículas`;
@@ -2230,8 +2464,14 @@ function ligarArenaMini(c){
     if(!eu) return toast(`<span>Você ainda não aparece no ranking deste mês.</span>`);
     if(eu.pos===1) return toast(`<span>Você já lidera o ranking! Use 👑 Defender minha posição.</span>`);
     const alvo=rk[eu.pos-2].c;
-    const faltam=alvo.valido-eu.c.valido;
-    confirmarEnvio("Estou chegando!",`@${primeiroNome(alvo.nome)}, estou chegando em você! 🔥👀 Você está com ${pctTxt(alvo)} e eu com ${pctTxt(eu.c)}${faltam>0?` · ${faltam} ${faltam===1?"matrícula":"matrículas"} de diferença`:""}.`);});
+    const faltam=alvo.valido-eu.c.valido, pp=alvo.pct!=null&&eu.c.pct!=null?alvo.pct-eu.c.pct:null;
+    const dist=faltam>0?`Faltam ${faltam} ${faltam===1?"matrícula":"matrículas"} para alcançar @${primeiroNome(alvo.nome)}.`:pp!=null?`Faltam ${fmtPct(pp).replace("%","")} pontos de atingimento para alcançar @${primeiroNome(alvo.nome)}.`:`Estou na cola de @${primeiroNome(alvo.nome)}!`;
+    confirmarEnvio("Estou chegando!",`🔥 ${primeiroNome(eu.c.nome)} está chegando! ${dist} 👀`);});
+  $("#am-subir")?.addEventListener("click",()=>{
+    if(!eu) return toast(`<span>Você ainda não aparece no ranking deste mês.</span>`);
+    const ant=posicoesAnteriores("total"), antes=ant?.[eu.c.id];
+    if(!antes||antes<=eu.pos) return toast(`<span>Os resultados aprovados ainda não mostram subida sua desde a última atualização. Quando subir, o botão libera a comemoração!</span>`);
+    confirmarEnvio("Acabei de subir!",`⚡ Acabei de subir do ${antes}º para o ${eu.pos}º lugar! ${eu.pos===1?"👑 Topo é meu!":"Bora que dá pra mais! 🚀"}`);});
   $("#am-defender")?.addEventListener("click",()=>{
     if(!eu) return toast(`<span>Você ainda não aparece no ranking deste mês.</span>`);
     const atras=rk[eu.pos]?.c;
@@ -2754,8 +2994,8 @@ function trofeuSVG(aceso){
 }
 async function historicoUnidade(){
   if(S.calc){
-    return Object.keys(S.calc.porComp).sort().map(comp=>{const L=S.calc.porComp[comp].lista;const meta=L.reduce((t,c)=>t+(c.meta||0),0);
-      return meta?{comp,meta,real:L.reduce((t,c)=>t+c.pres+c.semi+c.eadp,0)}:null;}).filter(Boolean);
+    return Object.keys(S.calc.porComp).sort().map(comp=>{const u=unidadeInd(comp);
+      return u.gMeta?{comp,meta:u.gMeta,real:u.gReal}:null;}).filter(Boolean);
   }
   if(MODO==="demo"){
     const m={}; S.consultores.forEach(c=>historicoDemo(c).forEach(h=>{const x=m[h.comp]||(m[h.comp]={comp:h.comp,meta:0,real:0});x.meta+=h.meta;x.real+=h.real;}));
@@ -2774,8 +3014,8 @@ async function renderGaleria(c){
   const unidTrofeus=hist.filter(h=>h.comp<S.competencia&&h.meta&&h.real>=h.meta).length;
   const reis=S.consultores.filter(x=>nivelAtual(x.id)==="rei").length;
   const campeoes=new Set(todos.map(t=>t.c.id)).size;
-  c.innerHTML=`
-  <div class="museu-topo"><div><h2>Galeria de Troféus da Unidade</h2><p>Os troféus do Campus Marte e de cada consultor, mês a mês.</p></div>
+  c.innerHTML=museuConquistasHTML()+`
+  <div class="museu-topo" style="margin-top:22px"><div><h2>Metas e troféus individuais</h2><p>Meta oficial de Graduação da unidade e os troféus de cada consultor, mês a mês.</p></div>
     <div class="selos">
       <div class="selo card">${I.trofeu}<div><b class="num" data-conta="${unidTrofeus}">${unidTrofeus}</b><br><span>troféus da unidade</span></div></div>
       <div class="selo card">${I.estrela.replace('<svg','<svg style="color:var(--roxo-500)"')}<div><b class="num" data-conta="${todos.length}">${todos.length}</b><br><span>troféus da equipe</span></div></div>
@@ -2784,7 +3024,7 @@ async function renderGaleria(c){
       <button class="selo relevo" id="ir-museu">${I.museu.replace('<svg','<svg style="color:var(--roxo-700)"')}<div style="text-align:left"><b style="font-size:15px">Museu</b><br><span>ver o salão</span></div></button>
     </div></div>
   <section class="tu-vitrine">
-    <h3>Troféus da unidade <small>meta da unidade batida no mês</small></h3>
+    <h3>Meta oficial de Graduação <small>troféu quando a unidade bate a meta oficial do mês</small></h3>
     <div class="tu-linha">${hist.map((h,i)=>{const p=h.meta?h.real/h.meta*100:null,atual=h.comp===S.competencia,ganhou=!atual&&p>=100;
       return `<div class="tu-card ${ganhou?'ganhou':atual?'atual':'nao'} entra" style="--d:${i*70}ms">
         <div class="tu-luz"></div>${trofeuSVG(ganhou)}
@@ -2806,6 +3046,7 @@ async function renderGaleria(c){
           <span class="tu-num"><span class="nivel ${t.nivel}">${ROT_NIVEL[t.nivel]}</span><em class="num">${t.real} de ${t.meta}</em><strong class="num">${fmtPct(t.real/t.meta*100)}</strong></span></span>
       </button>`).join("")||'<p class="vazio-txt">Nenhum troféu neste mês.</p>'}</div>
   </section>`;
+  ligarMuseuConquistas(c);
   c.querySelectorAll("[data-gm]").forEach(b=>b.onclick=()=>{S.galMes=b.dataset.gm;renderGaleria(c);});
   c.querySelectorAll("[data-conq]").forEach(b=>b.onclick=()=>abrirConquista(b.dataset.conq));
   $("#ir-museu").onclick=()=>irPara("museu");
@@ -3055,17 +3296,19 @@ function renderVelocity(c){
 
 /* ---------- RESUMO DO MÊS + METAS + CPFs ---------- */
 function blocosResumo(){
-  const gestor=ehGestor(), eu=S.consultores.find(c=>c.id===S.usuario.id), base=gestor?hunters():(eu?[eu]:[]);
-  const soma=k=>base.reduce((t,c)=>t+(c[k]||0),0);
-  const meta=soma("meta"), real=soma("valido"), pct=meta?real/meta*100:null, E=evolucaoAtualizacoes();
+  const U=unidadeInd(), E=evolucaoAtualizacoes();
+  const bloco=(tit,ic,meta,real,pct,extra)=>`<div class="rmc"><h4>${ic}${tit}</h4><div class="rmc-n">
+      <div><small>Meta</small>${meta?`<b class="num">${fmtN(meta)}</b>`:`<b class="rm-sem">Sem meta</b>`}</div>
+      <div><small>Realizado</small><b class="num">${real!=null?fmtN(real):"—"}</b></div>
+      <div class="destaque"><small>Atingimento</small>${pct!=null?`<b class="num" style="color:${pct>=100?'#5df59a':pct>=70?'#ffd970':'#ff8fa0'}">${fmtPct(pct)}</b>`:`<b class="rm-sem">${meta?"Sem resultado":"Sem meta"}</b>`}</div></div>
+      ${pct!=null?`<span class="rmc-barra"><i style="width:${Math.min(pct,100).toFixed(1)}%"></i></span>`:""}${extra||""}</div>`;
   return `
     <div class="resumo-mes reage clicavel" data-det="mes" role="button" tabindex="0">
-      <h3>${I.cal}Resumo do Mês · ${nomeMes(S.competencia)}${gestor?" · Unidade (Graduação)":""}</h3>
-      <div class="rm-grade rm4">
-        <div><small>${I.alvo}Meta total</small>${meta?`<b class="num" data-conta="${meta}">${fmtN(meta)}</b>`:`<b class="rm-sem">Sem meta</b>`}</div>
-        <div><small>${I.barras}Realizado total</small><b class="num" data-conta="${real}">${fmtN(real)}</b></div>
-        <div class="destaque"><small>${I.trofeu}Atingimento</small>${pct!=null?`<b class="num" style="color:${pct>=100?'#5df59a':pct>=70?'#ffd970':'#ff8fa0'}" data-conta="${pct}" data-fmt="pct">${fmtPct(pct)}</b>`:`<b class="rm-sem">Sem meta</b>`}</div>
-        <div class="rm-evo" data-det="evolucao"><small>${I.sobe}Maior evolução entre atualizações</small>${!E?`<span class="rm-evo-v">Após 2 importações do mês</span>`:E.max>0?`<span class="rm-evo-v">${E.top.map(x=>`<img src="${x.c.foto}" alt="">`).join("")}<b>${E.top.map(x=>esc(primeiroNome(x.c.nome))).join(" · ")}</b><strong class="num">+${E.max}</strong></span>`:`<span class="rm-evo-v">Sem crescimento</span>`}</div>
+      <h3>${I.cal}Resumo do Mês · ${nomeMes(S.competencia)} · Unidade BeMarte</h3>
+      <div class="rm-col">
+        ${bloco("Graduação · Carreiras",I.casa,U.gMeta,U.gReal,U.gPct,'<em class="rmc-nota">Meta oficial da unidade</em>')}
+        ${bloco("Pós-Graduação",I.estrela,U.pMeta,U.pReal,U.pPct,'<em class="rmc-nota">Indicador coletivo próprio</em>')}
+        <div class="rmc rm-evo" data-det="evolucao"><h4>${I.sobe}Maior evolução entre atualizações</h4>${!E?`<span class="rm-evo-v">Após 2 importações do mês</span>`:E.max>0?`<span class="rm-evo-v">${E.top.map(x=>`<img src="${x.c.foto}" alt="">`).join("")}<b>${E.top.map(x=>esc(primeiroNome(x.c.nome))).join(" · ")}</b><strong class="num">+${E.max}</strong></span>`:`<span class="rm-evo-v">Sem crescimento</span>`}</div>
       </div></div>`;
 }
 
@@ -3090,7 +3333,7 @@ const COL_DATA="DT MATRICULA", COL_OBRIG=["PRIM VENDEDOR","FORMATO OFERTA","CURS
 const cpfDig=v=>{const d=String(v??"").replace(/\D/g,""); if(!d) return null; if(d.length>=9&&d.length<=11) return d.padStart(11,"0"); return "INVALIDO";};
 const mascaraCpf=d=>d&&d.length===11?`${d.slice(0,3)}.***.***-${d.slice(9)}`:"—";
 const LOCAL_KEY="mp_teste_v1";
-S.local=lerLS(LOCAL_KEY,{metas:{},importacoes:[]}); S.local.posReal=S.local.posReal||{};
+S.local=lerLS(LOCAL_KEY,{metas:{},importacoes:[]}); S.local.posReal=S.local.posReal||{}; S.local.metasUnid=S.local.metasUnid||{}; S.local.unidConq=S.local.unidConq||[]; S.local.unidLog=S.local.unidLog||[];
 function gravarLocal(){gravarLS(LOCAL_KEY,S.local);}
 const modoCalculado=()=>MODO==="supabase"||S.local.importacoes.some(i=>i.status==="confirmada");
 const hojeSP=()=>new Date(new Date().toLocaleString("en-US",{timeZone:"America/Sao_Paulo"}));
@@ -3112,9 +3355,13 @@ async function fonteDados(){
       buscarTudo("mp_v_linhas","consultor_id,competencia,formato,curso,dt_matricula")]);
     let imps=[]; try{imps=await buscarTudo("mp_v_importacoes","id,competencia,importado_em,data_base,status,modo,por_consultor");}catch(e){console.warn(e);}
     let pr=[]; try{pr=await buscarTudo("mp_v_pos","consultor_id,competencia,realizado");}catch(e){console.warn(e);}
+    let mu=[]; try{mu=await buscarTudo("mp_v_metas_unidade","competencia,meta_graduacao,meta_pos");}catch(e){console.warn(e);}
+    let uc=[]; try{uc=await buscarTudo("mp_v_unidade_conquistas","id,nome,competencia,categoria,trofeu,descricao,criado_em");}catch(e){console.warn(e);}
     return {cons:c.map(r=>({id:r.id,login:r.login,nome:r.nome_exibicao||r.nome,foto:r.foto_url,pos:r.modalidade==="pos"})),
       metas:m.map(r=>({cid:r.consultor_id,comp:String(r.competencia).slice(0,7),pres:r.meta_presencial,ead:r.meta_ead,pos:r.meta_pos??null})),
       posReal:pr.map(r=>({cid:r.consultor_id,comp:String(r.competencia).slice(0,7),real:r.realizado})),
+      metasUnid:Object.fromEntries(mu.map(r=>[String(r.competencia).slice(0,7),{grad:r.meta_graduacao,pos:r.meta_pos}])),
+      unidConq:uc.map(r=>({id:r.id,nome:r.nome,comp:String(r.competencia).slice(0,7),categoria:r.categoria,trofeu:r.trofeu,descricao:r.descricao,em:r.criado_em})),
       linhas:l.map(r=>({cid:r.consultor_id,comp:String(r.competencia).slice(0,7),fmt:FMT_DB[r.formato],curso:r.curso,dt:r.dt_matricula?String(r.dt_matricula).slice(0,10):null})),
       imps:imps.map(r=>({id:r.id,comp:String(r.competencia).slice(0,7),em:r.importado_em,dataBase:r.data_base?String(r.data_base).slice(0,10):null,status:r.status,modo:r.modo,por:r.por_consultor||{}}))};
   }
@@ -3126,7 +3373,7 @@ async function fonteDados(){
   S.local.importacoes.filter(i=>i.status==="confirmada").forEach(i=>i.linhas.forEach(r=>
     linhas.push({cid:r.cid,comp:i.comp,fmt:r.fmt,curso:r.curso,dt:r.dt||null})));
   const imps=S.local.importacoes.map(i=>({id:i.id,comp:i.comp,em:i.em,dataBase:i.dataBase||null,status:i.status,modo:i.modo,por:i.resumo?.por_consultor||{}}));
-  return {cons,metas,linhas,imps,posReal};
+  return {cons,metas,linhas,imps,posReal,metasUnid:S.local.metasUnid||{},unidConq:(S.local.unidConq||[]).filter(x=>x.publicado!==false)};
 }
 
 /* Semanas de segunda a domingo, recortadas aos dias do mês */
@@ -3185,13 +3432,14 @@ async function carregarCalculado(Fx){
   S.competencias=C.comps.length?C.comps:[compAtual()];
   if(!S.competencia||!S.competencias.includes(S.competencia)) S.competencia=C.comComp.at(-1)||S.competencias[0];
   const P=C.porComp[S.competencia];
-  S.consultores=P?preparar(P.lista):[];
+  S.consultores=P?preparar(P.lista.filter(c=>!c.pos)):[];
+  S.posLista=P?preparar(P.lista.filter(c=>c.pos)):[];
   S.vel=P?{semanas:P.semanas,ate:P.ate,semDt:P.semDt,tl:P.tl}:null;
   const ultImp=(F.imps||[]).filter(i=>i.status==="confirmada").sort((a,b)=>String(a.em).localeCompare(String(b.em))).at(-1);
   S.dataBase=ultImp?.dataBase||null;
   S.conquistas=[];
   Object.entries(C.porComp).forEach(([comp,p])=>{if(comp===S.competencia) return;
-    p.lista.forEach(c=>{const v=c.pos?c.pos_real:c.pres+c.semi+c.eadp; if(c.meta&&v>=c.meta) S.conquistas.push({id:c.id,comp,meta:c.meta,real:v});});});
+    p.lista.filter(c=>!c.pos).forEach(c=>{const v=c.pres+c.semi+c.eadp; if(c.meta&&v>=c.meta) S.conquistas.push({id:c.id,comp,meta:c.meta,real:v});});});
   if(MODO!=="supabase"&&S.usuario&&!ehGestor()){const f=F.cons.find(x=>x.id===S.usuario.id);if(f)S.usuario.foto=f.foto;}
   if(MODO==="supabase"&&S.usuario&&!ehGestor()){const f=F.cons.find(x=>x.id===S.usuario.id);if(f)S.usuario.foto=f.foto||FOTOS[f.login]||S.usuario.foto;}
 }
@@ -3580,6 +3828,7 @@ async function renderMetasGestor(c){
   const comp=S.metaComp, todosC=S.fonte?.cons?.length?S.fonte.cons:EQUIPE.map(e=>({id:e.login,login:e.login,nome:e.nome,foto:FOTOS[e.login],pos:!!e.pos}));
   const cons=todosC.filter(x=>!x.pos), consPos=todosC.filter(x=>x.pos);
   const realPos={}; (S.fonte?.posReal||[]).filter(r=>r.comp===comp).forEach(r=>realPos[r.cid]=r.real);
+  const MU=(S.fonte?.metasUnid||{})[comp]||{}, UI=unidadeInd(comp);
   const todas=await metasDaFonte(), atual={}; todas.filter(m=>m.comp===comp).forEach(m=>atual[m.cid]=m);
   const [a,mm]=comp.split("-").map(Number), compAnt=mm===1?`${a-1}-12`:`${a}-${String(mm-1).padStart(2,"0")}`;
   const temAnt=todas.some(m=>m.comp===compAnt);
@@ -3594,34 +3843,38 @@ async function renderMetasGestor(c){
       <td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" data-k="ead" value="${m.ead??""}" aria-label="Meta EAD de ${esc(x.nome)}"></td>
       <td class="num mg-tot">${m.pres!=null||m.ead!=null?(m.pres||0)+(m.ead||0):"—"}</td><td class="mg-st">${m.pres!=null||m.ead!=null?'<span class="sit ok">Cadastrada</span>':'<span class="sit pend">Sem meta</span>'}</td></tr>`;}).join("")}</tbody></table></div>
   <div class="conf-botoes"><p class="erro" id="mg-erro" role="alert"></p><button class="btn-ouro" id="mg-salvar" disabled>SALVAR METAS DE ${nomeMes(comp).toUpperCase()}</button></div>
-  ${consPos.length?`<h3 class="mg-pos-tit">Pós-Graduação <em class="tag-pos">PÓS</em></h3><p class="mg-pos-sub">Meta e realizado lançados por você. Não vêm da planilha.</p>
-  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Consultora</th><th>Meta Pós</th><th>Realizado Pós (manual)</th><th>Atingimento</th></tr></thead>
-    <tbody>${consPos.map(x=>{const m=atual[x.id]||{},r=realPos[x.id];return `<tr data-pid="${x.id}"><td><span class="pessoa"><img src="${fotoDe(x)}" alt="">${esc(x.nome)}</span></td>
-      <td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" data-k="pos" value="${m.pos??""}" aria-label="Meta Pós de ${esc(x.nome)}"></td>
-      <td><input type="number" min="0" step="1" inputmode="numeric" class="mg-in" data-k="real" value="${r??""}" aria-label="Realizado Pós de ${esc(x.nome)}"></td>
-      <td class="num">${m.pos&&r!=null?fmtPct(r/m.pos*100):"—"}</td></tr>`;}).join("")}</tbody></table></div>
-  <div class="conf-botoes"><p class="erro" id="mp-erro" role="alert"></p><button class="btn-ouro" id="mp-salvar">SALVAR PÓS DE ${nomeMes(comp).toUpperCase()}</button></div>`:""}`;
+  <h3 class="mg-pos-tit">Metas oficiais da unidade · ${nomeMes(comp)}</h3><p class="mg-pos-sub">A meta oficial não é a soma das metas individuais. Só você edita; todos veem o resultado e o atingimento.</p>
+  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Indicador</th><th>Meta oficial</th><th>Realizado</th><th>Atingimento</th></tr></thead><tbody>
+    <tr><td><b>Graduação · Carreiras</b><br><small style="color:var(--muted)">realizado = produção válida dos 9 consultores</small></td><td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" id="mu-grad" value="${MU.grad??""}" aria-label="Meta oficial de Graduação"></td><td class="num">${fmtN(UI.gReal)}</td><td class="num">${UI.gPct!=null?fmtPct(UI.gPct):"Sem meta"}</td></tr>
+    <tr><td><b>Pós-Graduação</b> <em class="tag-pos">PÓS</em><br><small style="color:var(--muted)">realizado lançado abaixo</small></td><td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" id="mu-pos" value="${MU.pos??""}" aria-label="Meta oficial de Pós"></td><td class="num">${UI.pReal!=null?fmtN(UI.pReal):"—"}</td><td class="num">${UI.pPct!=null?fmtPct(UI.pPct):"—"}</td></tr>
+  </tbody></table></div>
+  ${consPos.length?`<p class="mg-pos-sub" style="margin-top:12px">Realizado de Pós-Graduação (lançamento manual)</p>
+  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Consultora</th><th>Realizado Pós (manual)</th></tr></thead>
+    <tbody>${consPos.map(x=>{const r=realPos[x.id];return `<tr data-pid="${x.id}"><td><span class="pessoa"><img src="${fotoDe(x)}" alt="">${esc(x.nome)} <em class="tag-pos">PÓS</em></span></td>
+      <td><input type="number" min="0" step="1" inputmode="numeric" class="mg-in" data-k="real" value="${r??""}" aria-label="Realizado Pós de ${esc(x.nome)}"></td></tr>`;}).join("")}</tbody></table></div>`:""}
+  <div class="conf-botoes"><p class="erro" id="mp-erro" role="alert"></p><button class="btn-ouro" id="mp-salvar">SALVAR UNIDADE E PÓS DE ${nomeMes(comp).toUpperCase()}</button></div>`;
   $("#mp-salvar")?.addEventListener("click",async e=>{
-    const b=e.currentTarget, er=$("#mp-erro"); er.textContent=""; const val=(v,z)=>v===""?null:(/^\d+$/.test(v)&&(z?+v>=0:+v>0)?+v:NaN), itens=[];
-    for(const tr of c.querySelectorAll("tr[data-pid]")){const mp=val(tr.querySelector('[data-k="pos"]').value.trim()),rp=val(tr.querySelector('[data-k="real"]').value.trim(),true);
-      if(Number.isNaN(mp)||Number.isNaN(rp)){er.textContent="Use números inteiros (meta maior que zero; realizado zero ou mais), ou deixe em branco.";return;}
-      itens.push({cid:tr.dataset.pid,meta:mp,real:rp});}
+    const b=e.currentTarget, er=$("#mp-erro"); er.textContent=""; const val=(v,z)=>v===""?null:(/^\d+$/.test(v)&&(z?+v>=0:+v>0)?+v:NaN);
+    const mg=val($("#mu-grad").value.trim()), mpz=val($("#mu-pos").value.trim()), itens=[];
+    if(Number.isNaN(mg)||Number.isNaN(mpz)){er.textContent="Metas oficiais: use números inteiros maiores que zero, ou deixe em branco.";return;}
+    for(const tr of c.querySelectorAll("tr[data-pid]")){const rp=val(tr.querySelector('[data-k="real"]').value.trim(),true);
+      if(Number.isNaN(rp)){er.textContent="Realizado Pós: use número inteiro (zero ou mais), ou deixe em branco.";return;} itens.push({cid:tr.dataset.pid,real:rp});}
     b.disabled=true; b.textContent="Salvando…";
     try{
       if(MODO==="supabase"){
+        if(mg==null&&mpz==null){const {error}=await S.sb.from("mp_metas_unidade").delete().eq("competencia",comp+"-01");if(error)throw error;}
+        else {const {error}=await S.sb.from("mp_metas_unidade").upsert({competencia:comp+"-01",meta_graduacao:mg,meta_pos:mpz,atualizado_em:new Date().toISOString()},{onConflict:"competencia"});if(error)throw error;}
         for(const it of itens){
-          if(it.meta!=null){const m=atual[it.cid]||{};const {error}=await S.sb.from("mp_metas").upsert({consultor_id:it.cid,competencia:comp+"-01",meta_presencial:m.pres??null,meta_ead:m.ead??null,meta_pos:it.meta},{onConflict:"consultor_id,competencia"});if(error)throw error;}
-          else {const {error}=await S.sb.from("mp_metas").update({meta_pos:null}).eq("consultor_id",it.cid).eq("competencia",comp+"-01");if(error)throw error;}
           if(it.real!=null){const {error}=await S.sb.from("mp_pos_resultados").upsert({consultor_id:it.cid,competencia:comp+"-01",realizado:it.real,atualizado_em:new Date().toISOString()},{onConflict:"consultor_id,competencia"});if(error)throw error;}
           else {const {error}=await S.sb.from("mp_pos_resultados").delete().eq("consultor_id",it.cid).eq("competencia",comp+"-01");if(error)throw error;}
         }
       } else {
-        itens.forEach(it=>{const k=it.cid+"|"+comp; const m=S.local.metas[k]||{}; if(it.meta!=null) S.local.metas[k]={...m,pos:it.meta}; else if(S.local.metas[k]){delete S.local.metas[k].pos;}
-          if(it.real!=null) S.local.posReal[k]=it.real; else delete S.local.posReal[k];});
+        if(mg==null&&mpz==null) delete S.local.metasUnid[comp]; else S.local.metasUnid[comp]={grad:mg,pos:mpz};
+        itens.forEach(it=>{const k=it.cid+"|"+comp; if(it.real!=null) S.local.posReal[k]=it.real; else delete S.local.posReal[k];});
         gravarLocal();
       }
-    }catch(err){er.textContent="Não foi possível salvar: "+(err.message||err);b.disabled=false;b.textContent=`SALVAR PÓS DE ${nomeMes(comp).toUpperCase()}`;return;}
-    S.competencias=[]; await carregarDados(); toast(`<span class="mov sobe">✓</span><span>Pós-Graduação de ${nomeMes(comp)} salva.</span>`); renderMetasGestor(c);
+    }catch(err){er.textContent="Não foi possível salvar: "+(err.message||err);b.disabled=false;b.textContent=`SALVAR UNIDADE E PÓS DE ${nomeMes(comp).toUpperCase()}`;return;}
+    const ant=S.competencia; S.competencias=[]; await carregarDados(); toast(`<span class="mov sobe">✓</span><span>Metas oficiais e Pós de ${nomeMes(comp)} salvas.</span>`); renderMetasGestor(c);
   });
   const sal=$("#mg-salvar");
   const marcar=()=>{let mud=false;c.querySelectorAll("tr[data-cid]").forEach(tr=>{const m=atual[tr.dataset.cid]||{};const p=tr.querySelector('[data-k="pres"]').value,e=tr.querySelector('[data-k="ead"]').value;
@@ -3788,6 +4041,7 @@ function renderGeral(c){
   const rows=S.consultores.map(x=>({...x,pos:pos[x.id],evo:E?ev[x.id]:null})),{col,dir}=S.ordem;
   rows.sort((a,b)=>col==="nome"?dir*a.nome.localeCompare(b.nome,"pt-BR"):dir*((a[col]??-1)-(b[col]??-1)));
   c.innerHTML=faixaKpis(false)+`
+  <section class="rk-resumo" style="margin:0 0 16px">${blocosResumo()}</section>
   <div class="titulo-pagina"><div><h2>Visão Geral da Unidade</h2><p>Todos os consultores · clique em uma linha para ver o painel completo · EAD Extra não conta para a meta</p></div>
     <div class="gestor-acoes"><button class="btn-ouro btn-gestao" data-ir="importar">${I.upload}IMPORTAR RESULTADOS</button><button class="btn-roxo btn-gestao" data-ir="metasg">${I.alvo}GESTÃO DE METAS</button></div></div>
   <div class="card tabela-wrap"><table>
@@ -3882,7 +4136,7 @@ const API={
     if(MODO!=="supabase"){const f=lerLS("mp_fotos_demo",{});f[S.usuario.login]=url;gravarLS("mp_fotos_demo",f);return;}
     const {error}=await S.sb.rpc("mp_trocar_foto",{p_token:S.tok?.token||null,p_foto:url}); if(error) throw new Error(error.message);
   },
-  async pins(){ if(MODO!=="supabase"){const p=lerLS("mp_pins_demo",{});return S.consultores.map(c=>({consultor_id:c.id,tem_pin:!!p[c.login]}));}
+  async pins(){ if(MODO!=="supabase"){const p=lerLS("mp_pins_demo",{});return (S.fonte?.cons||S.consultores).map(c=>({consultor_id:c.id,tem_pin:!!p[c.login]}));}
     const {data,error}=await S.sb.rpc("mp_status_pins"); if(error) throw new Error(error.message); return data||[]; },
   async definirPin(c,pin){ if(!/^\d{4}$/.test(pin)) throw new Error("O PIN deve ter 4 números.");
     if(MODO!=="supabase"){const p=lerLS("mp_pins_demo",{});p[c.login]=pin;gravarLS("mp_pins_demo",p);return;}
@@ -3930,10 +4184,13 @@ function ligarTempoReal(){
     try{canalRT=S.sb.channel("mp-hunter",{config:{broadcast:{self:false}}})
       .on("broadcast",{event:"arena"},()=>aoAvisoArena())
       .on("broadcast",{event:"foto"},()=>aoAvisoFoto())
+      .on("broadcast",{event:"comunicado"},()=>{aoAvisoArena();verificarAvisos();})
+      .on("broadcast",{event:"trofeu"},async()=>{aoAvisoArena();await carregarDados();if(S.pagina==="galeria")renderPagina();verificarAvisos();})
       .subscribe();}catch(e){console.warn(e);}
   }
-  if(MODO!=="supabase"&&!bcDemo&&"BroadcastChannel" in window){bcDemo=new BroadcastChannel("mp-hunter");bcDemo.onmessage=e=>{if(e.data==="arena")aoAvisoArena();if(e.data==="foto")aoAvisoFoto();};}
-  if(!S.pollArena) S.pollArena=setInterval(()=>{if(!S.usuario)return; if(S.pagina==="arena") atualizarArena(); else arenaBadge();},20000);
+  if(MODO!=="supabase"&&!bcDemo&&"BroadcastChannel" in window){bcDemo=new BroadcastChannel("mp-hunter");bcDemo.onmessage=e=>{if(e.data==="arena")aoAvisoArena();if(e.data==="foto")aoAvisoFoto();if(e.data==="comunicado"||e.data==="trofeu"){aoAvisoArena();verificarAvisos();}};}
+  if(!S.pollArena) S.pollArena=setInterval(()=>{if(!S.usuario)return; if(S.pagina==="arena") atualizarArena(); else {arenaBadge(); if(S.pagina==="ranking") carregarArenaMini();} verificarAvisos();},20000);
+  setTimeout(verificarAvisos,1600);
 }
 function avisar(ev){ try{ if(canalRT) canalRT.send({type:"broadcast",event:ev,payload:{}}); if(bcDemo) bcDemo.postMessage(ev);}catch(e){} }
 function aoAvisoArena(){ if(!S.usuario) return; if(S.pagina==="arena") atualizarArena(); else arenaBadge(); }
@@ -4074,7 +4331,8 @@ const lidoKey=()=>"mp_arena_lido_"+(S.usuario?.id||"");
 async function arenaBadge(){
   if(!S.usuario||(!ehGestor()&&!S.tok&&MODO==="supabase")) return;
   try{const lido=lerLS(lidoKey(),0), novas=(await API.arena.listar(lido)).filter(m=>m.autor_id!==S.usuario.id).length;
-    document.querySelectorAll("[data-nl]").forEach(b=>{b.textContent=novas>9?"9+":novas;b.classList.toggle("hidden",!novas||S.pagina==="arena");});}catch(e){}
+    const sil=lerLS("mp_silencio",false);
+    document.querySelectorAll("[data-nl]").forEach(b=>{b.textContent=novas>9?"9+":novas;b.classList.toggle("hidden",!novas||S.pagina==="arena");b.classList.toggle("quieto",sil);});}catch(e){}
 }
 function autorDe(m){
   const c=S.consultores.find(x=>x.id===m.autor_id)||(S.fonte?.cons||[]).find(x=>x.id===m.autor_id);
@@ -4091,20 +4349,26 @@ function textoComMencoes(t){
 function msgHTML(m,novo){
   const a=autorDe(m), meu=m.autor_id===S.usuario.id, hora=dataHora(m.criado_em);
   const reac=REACOES.map(e=>{const n=m.reacoes?.[e]||0,eu=(m.minhas||[]).includes(e);return `<button class="rx${eu?' minha':''}${n?' tem':''}" data-rx="${e}" data-id="${m.id}" aria-label="Reagir ${e}">${e}${n?`<b class="num">${n}</b>`:""}</button>`;}).join("");
-  const corpo=m.tipo==="conquistas"?cartaoConquistasHTML(a.nome,a.foto,m.payload?.meses||[]):`<p class="msg-txt">${textoComMencoes(m.texto)}</p>`;
-  return `<article class="msg${meu?' minha':''}${m.oculta?' oculta':''}${novo?' nova':''}${a.gestor?' gestor':''}" data-msg="${m.id}">
+  const corpo=m.tipo==="conquistas"?cartaoConquistasHTML(a.nome,a.foto,m.payload?.meses||[])
+    :m.tipo==="comunicado"?`<div class="msg-com">${coroaSVG("ouro","","width:30px")}<div><small>COMUNICADO DO GESTOR</small><p>${textoComMencoes(m.texto)}</p></div></div>`
+    :m.tipo==="trofeu"?`<div class="msg-trofeu">${trofeuUnidSVG(m.payload?.trofeu,"m"+m.id,64)}<div><small>NOVA CONQUISTA DA UNIDADE</small><b>${esc(m.payload?.nome||m.texto)}</b><span>${m.payload?.comp?nomeMes(m.payload.comp):""} · ${esc(CATS[m.payload?.categoria]||"")}</span><button class="btn-mini" data-ver-trofeu="${m.payload?.id}">🏆 Ver troféu</button></div></div>`
+    :`<p class="msg-txt">${textoComMencoes(m.texto)}</p>`;
+  return `<article class="msg${meu?' minha':''}${m.oculta?' oculta':''}${novo?' nova':''}${a.gestor?' gestor':''}${m.tipo==="comunicado"||m.tipo==="trofeu"?' oficial':''}${m.fixado?' fixada':''}" data-msg="${m.id}">
     <button class="msg-foto" ${a.id?`data-abrir="${a.id}"`:""} aria-label="Ver desempenho de ${esc(a.nome)}"><img src="${a.foto}" alt=""></button>
     <div class="msg-corpo"><div class="msg-cab"><b>${esc(a.nome)}</b>${a.gestor?'<em class="tag-g">GESTOR</em>':""}<time>${hora}</time>
-      ${m.oculta?'<em class="tag-o">oculta pelo gestor</em>':""}${ehGestor()&&m.denuncias?`<em class="tag-d">${m.denuncias} ${m.denuncias===1?"denúncia":"denúncias"}</em>`:""}</div>
+      ${m.fixado?'<em class="tag-g">📌 FIXADO</em>':""}${m.oculta?'<em class="tag-o">oculta pelo gestor</em>':""}${ehGestor()&&m.denuncias?`<em class="tag-d">${m.denuncias} ${m.denuncias===1?"denúncia":"denúncias"}</em>`:""}</div>
       ${m.tipo==="conquistas"?`<p class="msg-txt">🏆 compartilhou suas conquistas!</p>`:""}${corpo}
       <div class="msg-rx">${reac}
-        ${ehGestor()?`<button class="msg-acao" data-ocultar="${m.id}" data-o="${m.oculta?0:1}">${m.oculta?"Mostrar":"Ocultar"}</button>`:(!meu?`<button class="msg-acao" data-denunciar="${m.id}">Denunciar</button>`:"")}</div></div>
+        ${ehGestor()?`${m.tipo==="comunicado"?`<button class="msg-acao" data-fixar="${m.id}" data-f="${m.fixado?0:1}">${m.fixado?"Desafixar":"📌 Fixar"}</button>`:""}<button class="msg-acao" data-ocultar="${m.id}" data-o="${m.oculta?0:1}">${m.oculta?"Mostrar":"Ocultar"}</button>`:(!meu?`<button class="msg-acao" data-denunciar="${m.id}">Denunciar</button>`:"")}</div></div>
   </article>`;
 }
 async function renderArena(c){
   if(MODO==="supabase"&&!ehGestor()&&!S.tok){c.innerHTML=`<section class="embreve"><img src="${IMG_MUSEU}" alt=""><div><h2>Arena Hunter</h2><p>Entre com seu PIN para conversar na Arena.</p></div></section>`;return;}
   const meu=S.consultores.find(x=>x.id===S.usuario.id), rk=ranquear(S.consultores,"total").linhas;
-  c.innerHTML=`<div class="museu-topo"><div><h2>Arena Hunter</h2><p>Desafios saudáveis, reações e conquistas da equipe. Respeito sempre: mensagens ofensivas são bloqueadas.</p></div></div>
+  c.innerHTML=`<div class="museu-topo"><div><h2>Arena Hunter</h2><p>Desafios saudáveis, reações e conquistas da equipe. Respeito sempre: mensagens ofensivas são bloqueadas.</p></div>
+    <div class="arena-topo-acoes">${ehGestor()?`<button class="btn-ouro" id="ar-comunicado">👑 ENVIAR COMUNICADO PARA TODOS</button>`:""}
+      <label class="silencio"><input type="checkbox" id="ar-silencio"${lerLS("mp_silencio",false)?" checked":""}> 🔕 Silenciar alertas não essenciais</label></div></div>
+  <div id="arena-fixados"></div>
   <section class="arena">
     <div class="arena-chat card fio">
       <div class="arena-msgs" id="arena-msgs" aria-live="polite"><p class="vazio-txt">Carregando…</p></div>
@@ -4127,6 +4391,8 @@ async function renderArena(c){
     </aside>
   </section>`;
   S.arenaMsgs=[]; await atualizarArena(true);
+  $("#ar-comunicado")?.addEventListener("click",abrirComunicado);
+  $("#ar-silencio").onchange=e=>{gravarLS("mp_silencio",e.target.checked);arenaBadge();toast(`<span>${e.target.checked?"Alertas não essenciais silenciados. Comunicados do gestor continuam chegando.":"Alertas reativados."}</span>`);};
   const txt=$("#arena-txt"), form=$("#arena-form"), sug=$("#arena-sug"), err=$("#arena-erro");
   c.querySelectorAll("[data-rapida]").forEach(b=>b.onclick=()=>{txt.value=b.dataset.rapida+" ";txt.focus();txt.classList.add("preparada");setTimeout(()=>txt.classList.remove("preparada"),600);err.textContent="Confira a mensagem e toque em ENVIAR.";});
   txt.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
@@ -4158,6 +4424,12 @@ async function atualizarArena(primeira){
   box.innerHTML=L.length?L.map(m=>msgHTML(m,!primeira&&!antes.has(m.id))).join(""):`<div class="arena-vazia">${coroaSVG("ouro","","width:60px")}<b>A Arena está aberta!</b><span>Seja o primeiro a lançar um desafio para a equipe.</span></div>`;
   if(primeira||perto) box.scrollTop=box.scrollHeight;
   if(L.length) gravarLS(lidoKey(),Math.max(...L.map(m=>m.id)));
+  const fx=L.filter(m=>m.fixado&&!m.oculta), fb=$("#arena-fixados");
+  if(fb) fb.innerHTML=fx.length?`<div class="fixados">${fx.map(m=>`<div class="fixado-item" data-ir-msg="${m.id}">📌 <b>Comunicado fixado</b> · ${esc(m.texto)}</div>`).join("")}</div>`:"";
+  fb?.querySelectorAll("[data-ir-msg]").forEach(el=>el.onclick=()=>{const t=box.querySelector(`[data-msg="${el.dataset.irMsg}"]`);if(t){t.scrollIntoView({block:"center",behavior:"smooth"});t.classList.remove("destaque");void t.offsetWidth;t.classList.add("destaque");}});
+  if(S.arenaDestaque){const t=box.querySelector(`[data-msg="${S.arenaDestaque}"]`);S.arenaDestaque=null;if(t){setTimeout(()=>{t.scrollIntoView({block:"center"});t.classList.add("destaque");},120);}}
+  box.querySelectorAll("[data-fixar]").forEach(b=>b.onclick=async()=>{try{await API.arena.fixar(+b.dataset.fixar,b.dataset.f==="1");avisar("arena");await atualizarArena();}catch(e){toast(`<span>${esc(errMsg(e))}</span>`);}});
+  box.querySelectorAll("[data-ver-trofeu]").forEach(b=>b.onclick=()=>{S.galAbrir=+b.dataset.verTrofeu||b.dataset.verTrofeu;irPara("galeria");});
   document.querySelectorAll("[data-nl]").forEach(b=>b.classList.add("hidden"));
   box.querySelectorAll("[data-rx]").forEach(b=>b.onclick=async()=>{
     const r=b.getBoundingClientRect(), f=document.createElement("span"); f.className="rx-voa"; f.textContent=b.dataset.rx; f.style.left=r.left+r.width/2+"px"; f.style.top=r.top+"px"; document.body.appendChild(f); setTimeout(()=>f.remove(),900);
@@ -4176,11 +4448,235 @@ async function renderEquipe(c){
     <p class="vel-regra">Ao redefinir um PIN, o consultor precisa entrar de novo em todos os aparelhos.</p>`;
   let st=[]; try{st=await API.pins();}catch(e){$("#eq-corpo").innerHTML=`<tr><td colspan="3">${esc(errMsg(e))}</td></tr>`;return;}
   const tem={}; st.forEach(x=>tem[x.consultor_id]=x.tem_pin);
-  $("#eq-corpo").innerHTML=S.consultores.slice().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).map(x=>`<tr><td><span class="pessoa"><img src="${x.foto}" alt="">${esc(x.nome)}</span></td>
+  const todosC=(S.fonte?.cons||S.consultores).map(x=>({...x,foto:x.foto||FOTOS[x.login]}));
+  $("#eq-corpo").innerHTML=todosC.slice().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).map(x=>`<tr><td><span class="pessoa"><img src="${x.foto}" alt="">${esc(x.nome)}</span></td>
     <td>${tem[x.id]?'<span class="sit ok">Cadastrado</span>':'<span class="sit pend">Sem PIN</span>'}</td>
     <td><form class="pin-form" data-pf="${x.id}"><input inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="4 números" aria-label="Novo PIN de ${esc(x.nome)}"><button class="btn-mini">Salvar PIN</button></form></td></tr>`).join("");
-  c.querySelectorAll("[data-pf]").forEach(f=>f.onsubmit=async e=>{e.preventDefault(); const x=S.consultores.find(y=>y.id===f.dataset.pf), v=f.querySelector("input").value.trim();
+  c.querySelectorAll("[data-pf]").forEach(f=>f.onsubmit=async e=>{e.preventDefault(); const x=todosC.find(y=>y.id===f.dataset.pf), v=f.querySelector("input").value.trim();
     try{await API.definirPin(x,v); toast(`<span class="mov sobe">✓</span><span>PIN de ${esc(primeiroNome(x.nome))} salvo. Informe a ele pessoalmente.</span>`); renderEquipe(c);}catch(err){toast(`<span>${esc(errMsg(err))}</span>`);}});
+}
+
+/* =====================================================================
+   COMUNICADOS DO GESTOR · NOTIFICAÇÕES · GALERIA DE CONQUISTAS BEMARTE
+   ===================================================================== */
+Object.assign(API.arena,{
+  async comunicar(txt){
+    txt=String(txt||"").trim(); if(!txt||txt.length>600) throw new Error("O comunicado deve ter de 1 a 600 caracteres.");
+    if(MODO!=="supabase"){const d=demoDB();d.seq++;d.msgs.push({id:d.seq,autor_id:S.usuario.id,autor_nome:S.usuario.nome,autor_login:"bruno",autor_gestor:true,tipo:"comunicado",texto:txt,criado_em:new Date().toISOString(),oculta:false,fixado:false,r:{}});gravarLS("mp_arena_demo",d);return d.seq;}
+    const {data,error}=await S.sb.rpc("mp_arena_comunicar",{p_texto:txt}); if(error) throw new Error(error.message); return data;
+  },
+  async fixar(id,f){
+    if(MODO!=="supabase"){const d=demoDB(),m=d.msgs.find(x=>x.id===id);if(m){m.fixado=f;gravarLS("mp_arena_demo",d);}return;}
+    const {error}=await S.sb.rpc("mp_arena_fixar",{p_msg:id,p_fixar:f}); if(error) throw new Error(error.message);
+  }
+});
+const CATS={graduacao:"Graduação",pos:"Pós-Graduação",volume:"Volume da Unidade",campanha:"Campanha Comercial",recorde:"Recorde",especial:"Conquista Especial",outros:"Outros"};
+const TROFEUS={ouro:"Ouro",prata:"Prata",bronze:"Bronze",especial:"Especial"};
+API.unid={
+  async salvar(x){
+    if(!x.nome||x.nome.trim().length<3) throw new Error("Informe o nome da conquista (mínimo 3 letras).");
+    if(!/^\d{4}-\d{2}$/.test(x.comp||"")) throw new Error("Informe a competência (mês e ano).");
+    if(MODO!=="supabase"){const L=S.local.unidConq; let id=x.id;
+      if(id){const c=L.find(y=>y.id===id); Object.assign(c,{nome:x.nome.trim(),comp:x.comp,categoria:x.categoria,trofeu:x.trofeu,descricao:x.descricao||null}); S.local.unidLog.push({id,acao:"editada",em:new Date().toISOString()});}
+      else {id=Date.now(); L.push({id,nome:x.nome.trim(),comp:x.comp,categoria:x.categoria,trofeu:x.trofeu,descricao:x.descricao||null,publicado:true,em:new Date().toISOString()}); S.local.unidLog.push({id,acao:"criada",em:new Date().toISOString()});
+        const d=demoDB();d.seq++;d.msgs.push({id:d.seq,autor_id:S.usuario.id,autor_nome:S.usuario.nome,autor_login:"bruno",autor_gestor:true,tipo:"trofeu",texto:x.nome.trim(),payload:{id,nome:x.nome.trim(),comp:x.comp,categoria:x.categoria,trofeu:x.trofeu},criado_em:new Date().toISOString(),oculta:false,r:{}});gravarLS("mp_arena_demo",d);}
+      gravarLocal(); return id;}
+    const {data,error}=await S.sb.rpc("mp_unidade_conquista_salvar",{p_id:x.id||null,p_nome:x.nome.trim(),p_comp:x.comp+"-01",p_categoria:x.categoria,p_trofeu:x.trofeu,p_descricao:x.descricao||null});
+    if(error) throw new Error(error.message); return data;
+  },
+  async retirar(id){
+    if(MODO!=="supabase"){const c=S.local.unidConq.find(y=>y.id===id); if(c) c.publicado=false; S.local.unidLog.push({id,acao:"retirada",em:new Date().toISOString()}); gravarLocal();
+      const d=demoDB(); d.msgs.forEach(m=>{if(m.tipo==="trofeu"&&m.payload?.id===id)m.oculta=true;}); gravarLS("mp_arena_demo",d); return;}
+    const {error}=await S.sb.rpc("mp_unidade_conquista_retirar",{p_id:id}); if(error) throw new Error(error.message);
+  }
+};
+
+/* ---------- troféu coletivo (SVG autônomo: serve também para exportar) ---------- */
+const METAIS={ouro:["#fff6d0","#f4c552","#b07a16","#ffe08a"],prata:["#ffffff","#c9d0dc","#6b7383","#eef1f6"],bronze:["#ffe2c4","#d08a52","#7a4422","#f0b07a"],especial:["#f3e6ff","#a874ff","#4b1c8f","#ffe08a"]};
+function trofeuUnidSVG(metal,uid,w=160){
+  const [a,b,c,d]=METAIS[metal]||METAIS.ouro, id="tu"+uid;
+  return `<svg viewBox="0 0 200 250" width="${w}" height="${(w*1.25).toFixed(0)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs><linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".35" stop-color="${b}"/><stop offset=".7" stop-color="${c}"/><stop offset="1" stop-color="${d}"/></linearGradient>
+      <linearGradient id="${id}h" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity=".75"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <radialGradient id="${id}g"><stop offset="0" stop-color="${b}" stop-opacity=".55"/><stop offset="1" stop-color="${b}" stop-opacity="0"/></radialGradient></defs>
+    <ellipse cx="100" cy="95" rx="100" ry="95" fill="url(#${id}g)"/>
+    <path d="M52 40H22v18c0 28 20 42 44 44M148 40h30v18c0 28-20 42-44 44" fill="none" stroke="url(#${id}m)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M48 26h104v58a52 52 0 0 1-104 0z" fill="url(#${id}m)" stroke="${c}" stroke-width="2"/>
+    <path d="M48 26h104v58a52 52 0 0 1-104 0z" fill="url(#${id}h)" opacity=".8"/>
+    <ellipse cx="100" cy="26" rx="52" ry="8" fill="url(#${id}m)" stroke="${c}"/><ellipse cx="100" cy="26" rx="44" ry="4.5" fill="rgba(0,0,0,.25)"/>
+    ${metal==="especial"?`<polygon points="100,52 112,68 100,92 88,68" fill="#fff" opacity=".9"/><polygon points="100,52 112,68 100,74 88,68" fill="#e9dcff"/>`:`<path d="M100 54l6 13 14 2-10 10 2 14-12-7-12 7 2-14-10-10 14-2z" fill="#fff" opacity=".85"/>`}
+    <path d="M90 136h20l-4 26h-12z" fill="url(#${id}m)"/><ellipse cx="100" cy="164" rx="24" ry="7" fill="url(#${id}m)" stroke="${c}"/>
+    <rect x="58" y="170" width="84" height="16" rx="5" fill="url(#${id}m)" stroke="${c}"/>
+    <rect x="44" y="186" width="112" height="46" rx="10" fill="#1a0838" stroke="url(#${id}m)" stroke-width="4"/>
+    <rect x="62" y="200" width="76" height="18" rx="4" fill="url(#${id}m)" opacity=".9"/>
+  </svg>`;
+}
+
+/* ---------- comunicado do gestor ---------- */
+function abrirComunicado(){
+  const veu=document.createElement("div"); veu.className="veu";
+  veu.innerHTML=`<div class="painel envio-box" role="dialog" aria-modal="true" aria-label="Comunicado do gestor"><button class="fechar" aria-label="Fechar">${I.x}</button>
+    <h2 class="det-titulo">👑 Comunicado para todos<small>todos os consultores recebem um aviso em tempo real</small></h2>
+    <textarea id="com-txt" maxlength="600" rows="3" placeholder="Ex.: Time, hoje é dia de acelerar! Vamos buscar nossa próxima conquista!"></textarea>
+    <small style="color:var(--muted)">Prévia</small><div id="com-prev"></div>
+    <p class="erro" role="alert"></p>
+    <div class="conf-botoes"><button class="btn-sec" id="com-cancelar">Cancelar</button><button class="btn-ouro" id="com-ok" disabled>${I.enviar}CONFIRMAR ENVIO</button></div></div>`;
+  abrirVeu(veu);
+  const t=veu.querySelector("#com-txt"), ok=veu.querySelector("#com-ok");
+  const prev=()=>{veu.querySelector("#com-prev").innerHTML=avisoCartao({tipo:"comunicado",texto:t.value||"…",autor_nome:S.usuario.nome},true);ok.disabled=!t.value.trim();};
+  t.oninput=prev; prev(); setTimeout(()=>t.focus(),60);
+  veu.querySelector("#com-cancelar").onclick=()=>veu.querySelector(".fechar").click();
+  ok.onclick=async()=>{ok.disabled=true;try{const id=await API.arena.comunicar(t.value);avisar("comunicado");veu.remove();toast(`<span class="mov sobe">✓</span><span>Comunicado enviado para todos.</span>`);
+      if(S.pagina==="arena") atualizarArena(); else carregarArenaMini();}catch(e){veu.querySelector(".erro").textContent=errMsg(e);ok.disabled=false;}};
+}
+/* ---------- avisos em tempo real (comunicado e troféu da unidade) ---------- */
+const avisoKey=()=>"mp_aviso_visto_"+(S.usuario?.id||"");
+function avisoCartao(m,prev){
+  if(m.tipo==="trofeu"){const p=m.payload||{};return `<div class="aviso-card trofeu">
+    <div class="av-cab"><span class="av-foto"><img src="${FOTO_GESTOR}" alt=""></span><div><b>🏆 ${esc(primeiroNome(m.autor_nome||"Bruno")).toUpperCase()} LIBEROU UMA NOVA CONQUISTA DA UNIDADE!</b><small>Gestor · Galeria da Unidade</small></div></div>
+    <div class="av-trofeu">${trofeuUnidSVG(p.trofeu,"av"+(m.id||0),90)}<div><strong>${esc(p.nome||m.texto)}!</strong><span>${p.comp?nomeMes(p.comp):""}</span><em>A equipe BeMarte acaba de conquistar mais um troféu!</em></div></div></div>`;}
+  return `<div class="aviso-card"><div class="av-cab"><span class="av-foto"><img src="${FOTO_GESTOR}" alt=""></span><div><b>👑 ${esc(primeiroNome(m.autor_nome||"Bruno")).toUpperCase()} ENVIOU UMA MENSAGEM!</b><small>Gestor · Arena Hunter</small></div><span class="av-pulso">${I.chat}</span></div>
+    <p class="av-txt">"${esc(m.texto)}"</p></div>`;
+}
+async function verificarAvisos(){
+  if(!S.usuario||ehGestor()||document.querySelector(".aviso-pop")) return;
+  if(MODO==="supabase"&&!S.tok) return;
+  let L; try{L=await API.arena.listar(0);}catch(e){return;}
+  const visto=lerLS(avisoKey(),0), novos=L.filter(m=>(m.tipo==="comunicado"||m.tipo==="trofeu")&&!m.oculta&&m.id>visto&&m.autor_id!==S.usuario.id);
+  if(!novos.length) return;
+  const m=novos.at(-1), mais=novos.length-1;
+  const v=document.createElement("div"); v.className="aviso-pop"; v.setAttribute("role","alertdialog");
+  v.innerHTML=`<button class="fechar av-x" aria-label="Fechar">${I.x}</button>${avisoCartao(m)}
+    <div class="av-acoes">${mais?`<small>+${mais} ${mais===1?"aviso não lido":"avisos não lidos"} na Arena</small>`:"<span></span>"}<button class="btn-ouro" id="av-abrir">${m.tipo==="trofeu"?"🏆 VER TROFÉU":"Abrir na Arena"}</button></div>`;
+  document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on")); confete(m.tipo==="trofeu"?120:50,true,.2);
+  const marcar=()=>{gravarLS(avisoKey(),Math.max(...novos.map(x=>x.id)));v.classList.remove("on");setTimeout(()=>v.remove(),300);};
+  v.querySelector(".av-x").onclick=marcar;
+  v.querySelector("#av-abrir").onclick=()=>{marcar(); if(m.tipo==="trofeu"){S.galAbrir=m.payload?.id;irPara("galeria");} else {S.arenaDestaque=m.id;irPara("arena");}};
+}
+
+/* ---------- GALERIA DA UNIDADE · MUSEU DE CONQUISTAS BEMARTE ---------- */
+const slug=t=>semAcento(t).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40);
+function museuConquistasHTML(){
+  const L=(S.fonte?.unidConq||[]).slice().sort((a,b)=>b.comp.localeCompare(a.comp)||String(b.em||"").localeCompare(String(a.em||""))), g=ehGestor();
+  const meses=[...new Set(L.map(x=>x.comp))];
+  return `<section class="mc-museu">
+    <div class="mc-cab">${coroaSVG("ouro","","width:58px")}<div><small>GALERIA DA UNIDADE</small><h2>Museu de Conquistas BeMarte</h2><p>Os troféus coletivos da unidade, mês a mês. Conquistas cadastradas pelo gestor, inclusive resultados fora do Hunter.</p></div>
+      <div class="mc-acoes">${g?`<button class="btn-ouro" id="mc-nova">+ NOVA CONQUISTA</button>${L.length?`<button class="btn-roxo" id="mc-foto">📸 FOTO OFICIAL DA GALERIA</button>`:""}`:""}</div></div>
+    ${L.length?meses.map(m=>`<div class="mc-mes"><h4><span>${MESES_LONGOS[+m.slice(5)-1]} ${m.slice(0,4)}</span></h4><div class="mc-vitrine">
+      ${L.filter(x=>x.comp===m).map((x,i)=>`<button class="mc-t ${x.trofeu} entra" style="--d:${i*80}ms" data-uc="${x.id}" aria-label="Ver ${esc(x.nome)}">
+        <span class="mc-luz"></span>${trofeuUnidSVG(x.trofeu,"g"+x.id,120)}<span class="mc-ped"></span>
+        <b>${esc(x.nome)}</b><small>${nomeMes(x.comp)} · ${esc(CATS[x.categoria]||x.categoria)}</small>${x.descricao?`<em>${esc(x.descricao)}</em>`:""}</button>`).join("")}</div></div>`).join("")
+    :`<div class="mc-vazio">${trofeuUnidSVG("ouro","vz",90)}<b>Nenhuma conquista coletiva publicada ainda.</b><span>${g?"Clique em + NOVA CONQUISTA para publicar o primeiro troféu da unidade.":"Quando o gestor publicar um troféu da unidade, ele aparece aqui."}</span></div>`}
+  </section>`;
+}
+function ligarMuseuConquistas(c){
+  $("#mc-nova")?.addEventListener("click",()=>formConquista());
+  $("#mc-foto")?.addEventListener("click",exportarFotoOficial);
+  c.querySelectorAll("[data-uc]").forEach(b=>b.onclick=()=>abrirConquistaUnid(b.dataset.uc));
+  if(S.galAbrir!=null){const id=S.galAbrir;S.galAbrir=null;setTimeout(()=>abrirConquistaUnid(id,true),200);}
+}
+function formConquista(x){
+  const ed=!!x; x=x||{nome:"",comp:S.competencia,categoria:"graduacao",trofeu:"ouro",descricao:""};
+  const sug=["Meta de Volume da Unidade Entregue","Meta de Pós-Graduação Entregue","Meta de Graduação Batida","Recorde de Matrículas","Campanha Comercial Concluída","Conquista Especial da Unidade"];
+  const veu=document.createElement("div"); veu.className="veu";
+  veu.innerHTML=`<div class="painel envio-box mc-form" role="dialog" aria-modal="true" aria-label="${ed?"Editar":"Nova"} conquista"><button class="fechar" aria-label="Fechar">${I.x}</button>
+    <h2 class="det-titulo">${ed?"Editar conquista":"🏆 Nova conquista da unidade"}<small>não altera resultados nem atingimentos do Hunter</small></h2>
+    <div class="mc-grade-form"><div>
+      <label>Nome da conquista<input id="f-nome" maxlength="120" list="f-sug" value="${esc(x.nome)}" placeholder="Ex.: META DE PÓS-GRADUAÇÃO ENTREGUE"></label>
+      <datalist id="f-sug">${sug.map(t=>`<option value="${t}">`).join("")}</datalist>
+      <div class="mc-2"><label>Competência<input type="month" id="f-comp" value="${x.comp}"></label>
+        <label>Categoria<select id="f-cat">${Object.entries(CATS).map(([k,v])=>`<option value="${k}"${x.categoria===k?" selected":""}>${v}</option>`).join("")}</select></label></div>
+      <label>Modelo do troféu</label><div class="mc-modelos">${Object.entries(TROFEUS).map(([k,v])=>`<button type="button" class="mc-mod${x.trofeu===k?" sel":""}" data-tr="${k}">${trofeuUnidSVG(k,"f"+k,48)}<span>${v}</span></button>`).join("")}</div>
+      <label>Descrição (opcional)<textarea id="f-desc" maxlength="300" rows="2" placeholder="Uma frase sobre a conquista">${esc(x.descricao||"")}</textarea></label>
+    </div><div class="mc-prev" id="f-prev"></div></div>
+    <p class="erro" role="alert"></p>
+    <div class="conf-botoes"><button class="btn-sec" id="f-cancelar">Cancelar</button><button class="btn-ouro" id="f-ok">${ed?"SALVAR ALTERAÇÕES":"🏆 PUBLICAR CONQUISTA"}</button></div></div>`;
+  abrirVeu(veu);
+  let tr=x.trofeu; const q=s=>veu.querySelector(s);
+  const prev=()=>{q("#f-prev").innerHTML=`<div class="mc-t ${tr} prev"><span class="mc-luz"></span>${trofeuUnidSVG(tr,"pv",130)}<span class="mc-ped"></span><b>${esc(q("#f-nome").value||"Nome da conquista")}</b><small>${/^\d{4}-\d{2}$/.test(q("#f-comp").value)?nomeMes(q("#f-comp").value):"—"} · ${esc(CATS[q("#f-cat").value])}</small>${q("#f-desc").value?`<em>${esc(q("#f-desc").value)}</em>`:""}</div>`;};
+  ["#f-nome","#f-comp","#f-cat","#f-desc"].forEach(s=>q(s).addEventListener("input",prev));
+  veu.querySelectorAll("[data-tr]").forEach(b=>b.onclick=()=>{tr=b.dataset.tr;veu.querySelectorAll("[data-tr]").forEach(y=>y.classList.toggle("sel",y===b));prev();});
+  prev(); q("#f-cancelar").onclick=()=>q(".fechar").click();
+  q("#f-ok").onclick=async e=>{const b=e.currentTarget;b.disabled=true;
+    const d={id:x.id||null,nome:q("#f-nome").value,comp:q("#f-comp").value,categoria:q("#f-cat").value,trofeu:tr,descricao:q("#f-desc").value.trim()};
+    try{const id=await API.unid.salvar(d); if(!ed) avisar("trofeu"); else avisar("arena"); veu.remove(); await carregarDados(); renderPagina();
+      if(!ed) revelarTrofeu({...d,id}); else toast(`<span class="mov sobe">✓</span><span>Conquista atualizada.</span>`);}
+    catch(err){q(".erro").textContent=errMsg(err);b.disabled=false;}};
+}
+function revelarTrofeu(x,aoFim){
+  const v=document.createElement("div"); v.className="revela-veu";
+  v.innerHTML=`<div class="rv-raios"></div><div class="rv-palco"><div class="rv-trofeu">${trofeuUnidSVG(x.trofeu,"rv",230)}</div><div class="rv-pedestal"></div></div>
+    <div class="rv-txt"><small>🏆 NOVA CONQUISTA DA UNIDADE BEMARTE</small><h2>${esc(x.nome)}</h2><span>${nomeMes(x.comp)} · ${esc(CATS[x.categoria]||"")}</span>${x.descricao?`<em>${esc(x.descricao)}</em>`:""}
+      <button class="btn-ouro" id="rv-ok">Ver na galeria</button></div>`;
+  document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on"));
+  setTimeout(()=>confete(220,true,.35),900);
+  const fechar=()=>{v.classList.add("sai");setTimeout(()=>{v.remove();aoFim&&aoFim();},350);document.removeEventListener("keydown",tecla);};
+  const tecla=e=>{if(e.key==="Escape")fechar();}; document.addEventListener("keydown",tecla);
+  v.querySelector("#rv-ok").onclick=fechar; v.addEventListener("click",e=>{if(e.target===v)fechar();});
+}
+function abrirConquistaUnid(id,revelar){
+  const x=(S.fonte?.unidConq||[]).find(y=>String(y.id)===String(id));
+  if(!x) return toast(`<span>Esta conquista não está mais publicada.</span>`);
+  const abrir=()=>{const g=ehGestor(), veu=document.createElement("div"); veu.className="veu";
+    veu.innerHTML=`<div class="painel envio-box mc-det" role="dialog" aria-modal="true" aria-label="${esc(x.nome)}"><button class="fechar" aria-label="Fechar">${I.x}</button>
+      <div class="mc-t ${x.trofeu} grande"><span class="mc-luz"></span>${trofeuUnidSVG(x.trofeu,"d"+x.id,200)}<span class="mc-ped"></span>
+        <b>${esc(x.nome)}</b><small>${nomeMes(x.comp)} · ${esc(CATS[x.categoria]||x.categoria)} · Troféu ${TROFEUS[x.trofeu]||""}</small>${x.descricao?`<em>${esc(x.descricao)}</em>`:""}</div>
+      ${g?`<div class="conf-botoes"><button class="btn-sec" id="d-ret">Retirar</button><button class="btn-sec" id="d-ed">Editar</button><button class="btn-ouro" id="d-exp">⬇ EXPORTAR CONQUISTA</button></div>`:""}
+      <p class="erro" role="alert"></p></div>`;
+    abrirVeu(veu);
+    veu.querySelector("#d-exp")?.addEventListener("click",()=>exportarConquista(x));
+    veu.querySelector("#d-ed")?.addEventListener("click",()=>{veu.remove();formConquista(x);});
+    veu.querySelector("#d-ret")?.addEventListener("click",async e=>{const b=e.currentTarget;
+      if(b.dataset.armado!=="1"){b.dataset.armado="1";b.textContent="Confirmar: retirar da galeria";b.classList.add("perigo");return;}
+      try{await API.unid.retirar(x.id);avisar("arena");veu.remove();await carregarDados();renderPagina();toast(`<span>Conquista retirada da galeria. O registro fica no histórico administrativo.</span>`);}
+      catch(err){veu.querySelector(".erro").textContent=errMsg(err);}});
+  };
+  revelar?revelarTrofeu(x,abrir):abrir();
+}
+/* ---------- exportação PNG (1080 × 1350), sem menus nem botões ---------- */
+function svgParaPng(svg,nome){
+  const img=new Image(), url=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml;charset=utf-8"}));
+  img.onload=()=>{const cv=document.createElement("canvas");cv.width=1080;cv.height=1350;cv.getContext("2d").drawImage(img,0,0,1080,1350);URL.revokeObjectURL(url);
+    cv.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+      toast(`<span class="mov sobe">✓</span><span>Imagem ${esc(nome)} gerada (1080 × 1350).</span>`);},"image/png");};
+  img.onerror=()=>{URL.revokeObjectURL(url);toast(`<span>Não foi possível gerar a imagem neste navegador.</span>`);};
+  img.src=url;
+}
+const xe=t=>String(t??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function quebra(t,n){const p=String(t).split(" "),l=[];let a="";p.forEach(w=>{if((a+" "+w).trim().length>n){if(a)l.push(a);a=w;}else a=(a+" "+w).trim();});if(a)l.push(a);return l.slice(0,3);}
+function fundoArte(){
+  return `<defs><radialGradient id="bgr" cx="50%" cy="30%" r="80%"><stop offset="0" stop-color="#4b1c8f"/><stop offset=".55" stop-color="#22094a"/><stop offset="1" stop-color="#12042a"/></radialGradient>
+    <linearGradient id="oro" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff8dc"/><stop offset=".45" stop-color="#ffe08a"/><stop offset="1" stop-color="#d9a03a"/></linearGradient>
+    <radialGradient id="luz" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd666" stop-opacity=".45"/><stop offset="1" stop-color="#ffd666" stop-opacity="0"/></radialGradient></defs>
+    <rect width="1080" height="1350" fill="url(#bgr)"/>
+    ${[...Array(16)].map((_,i)=>`<polygon points="540,430 ${540+Math.cos(i/16*6.283)*900},${430+Math.sin(i/16*6.283)*900} ${540+Math.cos((i+.35)/16*6.283)*900},${430+Math.sin((i+.35)/16*6.283)*900}" fill="#ffe08a" opacity=".05"/>`).join("")}
+    <rect x="30" y="30" width="1020" height="1290" rx="40" fill="none" stroke="url(#oro)" stroke-width="6"/><rect x="48" y="48" width="984" height="1254" rx="30" fill="none" stroke="#c58d22" stroke-opacity=".5" stroke-width="2"/>
+    <text x="540" y="140" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="34" letter-spacing="10" fill="url(#oro)">MUSEU DE CONQUISTAS</text>
+    <text x="540" y="200" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="58" letter-spacing="4" fill="#fff">BeMarte</text>`;
+}
+function exportarConquista(x){
+  const linhas=quebra(x.nome.toUpperCase(),22);
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">${fundoArte()}
+    <ellipse cx="540" cy="560" rx="380" ry="330" fill="url(#luz)"/>
+    <g transform="translate(330 270)">${trofeuUnidSVG(x.trofeu,"ex",420)}</g>
+    <ellipse cx="540" cy="820" rx="250" ry="34" fill="#000" opacity=".35"/>
+    ${linhas.map((l,i)=>`<text x="540" y="${900+i*72}" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="60" fill="url(#oro)">${xe(l)}</text>`).join("")}
+    <text x="540" y="${900+linhas.length*72+30}" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="36" fill="#e2d3ff">${xe(nomeMes(x.comp))} · ${xe(CATS[x.categoria]||"")}</text>
+    <text x="540" y="1200" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#fff">${xe(x.descricao||"A equipe BeMarte conquistou mais um troféu!")}</text>
+    <text x="540" y="1270" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" letter-spacing="4" fill="#cbb8f0">FACULDADE ANHANGUERA · CAMPUS MARTE</text></svg>`;
+  svgParaPng(svg,`conquista-${slug(x.nome)}-${x.comp}.png`);
+}
+function exportarFotoOficial(){
+  const L=(S.fonte?.unidConq||[]).slice().sort((a,b)=>b.comp.localeCompare(a.comp)).slice(0,9); if(!L.length) return;
+  const col=3, w=300, h=330, x0=540-(Math.min(L.length,col)*w)/2;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">${fundoArte()}
+    <text x="540" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="30" fill="#e2d3ff">Galeria oficial de troféus da unidade</text>
+    ${L.map((x,i)=>{const cx=x0+(i%col)*w+w/2, y=310+Math.floor(i/col)*h, nm=quebra(x.nome.toUpperCase(),18);
+      return `<g><ellipse cx="${cx}" cy="${y+110}" rx="120" ry="100" fill="url(#luz)"/><g transform="translate(${cx-80} ${y})">${trofeuUnidSVG(x.trofeu,"fo"+i,160)}</g>
+        ${nm.slice(0,3).map((l,j)=>`<text x="${cx}" y="${y+232+j*26}" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="21" fill="url(#oro)">${xe(l)}</text>`).join("")}
+        <text x="${cx}" y="${y+232+Math.min(nm.length,3)*26+6}" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="18" fill="#cbb8f0">${xe(nomeMes(x.comp))}</text></g>`;}).join("")}
+    <text x="540" y="1270" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" letter-spacing="4" fill="#cbb8f0">FACULDADE ANHANGUERA · CAMPUS MARTE</text></svg>`;
+  svgParaPng(svg,`galeria-oficial-bemarte-${S.competencia}.png`);
 }
 
 /* ---------- MICROINTERAÇÕES ---------- */
