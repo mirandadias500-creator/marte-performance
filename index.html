@@ -1259,6 +1259,21 @@ tr.alterada{background:#fff8e1!important}
 
 .abas{flex-wrap:wrap;justify-content:center;overflow:visible!important;width:auto!important;max-width:100%}
 .conf-comp{margin:18px 0}.conf-comp-tit{color:#fff;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:18px;margin:0 0 10px}.conf-comp-tit svg{width:20px;height:20px;color:var(--ouro-esc)}.conf-comp-tit small{font-size:13px;font-weight:600;color:rgba(255,255,255,.75)}
+/* Ranking Completo: volume + atingimento, sem rolagem lateral */
+.lista{overflow-x:hidden;overflow-y:auto}
+.lista .linha{grid-template-columns:28px 38px minmax(0,1fr) auto;gap:7px;padding:9px 6px}
+.lista .linha:hover{transform:none}
+.lista .pos{font-size:15px;display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;min-width:0}
+.lista .ava{width:38px;height:38px}
+.lista .lin-nome{font-size:13.5px;white-space:normal;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+.lista .barra{height:7px}
+.lin-ind{display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:12px;background:linear-gradient(180deg,#fff,#faf5ff);box-shadow:0 0 0 1.2px rgba(214,169,74,.75),0 4px 10px -6px rgba(75,28,143,.45)}
+.ind-vol{display:flex;flex-direction:column;align-items:center;line-height:1}
+.ind-vol b{font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--roxo-900)}
+.ind-vol small{font-size:9px;font-weight:600;color:var(--muted);margin-top:2px}
+.ind-sep{width:1.5px;align-self:stretch;background:linear-gradient(180deg,transparent,#d9a53a,transparent)}
+.ind-pct{font-family:var(--font-display);font-weight:800;font-size:15px;min-width:44px;text-align:center}
+.ind-pct.sem{font-family:inherit;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1724,9 +1739,9 @@ function atualizarRanking(animar){
   lista.innerHTML=resto.map((l,i)=>`
     <button class="linha${l.c.id===meuId?' eu':''}" data-id="${l.c.id}" data-abrir="${l.c.id}" style="--d:${i*45}ms">
       <span class="pos num">${l.pos}º${ant?setaMov(ant[l.c.id],l.pos):""}</span><img class="ava" src="${l.c.foto}" alt="">
-      <span class="lin-meio"><span class="lin-nome">${esc(l.c.nome)}${l.c.id===meuId?' <small>você</small>':''}${usaMeta&&l.p!=null?`<small class="num">${fmtN(l.v)} matr.</small>`:""}</span>
+      <span class="lin-meio"><span class="lin-nome">${esc(l.c.nome)}${l.c.id===meuId?' <small>você</small>':''}</span>
         <span class="barra"><i class="${l.p!=null&&l.p>=100?'cheia':''}" style="--w:0%"></i></span></span>
-      <span class="pct num" style="color:${usaMeta&&l.p!=null?corPct(l.p):'var(--roxo-900)'}">${valorTxt(l)}</span>
+      <span class="lin-ind"><span class="ind-vol num"><b>${fmtN(l.c.valido)}</b><small>${l.c.valido===1?"matrícula":"matrículas"}</small></span><span class="ind-sep"></span>${l.c.pct!=null?`<span class="ind-pct num" style="color:${corPct(l.c.pct)}">${fmtPct(l.c.pct)}</span>`:`<span class="ind-pct sem">Sem meta</span>`}</span>
     </button>`).join("")||`<p class="vazio-txt">Todos os consultores estão no pódio.</p>`;
   const hLinha=lista.querySelector(".linha")?.getBoundingClientRect().height||60;
   lista.querySelectorAll(".linha").forEach(el=>{
