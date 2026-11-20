@@ -1826,6 +1826,32 @@ tr.alterada{background:#fff8e1!important}
 .cp-i{padding:3px 8px;font-size:11px}.cp-btn{padding:9px 12px!important;font-size:11.5px!important}
 .checkpoint{max-width:1000px;padding:6px 14px}.cp-corpo h2{white-space:nowrap;margin:0 0 4px}.cp-coroa{width:48px}.cp-coroa svg{width:48px}
 @media(max-width:760px){.cp-corpo h2{white-space:normal}}
+/* checkpoint ao lado das abas, abas numa linha só */
+.barra-nav{display:flex;align-items:center;gap:14px;margin:-6px 0 14px}
+#cp-slot:empty{display:none}
+#cp-slot{flex:0 1 auto;min-width:0}
+#cp-slot .checkpoint{margin:0;max-width:520px;padding:6px 12px;gap:10px}
+#cp-slot .cp-coroa{width:40px}#cp-slot .cp-coroa svg{width:40px}#cp-slot .cp-coroa span{font-size:14px}
+#cp-slot .cp-corpo h2{font-size:15px;margin:0 0 3px}#cp-slot .cp-corpo small{font-size:8.5px}
+#cp-slot .cp-itens{gap:4px}#cp-slot .cp-i{font-size:10.5px;padding:2px 7px}
+#cp-slot .cp-btn{padding:8px 10px!important;font-size:10.5px!important;gap:5px}#cp-slot .cp-btn svg{width:14px;height:14px}
+.barra-nav .abas{flex:1;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:8px;margin:0!important;padding:4px 2px 10px!important;overflow-x:auto!important;scrollbar-width:thin;width:auto!important;max-width:none!important}
+.barra-nav .aba{flex:none;padding:9px 13px!important;font-size:12.5px!important;gap:6px!important;white-space:nowrap}
+.barra-nav .aba svg{width:16px!important;height:16px!important}
+.pz-total small{color:#ffe08a!important}.pz-total .pz-pill{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1.5px rgba(255,240,180,.8),0 2px 8px -2px rgba(0,0,0,.6)}
+@media(max-width:1100px){.barra-nav{flex-direction:column;align-items:stretch}#cp-slot .checkpoint{max-width:none}}
+#cp-slot .checkpoint{max-width:440px;padding:6px 10px}
+#cp-slot .cp-itens{flex-wrap:nowrap;overflow:hidden;mask-image:linear-gradient(90deg,#000 85%,transparent)}
+#cp-slot .cp-i{flex:none;white-space:nowrap}
+#cp-slot .cp-corpo h2{white-space:nowrap;font-size:14px}
+.barra-nav .aba{padding:8px 10px!important;font-size:11.5px!important;gap:5px!important}
+.barra-nav .aba svg{width:14px!important;height:14px!important}
+.barra-nav .abas{gap:6px}
+#cp-slot .checkpoint{max-width:400px}#cp-slot .cp-corpo{overflow:hidden}#cp-slot .cp-corpo h2{font-size:13px;overflow:hidden;text-overflow:ellipsis}
+#cp-slot .cp-btn{font-size:10px!important;padding:7px 9px!important}
+.barra-nav .aba{padding:8px 9px!important;font-size:11.5px!important}
+#cp-slot .checkpoint{max-width:440px}#cp-slot .cp-corpo h2{font-size:12.5px;letter-spacing:.2px}#cp-slot .cp-coroa{width:34px}#cp-slot .cp-coroa svg{width:34px}
+.barra-nav{gap:10px}.barra-nav .abas{gap:5px}.barra-nav .aba{padding:8px 8px!important;font-size:11.2px!important}#cp-slot .checkpoint{max-width:420px}
 </style>
 </head>
 <body>
@@ -2127,7 +2153,7 @@ function montarApp(){
       </div>
     </header>
     <main class="palco">
-      <div class="abas" role="tablist">${menu.filter(m=>!m.etapa).map(m=>`<button class="aba${S.pagina===m.id?' ativo':''}" role="tab" aria-selected="${S.pagina===m.id}" data-pag="${m.id}">${I[m.ic]}${m.rot}${m.id==="arena"?'<i class="badge-nl hidden" data-nl></i>':""}</button>`).join("")}</div>
+      <div class="barra-nav"><div id="cp-slot">${S.pagina==="ranking"?checkpointHTML():""}</div><div class="abas" role="tablist">${menu.filter(m=>!m.etapa).map(m=>`<button class="aba${S.pagina===m.id?' ativo':''}" role="tab" aria-selected="${S.pagina===m.id}" data-pag="${m.id}" title="${m.rot}">${I[m.ic]}${({museu:"Museu",geral:"Visão Geral",equipe:"Consultores",importar:"Importar",galeria:"Galeria Unidade"})[m.id]||m.rot}${m.id==="arena"?'<i class="badge-nl hidden" data-nl></i>':""}</button>`).join("")}</div></div>
       <div id="conteudo"></div>
     </main>
   </div>`;
@@ -2272,7 +2298,8 @@ function renderRanking(c){
     c.innerHTML=faixaKpis()+`<div class="card vazio-txt"><h3 style="font-family:var(--font-display);color:var(--roxo-700)">Ainda não há resultados para ${nomeMes(S.competencia)}</h3><p>Os resultados aparecem aqui depois da primeira importação confirmada pelo gestor.</p></div>`;
     ligarSeletores(); return;
   }
-  c.innerHTML=checkpointHTML()+faixaKpis()+`
+  const slot=$("#cp-slot"); if(slot) slot.innerHTML=checkpointHTML();
+  c.innerHTML=faixaKpis()+`
   <section class="rk-grade">
     <div class="podio-card rk-podio" id="podio-card">
       <div class="cenario" style="background-image:url('${IMG_MUSEU}')"></div>
@@ -2301,7 +2328,7 @@ function renderRanking(c){
 const corPill=p=>p==null?"sem":p>=100?"verde":p>=70?"ouro":"verm";
 function pillsPodio(c){
   const pill=(t,r,m)=>{const p=m?r/m*100:null;return `<span class="pz-lin"><small>${t}</small><em class="pz-pill ${corPill(p)} num">${p==null?"Sem meta":fmtPct(p)}</em></span>`;};
-  return c.pos?pill("PÓS",c.valido,c.meta):pill("PRESENCIAL",c.pres||0,c.meta_pres)+pill("EAD",(c.semi||0)+(c.eadp||0),metaEadDe(c));
+  return c.pos?pill("PÓS",c.valido,c.meta):pill("TOTAL",c.valido,c.meta).replace('class="pz-lin"','class="pz-lin pz-total"')+pill("PRESENCIAL",c.pres||0,c.meta_pres)+pill("EAD",(c.semi||0)+(c.eadp||0),metaEadDe(c));
 }
 const tagPos=c=>c.pos?'<em class="tag-pos">PÓS</em>':"";
 function atualizarRanking(animar){
@@ -2410,7 +2437,7 @@ function checkpointHTML(){
     <div class="cp-coroa">${coroaSVG(metal,"")}<span class="num">${eu.pos}º</span></div>
     <div class="cp-corpo"><small>CHECKPOINT DE CONQUISTAS</small><h2>VOCÊ ESTÁ EM ${eu.pos}º LUGAR! ${emo}</h2>
       <div class="cp-itens">${itens.length?itens.map(([i,t,v])=>`<span class="cp-i"><em>${i}</em>${esc(t)}${v?` <b class="num">${v}</b>`:""}</span>`).join(""):`<span class="cp-i vazio">Suas conquistas aparecem aqui assim que forem desbloqueadas. ${c.restante?`Faltam ${c.restante} para a meta do mês.`:""}</span>`}</div></div>
-    ${q.length?`<button class="btn-ouro cp-btn" id="cp-arena">${I.chat}EXIBIR MINHAS CONQUISTAS NA ARENA</button>`:""}
+    ${q.length?`<button class="btn-ouro cp-btn" id="cp-arena" title="Exibir minhas conquistas na Arena">${I.chat}EXIBIR CONQUISTAS</button>`:""}
   </section>`;
 }
 function ligarTiltPz(){
