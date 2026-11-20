@@ -1803,6 +1803,29 @@ tr.alterada{background:#fff8e1!important}
 .pz-lin small{font-size:11px}.pz-pill{font-size:15px;min-width:62px;padding:3px 8px}.pz-1 .pz-pill{font-size:17px;min-width:70px}
 .gl-palco .pz-pills{max-width:320px}
 .cp-itens{gap:5px}.cp-i{padding:4px 9px;font-size:12px}
+/* sem barra lateral: tudo na barra superior */
+.app{grid-template-columns:1fr!important}
+.palco{grid-column:1/-1;padding-left:30px!important}
+/* quadrado de maiores atualizações */
+.maiores{padding:16px 20px;border-radius:var(--raio);color:#fff;background:radial-gradient(500px 140px at 15% 0%,rgba(244,197,82,.2),transparent 70%),linear-gradient(160deg,#2c0f5c,#170735);
+  box-shadow:0 0 0 2px #c58d22,0 0 0 4px rgba(34,10,69,.9),0 0 0 5.5px #e6b23f,0 0 30px rgba(244,197,82,.25),0 24px 44px -20px rgba(0,0,0,.7)}
+.maiores h3{margin:0 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--font-display);font-size:17px;color:#ffe08a}.maiores h3 svg{width:20px;height:20px}
+.maiores h3 small{font-family:var(--font-body);font-weight:600;font-size:12px;color:#cbb8f0;margin-left:auto}
+.ma-lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ma-i{display:grid;grid-template-columns:auto 40px 1fr auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(244,197,82,.3)}
+.ma-i.top{box-shadow:inset 0 0 0 1.5px #f1c24f,0 0 16px rgba(244,197,82,.35)}
+.ma-pos{grid-row:1/3;font-family:var(--font-display);font-weight:900;color:#f1d784}
+.ma-i img{grid-row:1/3;width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:50% 36%;box-shadow:0 0 0 2px #e6b23f}
+.ma-i b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ma-i em{grid-column:3;font-style:normal;font-size:11.5px;color:#cbb8f0}
+.ma-i strong{grid-row:1/3;grid-column:4;font-family:var(--font-display);font-weight:900;font-size:22px;color:#5df59a}
+.ma-vazio{margin:0;color:#e2d3ff;font-size:13.5px}
+/* checkpoint menor */
+.checkpoint{max-width:640px;gap:12px;padding:8px 14px;margin-bottom:10px;border-radius:16px}
+.cp-coroa{width:56px}.cp-coroa svg{width:56px}.cp-coroa span{font-size:16px;margin-top:-4px}
+.cp-corpo small{font-size:9.5px;letter-spacing:1.2px}.cp-corpo h2{font-size:clamp(15px,1.4vw,19px);margin:1px 0 5px}
+.cp-i{padding:3px 8px;font-size:11px}.cp-btn{padding:9px 12px!important;font-size:11.5px!important}
+.checkpoint{max-width:1000px;padding:6px 14px}.cp-corpo h2{white-space:nowrap;margin:0 0 4px}.cp-coroa{width:48px}.cp-coroa svg{width:48px}
+@media(max-width:760px){.cp-corpo h2{white-space:normal}}
 </style>
 </head>
 <body>
@@ -2103,17 +2126,12 @@ function montarApp(){
         <div class="menu-perfil hidden" id="menu-perfil" role="menu">${ehGestor()?"":`<button class="efeitos-btn" id="btn-meuperfil" role="menuitem">Meu Perfil · alterar foto</button>`}<p>Deseja sair?</p><button class="sair-btn" id="btn-sair" role="menuitem">Sim, sair</button><button class="efeitos-btn" id="btn-portal" role="menuitem">Voltar ao Portal Comercial</button><button class="efeitos-btn" id="btn-efeitos" role="menuitem">${EFEITOS_REDUZIDOS?"Ativar efeitos completos":"Reduzir efeitos visuais"}</button></div>
       </div>
     </header>
-    <nav class="lateral${S.latAberta?' aberta':''}" aria-label="Menu principal">
-      <button class="lat-toggle" id="lat-toggle" aria-expanded="${!!S.latAberta}" aria-label="${S.latAberta?"Recolher menu":"Expandir menu"}">${I.chev}</button>
-      ${menu.map((m,i)=>`${m.gestor&&!menu[i-1]?.gestor?'<span class="lat-sep"></span>':''}<button class="lat-item${S.pagina===m.id?' ativo':''}" data-pag="${m.id}" aria-label="${m.rot}">${I[m.ic]}<span class="tip">${m.rot}</span>${m.id==="arena"?'<i class="badge-nl hidden" data-nl></i>':""}</button>`).join("")}
-    </nav>
     <main class="palco">
-      <div class="abas" role="tablist">${menu.filter(m=>m.aba||["geral","galeria","importar","metasg"].includes(m.id)).map(m=>`<button class="aba${S.pagina===m.id?' ativo':''}" role="tab" aria-selected="${S.pagina===m.id}" data-pag="${m.id}">${I[m.ic]}${m.rot}${m.id==="arena"?'<i class="badge-nl hidden" data-nl></i>':""}</button>`).join("")}</div>
+      <div class="abas" role="tablist">${menu.filter(m=>!m.etapa).map(m=>`<button class="aba${S.pagina===m.id?' ativo':''}" role="tab" aria-selected="${S.pagina===m.id}" data-pag="${m.id}">${I[m.ic]}${m.rot}${m.id==="arena"?'<i class="badge-nl hidden" data-nl></i>':""}</button>`).join("")}</div>
       <div id="conteudo"></div>
     </main>
   </div>`;
   raiz.querySelectorAll("[data-pag]").forEach(b=>b.addEventListener("click",()=>irPara(b.dataset.pag)));
-  $("#lat-toggle").onclick=()=>{S.latAberta=!S.latAberta;const n=$(".lateral");n.classList.toggle("aberta",S.latAberta);$("#lat-toggle").setAttribute("aria-expanded",S.latAberta);};
   arenaBadge();
   const bp=$("#btn-perfil"),mp=$("#menu-perfil");
   mp.addEventListener("click",e=>e.stopPropagation());
@@ -2273,7 +2291,7 @@ function renderRanking(c){
     ${cartaMuseu()}
   </section>
   <section class="rk-inf">${blocosInferiores()}</section>
-  <section class="rk-resumo">${blocosResumo()}</section>`;
+  <section class="rk-resumo">${maioresAtualizacoesHTML()}</section>`;
   ligarSeletores(); topoAnterior=""; atualizarRanking(false); ligarReacao(c); ligarCarta(); fogos($("#fogos"));
   c.querySelectorAll("[data-det]").forEach(el=>{el.onclick=()=>abrirDetalhe(el.dataset.det);el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();abrirDetalhe(el.dataset.det);}};});
   ligarArenaMini(c); ligarGloria();
@@ -3295,6 +3313,14 @@ function renderVelocity(c){
 }
 
 /* ---------- RESUMO DO MÊS + METAS + CPFs ---------- */
+function maioresAtualizacoesHTML(){
+  const E=evolucaoAtualizacoes(), top=E?E.lista.filter(x=>x.d>0).slice(0,5):[];
+  return `<div class="maiores clicavel" data-det="evolucao" role="button" tabindex="0">
+    <h3>${I.sobe}Maiores atualizações do dia${E?`<small>${dataHora(E.emAnt)} → ${dataHora(E.em)}</small>`:""}</h3>
+    ${!E?`<p class="ma-vazio">Aparece depois de duas importações aprovadas no mês.</p>`:top.length?`<div class="ma-lista">${top.map((x,i)=>`<div class="ma-i${x.d===E.max?' top':''}"><span class="ma-pos num">${i+1}º</span><img src="${x.c.foto}" alt=""><b>${esc(x.c.nome)}</b><em class="num">${x.a} → ${x.b}</em><strong class="num">+${x.d}</strong></div>`).join("")}</div>`
+      :`<p class="ma-vazio">Nenhum consultor cresceu entre as duas últimas atualizações.</p>`}
+  </div>`;
+}
 function blocosResumo(){
   const U=unidadeInd(), E=evolucaoAtualizacoes();
   const bloco=(tit,ic,meta,real,pct,extra)=>`<div class="rmc"><h4>${ic}${tit}</h4><div class="rmc-n">
