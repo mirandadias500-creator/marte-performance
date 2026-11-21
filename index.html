@@ -259,6 +259,8 @@ img{max-width:100%;display:block}
 .prog-carta small b{color:var(--ouro);font-family:var(--font-display)}
 .carta h3{font-family:var(--font-display);font-size:16px;line-height:1.3;margin:0 0 6px;text-wrap:balance;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .carta p{margin:0;font-size:12.5px;color:#e8dcff}
+@keyframes acaoPulsa{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(244,197,82,.6)}50%{transform:scale(1.06);box-shadow:0 0 0 10px rgba(244,197,82,0)}}
+.carta .acao.pulsa{animation:acaoPulsa 1.6s ease-in-out infinite}
 .carta .acao{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:10px 16px;border-radius:999px;font-weight:800;font-size:13px;color:var(--roxo-900);
   background:linear-gradient(180deg,#fff0b5,var(--ouro) 45%,#c88d22);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 3px 0 #8a5f12,0 10px 20px -8px rgba(244,197,82,.8)}
 .carta .acao svg{width:18px;height:18px}
@@ -2771,6 +2773,8 @@ function cartaMuseu(){
       <span class="sub-carta">bateram a meta em ${nomeMes(S.competencia)}</span>
       <div class="mini-avas">${b.map(c=>`<img src="${c.foto}" alt="${esc(c.nome)}" title="${esc(c.nome)}">`).join("")}</div>
       <span class="acao">${I.chave}Entrar no Museu</span>`;
+  } else if(bateu&&!cartaAberta()){
+    texto=`<span class="titulo-ouro">Meta Hunter batida!</span><span class="sub-carta">Toque no cadeado para destravar o seu Museu.</span><span class="acao pulsa">🔒 Destravar cadeado</span>`;
   } else if(bateu){
     texto=`<span class="titulo-ouro">Meta Hunter batida!</span><span class="sub-carta">O Museu de Troféus está aberto para você.</span><span class="acao">${I.chave}Entrar no Museu</span>`;
   } else {
@@ -2782,7 +2786,7 @@ function cartaMuseu(){
         <small><span>${f===1?"Falta 1 matrícula":`Faltam ${f} matrículas`}</span><b class="num">${fmtPct(p)}</b></small></div>`:""}`;
   }
   const quase=!bateu&&eu&&eu.restante!=null&&eu.restante<=2;
-  return `<div class="carta${quase?' quase':''}${bateu&&(ehGestor()||S.cadeadoAnimado[S.usuario.id])?' liberada':''}" id="carta" data-bateu="${bateu?1:0}" ${bateu?'role="button" tabindex="0" aria-label="Entrar no Museu de Troféus"':''}>
+  return `<div class="carta${quase?' quase':''}${bateu&&cartaAberta()?' liberada':''}" id="carta" data-bateu="${bateu?1:0}" ${bateu?'role="button" tabindex="0" aria-label="Entrar no Museu de Troféus"':''}>
     <img class="cena fechado" src="${IMG_FECHADO}" alt="">
     <img class="cena aberto" src="${IMG_ABERTO}" alt="">
     <div class="carta-aura"></div><div class="flash"></div><div class="reflexo"></div><div class="carta-brilho"></div>
@@ -2791,18 +2795,19 @@ function cartaMuseu(){
     <div class="carta-selo">MUSEU DE TROFÉUS</div>
     <div class="placa-carta">${texto}</div></div>`;
 }
+function cartaAberta(){ /* o cadeado só abre quando o consultor toca nele (ou depois de já ter feito a cerimônia deste mês) */
+  if(ehGestor()) return true; const id=S.usuario.id; return !!S.cadeadoAnimado[id]||S.cerimonia[id]===S.competencia; }
 function ligarCarta(){
   const carta=$("#carta"); if(!carta||carta.dataset.bateu!=="1") return;
-  const id=S.usuario.id;
-  if(!carta.classList.contains("liberada")){
-    S.cadeadoAnimado[id]=true;
-    if(reduzMov()) carta.classList.add("liberada");
-    else{
-      setTimeout(()=>carta.classList.add("tremendo"),500);
-      setTimeout(()=>{carta.classList.remove("tremendo");carta.classList.add("estourando","liberada");},1100);
-    }
-  }
-  const entrar=()=>irPara("museu");
+  const id=S.usuario.id; let abrindo=false;
+  const entrar=()=>{
+    if(carta.classList.contains("liberada")){ if(!abrindo) irPara("museu"); return; }
+    abrindo=true; S.cadeadoAnimado[id]=true; try{SOM.destrava();}catch(e){}
+    if(reduzMov()){carta.classList.add("liberada");setTimeout(()=>irPara("museu"),300);return;}
+    carta.classList.add("tremendo");
+    setTimeout(()=>{carta.classList.remove("tremendo");carta.classList.add("estourando","liberada");try{SOM.porta();}catch(e){}confete(90,true,.3);},700);
+    setTimeout(()=>{abrindo=false;abrirPortal(carta);},2200);
+  };
   carta.addEventListener("click",entrar);
   carta.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();entrar();}});
 }
@@ -4721,7 +4726,7 @@ function ligarTempoReal(){
 }
 function avisar(ev){ try{ if(canalRT) canalRT.send({type:"broadcast",event:ev,payload:{}}); if(bcDemo) bcDemo.postMessage(ev);}catch(e){} }
 function aoAvisoArena(){ if(!S.usuario) return; if(S.pagina==="arena") atualizarArena(); else arenaBadge(); }
-async function aoAvisoFoto(){ if(!S.usuario) return; await carregarDados(); montarApp(); checarPrimeiro(); }
+async function aoAvisoFoto(){ if(!S.usuario) return; await carregarDados(); montarApp(); verificarExperiencia(); checarPrimeiro(); }
 
 /* ---------- ENTRADA DO CONSULTOR COM PIN ---------- */
 async function entrarConsultor(p){
@@ -5235,7 +5240,7 @@ function resetarExperienciaLocal(id){
 function verificarExperiencia(){
   if(!S.usuario||ehGestor()) return;
   const id=S.usuario.id, v=S.fonte?.expVersao, k="mp_exp_visto_"+id;
-  if(v&&lerLS(k,null)!==v){ if(lerLS(k,null)!==null||lerLS("mp_bv_"+id,false)) resetarExperienciaLocal(id); gravarLS(k,v); }
+  if(v&&lerLS(k,null)!==v){ const reset=lerLS(k,null)!==null||lerLS("mp_bv_"+id,false); if(reset) resetarExperienciaLocal(id); gravarLS(k,v); if(reset&&(S.pagina==="ranking"||S.pagina==="museu")){S.pagina="ranking";montarApp();} }
   if(!lerLS("mp_bv_"+id,false)) boasVindas();
 }
 function boasVindas(){
