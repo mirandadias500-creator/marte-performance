@@ -2707,18 +2707,17 @@ var _ctlGrid0=ctlGrid;ctlGrid=function(fim){_ctlGrid0(fim);ligarSelecao()};
 function podioCalc(X,PC,PK){
   var rk=STATE.rk==="hunter"?"h":STATE.rk==="midia"?"m":"t",canais=rk==="h"?["Hunter"]:rk==="m"?["Mídia"]:["Hunter","Mídia"],L=[];
   (PC&&PC.rows||[]).forEach(function(x){var V=X.P.filter(function(r){return r.c===x.c&&r.prod===PKN[x._pk||PK]&&r.elig&&!merged(r)&&r.dup!=="confirmada"&&canais.indexOf(r.canal)>=0}),n=V.length;
-    var mt=rk==="h"?x.mh:rk==="m"?x.mm:x.mt;if(mt>0)L.push({c:x.c,t:n,h:V.filter(function(r){return r.canal==="Hunter"}).length,m:V.filter(function(r){return r.canal==="Mídia"}).length,mt:mt,pt:n/mt,pk:x._pk||PK,mods:{pres:V.filter(function(r){return r.mod==="Presencial"}).length,semi:V.filter(function(r){return r.mod==="Semipresencial"}).length,ead:V.filter(function(r){return r.mod==="EAD"}).length}})});
-  L.sort(function(a,b){return (b.pt-a.pt)||(b.t-a.t)||String(a.c).localeCompare(b.c,"pt-BR")});
+    var mt=rk==="h"?x.mh:rk==="m"?x.mm:x.mt;if(mt>0||n>0)L.push({c:x.c,t:n,h:V.filter(function(r){return r.canal==="Hunter"}).length,m:V.filter(function(r){return r.canal==="Mídia"}).length,mt:mt,pt:mt>0?n/mt:null,pk:x._pk||PK,mods:{pres:V.filter(function(r){return r.mod==="Presencial"}).length,semi:V.filter(function(r){return r.mod==="Semipresencial"}).length,ead:V.filter(function(r){return r.mod==="EAD"}).length}})});
+  L.sort(function(a,b){var pa=a.pt==null?-1:a.pt,pb=b.pt==null?-1:b.pt;return (pb-pa)||(b.t-a.t)||String(a.c).localeCompare(b.c,"pt-BR")});
   return {D:X.D,biz:X.biz>0,top:L.filter(function(x){return x.t>0}).slice(0,3),todos:L}}
 function podioHTMLInt(P){var MET=["ouro","prata","bronze"],PO=["1º","2º","3º"],per={dia:"PACE DIA",semana:"PACE SEMANA",mes:"PACE MÊS",ciclo:"PACE CICLO"}[STATE.period],vis={geral:"GERAL",hunter:"HUNTER",midia:"MÍDIA"}[STATE.rk]||"GERAL";
   var rg=STATE.period==="dia"?ddmm(P.D):ddmm(window.__X.Rg[0])+" a "+ddmm(window.__X.Rg[1]);
   var s='<div class="podio-dia podio-int pdd-comp" id="podio-dia"><div class="pdd-cab"><div><span class="pdd-ey">'+per+' · '+vis+'</span><h2>🏆 PÓDIO <em>'+rg+'</em></h2></div><span class="pdd-reg">Atingimento da meta individual · produção válida lançada no período (qualquer status)'+(STATE.rk==="geral"?" · Graduação: Hunter + Mídia":"")+'</span></div>';
-  if(!P.biz&&STATE.period==="dia"&&!P.top.length)return s+'<p class="pdd-vazio">'+ddmm(P.D)+' não é dia útil e ninguém lançou matrícula: sem pódio.</p></div>';
-  if(!P.top.length)return s+'<p class="pdd-vazio">'+(P.todos.length?'Ainda ninguém com produção válida no período.':'Sem meta individual cadastrada para este período.')+'</p></div>';
+  if(!P.top.length)return s+'<p class="pdd-vazio">'+(P.todos.length?(STATE.period==="dia"?'Ninguém lançou matrícula em '+ddmm(P.D)+' ainda.':'Ainda ninguém com produção válida no período.'):'Sem meta individual cadastrada para este período.')+'</p></div>';
   var top=P.top,ord=top.length===1?[0]:top.length===2?[1,0]:[1,0,2];
   return s+'<div class="pdd-palco">'+ord.map(function(i){var x=top[i],m=MET[i],f=(CFG.fotos||{})[x.c];
     return '<div class="pdd-lugar pdd-'+m+'"><div class="pdd-ft">'+CROWN(m)+'<span class="pdd-foto">'+(f?'<img src="'+f+'" alt="">':'<b>'+esc(initials(x.c))+'</b>')+'</span></div>'+
-      '<b class="pdd-nome">'+esc(x.c)+'</b><span class="pdd-pct">'+pct(x.pt)+'</span><span class="pdd-num"><b>'+x.t+'</b> '+plural(x.t,"matrícula","matrículas")+' · meta '+nf(x.mt,x.mt%1?1:0)+'</span>'+
+      '<b class="pdd-nome">'+esc(x.c)+'</b><span class="pdd-pct">'+(x.pt==null?'—':pct(x.pt))+'</span><span class="pdd-num"><b>'+x.t+'</b> '+plural(x.t,"matrícula","matrículas")+(x.mt>0?' · meta '+nf(x.mt,x.mt%1?1:0):' · sem meta no dia')+'</span>'+
       '<span class="pdd-mods">'+(x.mods.pres?'<i class="md-pres">Pres <b>'+x.mods.pres+'</b></i>':'')+(x.mods.semi?'<i>Semi <b>'+x.mods.semi+'</b></i>':'')+(x.mods.ead?'<i>EAD <b>'+x.mods.ead+'</b></i>':'')+(x.pk==="grad"&&STATE.rk==="geral"?'<i class="md-c">H <b>'+x.h+'</b></i><i class="md-c">M <b>'+x.m+'</b></i>':'')+'</span>'+
       '<div class="pdd-base"><span>'+PO[i]+'</span></div></div>'}).join("")+'</div></div>'}
 var _gm0=gestaoMetas;gestaoMetas=function(X){return _gm0(X)+'<section class="card pad"><div class="sec-h"><h2>👥 ACESSOS AO PACE</h2><span class="scope">usuário e senha próprios por pessoa · permissões por área, conferidas no servidor</span></div><div id="gm-acessos"><div class="empty">Carregando…</div></div></section>'};
