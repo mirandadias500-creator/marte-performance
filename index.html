@@ -3907,12 +3907,11 @@ async function carregarCalculado(Fx){
 }
 
 /* ---------- PORTAL COMERCIAL MARTE ---------- */
-/* som de clique em quase tudo; dourado onde tem prêmio */
+/* som só nos pontos principais: indicadores, pódio, Velocity e prêmios (trocar de aba não faz som) */
 document.addEventListener("click",e=>{
-  const el=e.target.closest("button,a,[role=button],[role=tab],[data-pag],[data-entrar],[data-cf],[data-sw],[data-abrir],.carta,.modulo,.pod,.rk-linha,.trofeu,.museu-item,.chip,label");
-  if(!el||el.closest("[data-sem-som]")||el.disabled) return;
-  if(el.matches("#chave,#rol-revelar,#btn-som")) return; /* têm som próprio */
-  if(el.matches(".carta,.btn-ouro,[data-premio],.cupom,.cupom *,.trofeu,.museu-item")||el.closest(".carta,.cupom,.museu-item")) SOM.premio(); else SOM.toque();
+  const el=e.target.closest(".carta,.btn-ouro,[data-premio],.cupom,.trofeu,.museu-item,.checkpoint,#cp-card,.kpi,[data-det],.pod-1,.pod-2,.pod-3,.podio-card,[data-dia],[data-semana],[data-ler],[data-abrir]");
+  if(!el||el.closest("[data-sem-som]")||el.disabled||el.matches("#chave,#rol-revelar")) return;
+  if(el.matches(".carta,.btn-ouro,[data-premio],.cupom,.trofeu,.museu-item,.checkpoint,#cp-card")||el.closest(".carta,.cupom,.museu-item")) SOM.premio(); else SOM.toque();
 },true);
 function conviteSom(){
   document.querySelector(".som-convite")?.remove();
