@@ -1903,6 +1903,54 @@ tr.alterada{background:#fff8e1!important}
 .vt-acoes .btn-sec{width:auto;padding:14px 22px}
 .vt-cards{grid-template-columns:repeat(var(--n),minmax(0,1fr))}.vt-foto{width:150px;height:150px}.vt-coroa svg{width:120px}.vt-card{padding:12px 8px}.vt-card em{font-size:28px}
 @media(max-width:700px){.vt-cards{grid-template-columns:1fr 1fr}}
+.pos-evo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:14px;background:#f6f0ff;box-shadow:inset 0 0 0 1px #e2d4fb;margin-bottom:8px}
+.pos-evo small{font-size:10.5px;font-weight:900;letter-spacing:1px;color:var(--roxo-700)}.pos-evo b{font-size:14px;color:var(--roxo-900)}.pos-evo span{font-family:var(--font-display);font-weight:900;font-size:18px}.pos-evo .cima{color:#0f8f4a}.pos-evo .baixo{color:#c62f48}
+.sem-card{display:block;width:min(720px,96vw)!important;padding:24px}
+.sc-topo{display:flex;align-items:center;gap:14px}.sc-topo small{font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--roxo-500)}.sc-topo h2{margin:2px 0 0;font-family:var(--font-display);color:var(--roxo-900)}
+.sc-foto{width:96px;height:96px;border-radius:50%;padding:4px;background:conic-gradient(from 200deg,#fff4c4,#c58d22,#ffe08a,#8e5f10,#fff4c4);box-shadow:0 0 22px rgba(244,197,82,.5);flex:none}
+.sc-foto img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 36%;border:3px solid #fff}
+.sc-semanas{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 10px}
+.sc-s{display:flex;flex-direction:column;align-items:center;padding:6px 12px;border-radius:12px;font-weight:800;font-size:13px;color:var(--roxo-700);background:#f4edff;box-shadow:inset 0 0 0 1px #e2d4fb}
+.sc-s small{font-size:10.5px;font-weight:600;color:var(--muted)}.sc-s.on{background:linear-gradient(180deg,#ffe9a8,#f1c24f);color:#2a1050;box-shadow:inset 0 0 0 1.5px #c58d22}
+.sc-msg{padding:12px 14px;border-radius:14px;font-weight:800;font-size:15px;margin-bottom:12px}
+.sc-msg.cima{background:#dcf8e8;color:#0b6a35;box-shadow:inset 0 0 0 1.5px #5fd393}.sc-msg.baixo{background:#fff1e0;color:#7a4a00;box-shadow:inset 0 0 0 1.5px #f0c37a}.sc-msg.neutro{background:#f4edff;color:var(--roxo-900);box-shadow:inset 0 0 0 1px #e2d4fb}
+.sc-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.sc-nums>div{padding:10px 12px;border-radius:14px;background:#fbf8ff;box-shadow:inset 0 0 0 1px #eee4fb}.sc-nums .dest{background:linear-gradient(180deg,#fff7dc,#fff);box-shadow:inset 0 0 0 1.5px #f1d784}
+.sc-nums small{display:block;font-size:11px;font-weight:800;color:var(--muted)}.sc-nums b{display:block;font-family:var(--font-display);font-weight:900;font-size:26px;color:var(--roxo-900)}
+.sc-nums span{font-size:11px;color:var(--muted);font-weight:600}.sc-nums .cima{color:#0f8f4a}.sc-nums .baixo{color:#c62f48}.sc-ind{font-size:16px!important}
+@media(max-width:600px){.sc-nums{grid-template-columns:1fr 1fr}}
+.rkc-corpo{transition:opacity .16s ease,transform .16s ease}.rkc-corpo.troca{opacity:0;transform:translateY(4px);transition:none}
+.rol-dica{margin:-6px 0 0;font-size:13px;font-weight:700;color:#d9c8ff}
+.rol-revelar{width:auto!important;padding:14px 28px!important;font-size:16px!important;animation:rolPulso 1.2s ease-in-out infinite}
+.rol-revelar.hidden{display:none}
+@keyframes rolPulso{50%{transform:scale(1.06);box-shadow:0 0 30px rgba(244,197,82,.7)}}
+.rol-janela{perspective:400px}
+.exp-box{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 18px;margin-top:16px}.exp-box>div{flex:1;min-width:260px}
+.exp-box h3{margin:0 0 4px;font-family:var(--font-display);color:var(--roxo-900)}.exp-box p{margin:0;font-size:13px;color:var(--muted)}.exp-box .btn-ouro{width:auto;padding:12px 18px}
+.bv-veu{position:fixed;inset:0;z-index:500;display:grid;place-items:center;background:rgba(10,2,24,0);backdrop-filter:blur(0);transition:background .5s,backdrop-filter .5s}
+.bv-veu.on{background:rgba(10,2,24,.92);backdrop-filter:blur(8px)}.bv-veu.sai{opacity:0;transition:opacity .35s}
+.bv{position:relative;width:min(860px,94vw);max-height:92vh;overflow:auto;padding:30px 26px 26px;border-radius:30px;text-align:center;color:#fff;isolation:isolate;
+  background:radial-gradient(70% 50% at 50% 0%,rgba(255,214,102,.28),transparent 70%),linear-gradient(170deg,#3a137a,#12042a 70%);
+  box-shadow:0 0 0 4px #d9a03a,0 0 0 6px #fff0b5,0 0 0 9px rgba(34,10,69,.95),0 0 0 11px #c58d22,0 0 90px rgba(244,197,82,.45);transform:scale(.6);opacity:0;transition:transform .6s cubic-bezier(.2,.9,.25,1.12),opacity .4s}
+.bv-veu.on .bv{transform:none;opacity:1}
+.bv-raios{position:absolute;left:50%;top:80px;width:1300px;height:1300px;transform:translate(-50%,-50%);z-index:-1;background:conic-gradient(from 0deg,transparent 0 8deg,rgba(255,214,102,.14) 10deg,transparent 14deg 34deg,rgba(255,214,102,.1) 36deg,transparent 40deg);animation:gira 30s linear infinite}
+.bv-logo svg{filter:drop-shadow(0 0 24px rgba(255,214,102,.8));animation:vtCoroa 1s cubic-bezier(.2,.9,.25,1.2) .2s both}
+.bv-logo h1{margin:4px 0 0;font-family:var(--font-display);font-weight:900;font-size:clamp(28px,4.4vw,46px);letter-spacing:2px;animation:vtTxt .8s .4s both}.bv-logo h1 span{color:transparent;background:linear-gradient(180deg,#fff8dc,#ffe08a 45%,#d9a03a);-webkit-background-clip:text;background-clip:text}
+.bv-logo small{font-size:12px;font-weight:900;letter-spacing:3px;color:#f1d784}
+.bv h2{margin:16px 0 4px;font-family:var(--font-display);font-size:clamp(22px,3vw,32px)}.bv>p{margin:0 0 16px;color:#e2d3ff;font-weight:600}
+.bv-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bv-cards div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 12px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03));box-shadow:inset 0 0 0 1.5px rgba(244,197,82,.5);animation:vtCard .6s cubic-bezier(.2,.9,.25,1.2) var(--d) both}
+.bv-cards em{font-style:normal;font-size:34px}.bv-cards b{font-family:var(--font-display);color:#ffe08a;font-size:16px}.bv-cards span{font-size:13px;color:#e2d3ff}
+.bv-ok{width:auto!important;margin-top:20px;padding:15px 30px!important;font-size:16px!important;animation:rolPulso 1.6s ease-in-out infinite 1.6s}
+@media(max-width:700px){.bv-cards{grid-template-columns:1fr}}
+#mu-conq{display:inline-flex;align-items:center;gap:8px}#mu-conq svg{width:20px;height:20px;flex:none}
+.barra-nav{min-width:0;max-width:100%}.barra-nav .abas{min-width:0;max-width:100%!important}#cp-slot{max-width:100%;min-width:0}#cp-slot .checkpoint{min-width:0;overflow:hidden}
+@media(max-width:760px){#cp-slot .checkpoint{max-width:100%!important;flex-wrap:wrap}#cp-slot .cp-itens{flex-wrap:wrap;mask-image:none}#cp-slot .cp-btn{width:100%!important}}
+.lista-cab{flex-wrap:wrap;min-width:0}
+@media(max-width:760px){.lista-cab .chip{display:none}.btn-exp{margin-left:auto}}
+@media(max-width:760px){.rk-cab,.rk-l{grid-template-columns:22px 28px minmax(0,1fr) 34px 26px 58px!important;gap:4px!important}.rk-pct{min-width:0;padding:3px 5px;font-size:11.5px}.rk-lista{padding:10px 8px}}
+.rk-lista,.carta{overflow:hidden}.palco{overflow-x:clip}
+@media(max-width:760px){.rk-cab,.rk-l{grid-template-columns:22px 28px minmax(0,1fr) 30px 26px 54px!important}}
 </style>
 </head>
 <body>
@@ -2106,7 +2154,7 @@ const hunters=()=>S.consultores.filter(c=>!c.pos);
 /* Indicadores coletivos: Graduação (meta oficial da unidade) e Pós (separado). Nunca a soma das metas individuais. */
 function unidadeInd(comp=S.competencia){
   const F=S.fonte||{}, mu=(F.metasUnid||{})[comp]||{};
-  const lista=comp===S.competencia?S.consultores:(S.calc?.porComp[comp]?.lista||[]).filter(c=>!c.pos).map(c=>({valido:c.pres+c.semi+c.eadp}));
+  const lista=comp===S.competencia?S.consultores.filter(c=>!c.pos):(S.calc?.porComp[comp]?.lista||[]).filter(c=>!c.pos).map(c=>({valido:c.pres+c.semi+c.eadp}));
   const gReal=lista.reduce((t,c)=>t+(c.valido||0),0), gMeta=mu.grad??null;
   const pr=(F.posReal||[]).filter(r=>r.comp===comp), pReal=pr.length?pr.reduce((t,r)=>t+(r.real||0),0):null;
   const indiv=(F.metas||[]).filter(m=>m.comp===comp&&m.pos!=null).reduce((t,m)=>t+m.pos,0);
@@ -2184,7 +2232,8 @@ function demoFonte(){
   const imps=[{id:"d1",comp,em:"2026-11-19T09:10:00-03:00",dataBase:"2026-11-18",status:"substituida",modo:"substituir",por:porA},
               {id:"d2",comp,em:"2026-11-20T09:05:00-03:00",dataBase:"2026-11-19",status:"confirmada",modo:"substituir",por:porB}];
   const mu={...S.local.metasUnid}; if(!mu[comp]) mu[comp]={grad:170,pos:15};
-  return {cons:EQUIPE.map(e=>({id:e.login,login:e.login,nome:e.nome,foto:fotosDemo[e.login]||FOTOS[e.login],pos:!!e.pos})),metas,linhas,imps,posReal,metasUnid:mu,unidConq:(S.local.unidConq||[]).filter(x=>x.publicado!==false)};
+  const so=ehGestor()?null:S.usuario?.id; if(so) linhas.forEach(l=>{if(l.cid!==so) l.dt=null;});
+  return {cons:EQUIPE.map(e=>({id:e.login,login:e.login,nome:e.nome,foto:fotosDemo[e.login]||FOTOS[e.login],pos:!!e.pos})),metas,linhas,imps,posReal,metasUnid:mu,unidConq:(S.local.unidConq||[]).filter(x=>x.publicado!==false),expVersao:lerLS("mp_exp_demo",null),soCid:so};
 }
 async function sair(){ if(S.sb&&ehGestor()) S.sb.auth.signOut(); else await API.sair().catch(()=>{}); S.usuario=null; telaLogin(); }
 
@@ -2260,7 +2309,7 @@ function faixaKpis(comFiltro=true){
   const f=FILTROS.find(x=>x.id===S.filtro);
   const eu=!ehGestor()?cs.find(c=>c.id===S.usuario.id):null, euPos=eu?ranquear(cs,"total").linhas.find(l=>l.c.id===eu.id)?.pos:null;
   const kpi=(cor,ic,rot,val)=>`<div class="kpi">${iconeKpi(cor,ic)}<div><div class="rot">${rot}</div>${val}</div></div>`;
-  const U=unidadeInd(), souPos=!ehGestor()&&S.usuario?.pos;
+  const U=unidadeInd(), souPos=!ehGestor()&&S.usuario?.pos&&!eu;
   const pctV=p=>p!=null?`<div class="val num" style="color:${corPct(p)}" data-conta="${p}" data-fmt="pct">${fmtPct(p)}</div>`:`<div class="val sem-meta">Sem meta</div>`;
   const kpis=souPos?
      kpi("var(--roxo-500)",I.alvo,"Meta Pós da Unidade",U.pMeta?`<div class="val num">${fmtN(U.pMeta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
@@ -2374,7 +2423,7 @@ function renderRanking(c){
   ligarSeletores(); topoAnterior=""; atualizarRanking(false); ligarReacao(c); ligarCarta(); fogos($("#fogos"));
   c.querySelectorAll("[data-det]").forEach(el=>{el.onclick=()=>abrirDetalhe(el.dataset.det);el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();abrirDetalhe(el.dataset.det);}};});
   ligarArenaMini(c); ligarGloria();
-  c.querySelectorAll(".rk-cursos [data-cf]").forEach(b=>b.onclick=e=>{e.stopPropagation();S.cursoFmt=b.dataset.cf;const y=scrollY;renderPagina();scrollTo(0,y);});
+  ligarChipsCursos(c);
   $("#rk-expandir")?.addEventListener("click",abrirRankingExpandido);
 
   avisoMeta();
@@ -2384,7 +2433,7 @@ function pillsPodio(c){
   const pill=(t,r,m)=>{const p=m?r/m*100:null;return `<span class="pz-lin"><small>${t}</small><em class="pz-pill ${corPill(p)} num">${p==null?"Sem meta":fmtPct(p)}</em></span>`;};
   return c.pos?pill("PÓS",c.valido,c.meta):pill("TOTAL",c.valido,c.meta).replace('class="pz-lin"','class="pz-lin pz-total"')+pill("PRESENCIAL",c.pres||0,c.meta_pres)+pill("EAD",(c.semi||0)+(c.eadp||0),metaEadDe(c));
 }
-const tagPos=c=>c.pos?'<em class="tag-pos">PÓS</em>':"";
+const tagPos=c=>c.pos&&!/p[óo]s/i.test(c.nome)?'<em class="tag-pos">PÓS</em>':"";
 function atualizarRanking(animar){
   const {linhas,usaMeta,f}=ranquear(S.consultores,S.filtro); const meuId=S.usuario.id;
   const ant=posicoesAnteriores(S.filtro);
@@ -2805,7 +2854,7 @@ function renderMuseu(c){
         <span class="titulo-ouro" style="font-size:clamp(28px,3vw,40px)">Bata sua meta</span>
         <span class="sub-carta" style="font-size:16px">e libere sua galeria de conquistas!</span>
         ${f!=null?`<div class="prog-carta"><span class="barra"><i style="--w:${Math.min(p,100).toFixed(1)}%"></i></span><small><span>${f===1?"Falta 1 matrícula":`Faltam ${f} matrículas`}</span><b class="num">${fmtPct(p)}</b></small></div>`:""}
-        <p style="margin:12px 0 0;font-size:13px;color:#d9c8ff">A porta abre automaticamente quando você chegar a 100% da meta. Quem entra ganha um vale-almoço.</p>
+        <p style="margin:12px 0 0;font-size:13px;color:#d9c8ff">A porta abre automaticamente quando você chegar a 100% da meta. Quem entra ganha uma recompensa surpresa.</p>
       </div></section>`;
     return;
   }
@@ -2837,7 +2886,7 @@ function renderMuseu(c){
     ${todosMeses.map(m=>`<button class="vel-chip relevo${m===mesM?' ativo':''}" data-mm="${m}">${nomeMes(m)}${m===S.competencia?" · atual":""}<b class="num">${S.consultores.filter(x=>conquistasDe(x.id).some(q=>q.comp===m)).length}</b></button>`).join("")}
     <button class="vel-chip relevo" id="ir-reis">${I.coroa.replace('<svg','<svg style="width:16px;height:16px;color:var(--ouro-esc)"')}Galeria dos Reis</button></div>
   ${temRecompensa&&atualM?`<button class="misterio${primeiraVez?' espera':''}" id="misterio" aria-label="Abrir recompensa exclusiva"><span class="m-brilho"></span>
-    <span class="m-icone">${I.estrela}</span><span><b>UMA RECOMPENSA EXCLUSIVA ESPERA POR VOCÊ.</b><small>Pode ser R$ 20, R$ 30, almoço ou 1 folga · toque para sortear</small></span></button>`:""}
+    <span class="m-icone">${I.estrela}</span><span><b>UMA RECOMPENSA EXCLUSIVA ESPERA POR VOCÊ.</b><small>O prêmio é surpresa · toque para sortear</small></span></button>`:""}
   <div class="campeoes">${camp.map(x=>{const nv=x.m.nivel;return `<button class="campeao-chip relevo" data-conq="${x.c.id}"><img src="${x.c.foto}" alt=""><span>${esc(x.c.nome)}<small>${fmtPct(x.m.real/x.m.meta*100)} · ${x.q.length} ${x.q.length===1?"troféu":"troféus"} · <span class="nivel ${nv}">${ROT_NIVEL[nv]}</span></small></span></button>`;}).join("")}</div>`;
   const museu=$("#museu");
   const ajustar=()=>{const s=museu.clientWidth/1672;
@@ -2925,21 +2974,30 @@ function sortearPremio(){ // sorteia uma única vez por meta batida no mês
   const r=new Uint32Array(1); (crypto||window.crypto).getRandomValues(r);
   p=PREMIOS[r[0]%PREMIOS.length]; S.premios[chavePremio()]=p.id; gravarLS("mp_premios",S.premios); return p;
 }
+/* Roleta misteriosa: os prêmios ficam escondidos (R$ *** para dinheiro, 🎁 para os demais). Só revela quando o consultor toca. */
+const mascara=p=>p.id.startsWith("r")?"R$ ***":"🎁 ???";
 function roleta(premio,aoTerminar){
   const v=document.createElement("div"); v.className="roleta-veu";
   v.innerHTML=`<div class="roleta"><span class="carta-selo" style="position:static;transform:none;display:inline-block">SORTEANDO SUA RECOMPENSA</span>
-    <div class="rol-janela"><div class="rol-item" id="rol-item">${PREMIOS[0].titulo}</div></div>
-    <div class="rol-opcoes">${PREMIOS.map(p=>`<span data-p="${p.id}">${p.titulo}</span>`).join("")}</div></div>`;
+    <div class="rol-janela"><div class="rol-item" id="rol-item">${mascara(PREMIOS[0])}</div></div>
+    <div class="rol-opcoes">${PREMIOS.map(p=>`<span data-p="${p.id}">${mascara(p)}</span>`).join("")}</div>
+    <p class="rol-dica">Valores e prêmios são surpresa…</p>
+    <button class="btn-ouro rol-revelar hidden" id="rol-revelar">✨ TOQUE PARA REVELAR</button></div>`;
   document.body.appendChild(v);
-  const item=v.querySelector("#rol-item"), marcas=[...v.querySelectorAll("[data-p]")];
-  const passos=reduzMov()?1:24, alvo=PREMIOS.indexOf(premio); let i=0, k=(alvo-passos%PREMIOS.length+PREMIOS.length*10)%PREMIOS.length;
-  const mostrar=idx=>{const p=PREMIOS[idx];item.textContent=p.titulo;marcas.forEach(m=>m.classList.toggle("on",m.dataset.p===p.id));
-    item.animate([{transform:"translateY(-60%)",opacity:.2},{transform:"none",opacity:1}],{duration:90,easing:"ease-out"});};
+  const item=v.querySelector("#rol-item"), marcas=[...v.querySelectorAll("[data-p]")], R0=v.querySelector(".roleta");
+  const passos=reduzMov()?3:40, alvo=PREMIOS.indexOf(premio); let i=0, k=(alvo-passos%PREMIOS.length+PREMIOS.length*20)%PREMIOS.length;
+  const mostrar=idx=>{const p=PREMIOS[idx];item.textContent=mascara(p);marcas.forEach((m,j)=>m.classList.toggle("on",j===idx));
+    item.animate([{transform:"translateY(-60%)",opacity:.2},{transform:"none",opacity:1}],{duration:110,easing:"ease-out"});};
   (function gira(){
     i++; k=(k+1)%PREMIOS.length; mostrar(k);
-    if(i<passos){ setTimeout(gira, 45+Math.pow(i/passos,3)*420); }
-    else { item.classList.add("ganhou"); v.querySelector(".roleta").classList.add("fim"); confete();
-      setTimeout(()=>{v.classList.add("sai");setTimeout(()=>{v.remove();aoTerminar();},350);},1400); }
+    if(i<passos){ const t=i/passos; setTimeout(gira, 50+Math.pow(t,3.5)*520+(i>passos-4?300:0)); }
+    else {
+      item.classList.add("ganhou"); R0.classList.add("fim"); v.querySelector(".rol-dica").textContent="Sua recompensa foi sorteada!";
+      const b=v.querySelector("#rol-revelar"); b.classList.remove("hidden"); confete(70,true,.2);
+      b.onclick=()=>{b.disabled=true; item.animate([{transform:"rotateX(0)"},{transform:"rotateX(90deg)"}],{duration:260,easing:"ease-in",fill:"forwards"}).onfinish=()=>{
+        item.textContent=premio.titulo; item.animate([{transform:"rotateX(-90deg)"},{transform:"none"}],{duration:320,easing:"cubic-bezier(.2,.9,.25,1.3)",fill:"forwards"});
+        confete(220,true); setTimeout(()=>{v.classList.add("sai");setTimeout(()=>{v.remove();aoTerminar();},350);},1600);};};
+    }
   })();
 }
 
@@ -3398,7 +3456,8 @@ function renderVelocity(c){
   S.velP=periodosVel(); const P=S.velP;
   if(!S.consultores.some(x=>x.dias)){c.innerHTML=faixaKpis(false)+`<section class="embreve"><img src="${IMG_MUSEU}" alt=""><div><h2>Velocity</h2><p>O Velocity aparece depois da primeira importação aprovada com a coluna DT MATRICULA em ${nomeMes(S.competencia)}. Uma única planilha acumulada já é suficiente.</p></div></section>`;ligarSeletores();return;}
   const gestor=ehGestor(), meuId=S.usuario.id, euC=S.consultores.find(x=>x.id===meuId&&x.dias);
-  const sel=S.velQuem&&(S.velQuem==="equipe"||S.consultores.some(x=>x.id===S.velQuem&&x.dias))?S.velQuem:(gestor||!euC?"equipe":meuId);
+  const sel=!gestor?(euC?meuId:"equipe"):(S.velQuem&&(S.velQuem==="equipe"||S.consultores.some(x=>x.id===S.velQuem&&x.dias))?S.velQuem:"equipe");
+  if(!gestor&&!euC){c.innerHTML=faixaKpis(false)+`<section class="embreve"><img src="${IMG_MUSEU}" alt=""><div><h2>Velocity</h2><p>${S.usuario.pos?"Pós-Graduação: o resultado é lançado pelo gestor no mês, sem evolução por data de matrícula.":"Seu Velocity aparece depois da primeira importação aprovada com matrículas suas neste mês."}</p></div></section>`;ligarSeletores();return;}
   const base=(sel==="equipe"?S.consultores:S.consultores.filter(x=>x.id===sel)).filter(x=>x.dias);
   if(!base.length){S.velQuem="equipe";return renderVelocity(c);}
   const nD=base[0].dias.length, dias=[...Array(nD)].map((_,i)=>base.reduce((t,x)=>t+(x.dias?.[i]||0),0));
@@ -3410,10 +3469,10 @@ function renderVelocity(c){
   const lista=S.consultores.map(x=>({c:x,v:velocidade(x)})).filter(x=>x.v);
   const conta=k=>lista.filter(x=>k==="acel"?(x.v.st==="acel"||x.v.st==="volta"):x.v.st===k).length;
   const eu=lista.find(x=>x.c.id===meuId), f=S.velFiltro;
-  const outros=lista.filter(x=>x.c.id!==meuId).filter(x=>f==="todos"||(f==="acel"?(x.v.st==="acel"||x.v.st==="volta"):x.v.st===f))
+  const outros=!gestor?[]:lista.filter(x=>x.c.id!==meuId).filter(x=>f==="todos"||(f==="acel"?(x.v.st==="acel"||x.v.st==="volta"):x.v.st===f))
     .sort((a,b)=>((b.v.pct??999)-(a.v.pct??999))||(b.v.agora-a.v.agora));
   const chip=(k,t,n)=>`<button class="vel-chip relevo${f===k?' ativo':''}" data-vf="${k}">${t}<b class="num">${n}</b></button>`;
-  const quem=[{v:"equipe",t:"Equipe"},...S.consultores.filter(x=>x.dias).map(x=>({v:x.id,t:x.nome}))];
+  const quem=gestor?[{v:"equipe",t:"Equipe"},...S.consultores.filter(x=>x.dias).map(x=>({v:x.id,t:x.nome}))]:[];
   c.innerHTML=faixaKpis(false)+`
   <div class="museu-topo"><div><h2>Velocity</h2><p>Produção pela DT MATRICULA · semanas de segunda a domingo dentro de ${nomeMes(S.competencia)} · dados até ${ddmm(S.vel.ate)}${S.dataBase?" (Data Base)":""} · EAD Extra não entra.</p></div></div>
   <section class="vel-equipe card fio">
@@ -3433,19 +3492,54 @@ function renderVelocity(c){
        <div class="vel-ler"><span>Melhor semana do mês</span><b class="num">${(()=>{const s=eu.c.sem.slice(0,wiUlt+1),m=Math.max(...s);return rotSemanas()[s.indexOf(m)]+" · "+m+" matr.";})()}</b></div>
        <div class="vel-ler"><span>Seu melhor dia</span><b class="num">${(()=>{const m=Math.max(...eu.c.dias);return m?ddmm(dia(eu.c.dias.indexOf(m)))+" · "+m+" matr.":"—";})()}</b></div>
        <div class="vel-ler"><span>Seu curso campeão</span><b>${eu.c.cursos?.length?esc(eu.c.cursos[0][0])+" · "+eu.c.cursos[0][1]:"—"}</b></div>
-       <div class="vel-ler"><span>Posição de velocidade na equipe</span><b class="num">${[...lista].sort((a,b)=>((b.v.pct??999)-(a.v.pct??999))||(b.v.agora-a.v.agora)).findIndex(x=>x.c.id===meuId)+1}º de ${lista.length}</b></div>
-       <div class="vel-ler"><span>Ritmo da equipe</span><b>${conta("acel")} aceleraram · ${conta("desac")} desaceleraram</b></div>
+       <div class="vel-ler"><span>Ver uma semana em detalhe</span><b>Toque na sua foto 📸</b></div>
      </div></section>`:""}
-  <div class="vel-filtros"><h3>${eu?"Seus colegas":"Equipe"}</h3>
+  ${gestor?`<div class="vel-filtros"><h3>Equipe</h3>
     ${chip("todos","Todos",lista.length-(eu?1:0))}${chip("acel","Aceleraram",conta("acel")-(eu&&(eu.v.st==="acel"||eu.v.st==="volta")?1:0))}${chip("manteve","Mantiveram",conta("manteve")-(eu&&eu.v.st==="manteve"?1:0))}${chip("desac","Desaceleraram",conta("desac")-(eu&&eu.v.st==="desac"?1:0))}</div>
-  <section class="vel-grade">${outros.map((x,i)=>`<div class="entra" style="--d:${i*50}ms">${cardVel(x.c,false)}</div>`).join("")||'<p class="vazio-txt">Ninguém nesta categoria.</p>'}</section>
+  <section class="vel-grade">${outros.map((x,i)=>`<div class="entra" style="--d:${i*50}ms">${cardVel(x.c,false)}</div>`).join("")||'<p class="vazio-txt">Ninguém nesta categoria.</p>'}</section>`:`<p class="vel-regra">🔒 O Velocity é individual: você vê só a sua produção. O ranking geral continua aberto para todos.</p>`}
   <p class="vel-regra">Comparação justa: ${P.rotAgora} contra os mesmos dias da semana anterior (${P.rotAntes}). Acelerou: +15% ou mais · Manteve: entre −15% e +15% · Desacelerou: −15% ou menos · "Voltou a acelerar": cresceu depois de uma semana de queda.</p>`
   :`<p class="vel-regra">A comparação entre semanas por consultor começa a partir da 2ª semana do mês.</p>`}`;
   ligarSeletores();
   c.querySelectorAll("[data-vf]").forEach(b=>b.onclick=()=>{S.velFiltro=b.dataset.vf;renderVelocity(c);});
   c.querySelectorAll("[data-vq]").forEach(b=>b.onclick=()=>{S.velQuem=b.dataset.vq;const y=scrollY;renderVelocity(c);scrollTo(0,y);});
-  c.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>abrirPainel(b.dataset.abrir));
+  c.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>abrirSemana(b.dataset.abrir));
   ligarReacao(c);
+}
+/* ---------- card premium da semana (consultor: só o próprio; gestor: qualquer um) ---------- */
+function abrirSemana(cid,wi){
+  const c=S.consultores.find(x=>x.id===cid); if(!c?.dias) return;
+  if(!ehGestor()&&cid!==S.usuario.id) return;
+  const P=periodosVel(), W=S.vel.semanas, ult=P?P.wi:W.length-1; wi=wi??ult;
+  const comp=S.competencia, dia=d=>`${comp}-${String(d).padStart(2,"0")}`, ateD=P?.ateD||c.dias.length;
+  const w=W[wi], fimW=Math.min(w.d1,ateD), parcial=fimW<w.d1, dAtual={d0:w.d0,d1:fimW};
+  let dAnt=null;
+  if(wi>0){const p=W[wi-1]; if(parcial){const k=fimW-w.d0+1,off=((new Date(dia(w.d0)+"T12:00:00").getDay()+6)%7)-((new Date(dia(p.d0)+"T12:00:00").getDay()+6)%7),a0=Math.max(p.d0,p.d0+off),a1=Math.min(p.d1,p.d0+off+k-1);dAnt=a1>=a0?{d0:a0,d1:a1}:null;} else dAnt={d0:p.d0,d1:p.d1};}
+  const atual=somaDias(c.dias,dAtual), ant=dAnt?somaDias(c.dias,dAnt):null, dif=ant!=null?atual-ant:null, pct=ant>0?dif/ant*100:null, dias=dAtual.d1-dAtual.d0+1, media=atual/dias;
+  const eu=cid===S.usuario.id, rot=x=>x?`${ddmm(dia(x.d0))} a ${ddmm(dia(x.d1))}`:"";
+  let msg,cls;
+  if(ant==null){msg="Primeira semana do mês: a comparação começa na próxima.";cls="neutro";}
+  else if(ant===0){msg=atual>0?`${eu?"Você saiu":"Saiu"} do zero: ${atual} ${atual===1?"matrícula":"matrículas"} contra nenhuma na semana anterior. 🚀`:"Sem matrículas nas duas semanas. A próxima pode virar o jogo!";cls=atual>0?"cima":"neutro";}
+  else if(pct>=15){msg=`🚀 ${eu?"VOCÊ ACELEROU":"ACELEROU"} ${Math.round(pct)}% EM RELAÇÃO À SEMANA ANTERIOR!`;cls="cima";}
+  else if(pct<=-15){msg=`${eu?"Sua semana":"A semana"} teve ${Math.abs(dif)} ${Math.abs(dif)===1?"matrícula":"matrículas"} a menos (${Math.round(pct)}%). Bora retomar o ritmo: cada contato conta! 💪`;cls="baixo";}
+  else {msg=`Ritmo mantido (${pct>0?"+":""}${Math.round(pct)}%). Constância também é performance! ⚖️`;cls="neutro";}
+  document.querySelector(".veu.semana")?.remove();
+  const veu=document.createElement("div"); veu.className="veu semana";
+  veu.innerHTML=`<div class="painel sem-card" role="dialog" aria-modal="true" aria-label="Minha semana"><button class="fechar" aria-label="Fechar">${I.x}</button>
+    <div class="sc-topo"><span class="sc-foto"><img src="${c.foto}" alt=""></span><div><small>VELOCITY · ${eu?"MINHA SEMANA":"SEMANA"}</small><h2>${esc(c.nome)}</h2></div></div>
+    <div class="sc-semanas">${W.slice(0,ult+1).map((x,i)=>`<button class="sc-s${i===wi?' on':''}" data-sw="${i}">Sem ${i+1}<small>${ddmm(x.ini)}–${ddmm(x.fim)}</small></button>`).join("")}</div>
+    <div class="sc-msg ${cls}">${esc(msg)}</div>
+    <div class="sc-nums">
+      <div class="dest"><small>Esta semana${parcial?" (até "+ddmm(dia(fimW))+")":""}</small><b class="num">${atual}</b><span>${rot(dAtual)}</span></div>
+      <div><small>Semana anterior${parcial&&dAnt?" (mesmos dias)":""}</small><b class="num">${ant??"—"}</b><span>${rot(dAnt)}</span></div>
+      <div><small>Diferença</small><b class="num ${cls}">${dif==null?"—":(dif>0?"+":"")+dif}</b><span>matrículas</span></div>
+      <div><small>Evolução</small><b class="num ${cls}">${pct==null?"—":(pct>0?"+":"")+Math.round(pct)+"%"}</b><span>${pct==null&&ant===0?"sem base de comparação":""}</span></div>
+      <div><small>Média diária</small><b class="num">${media.toLocaleString("pt-BR",{maximumFractionDigits:1})}</b><span>em ${dias} ${dias===1?"dia":"dias"}</span></div>
+      <div><small>Indicador</small><b class="sc-ind ${cls}">${cls==="cima"?"▲ Acelerando":cls==="baixo"?"▼ Desacelerando":"● Estável"}</b><span>pela DT MATRICULA</span></div>
+    </div>
+    ${graficoDias(c.dias.map((q,i)=>i+1>=w.d0&&i+1<=w.d1?q:0),ateD,comp)}
+    <p class="det-rodape">${eu?"Só você vê o seu Velocity individual.":"Visão do gestor."} EAD Extra não entra.</p></div>`;
+  abrirVeu(veu);
+  veu.querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{veu.remove();abrirSemana(cid,+b.dataset.sw);});
 }
 
 /* ---------- RESUMO DO MÊS + METAS + CPFs ---------- */
@@ -3514,7 +3608,9 @@ async function buscarTudo(tabela,campos,filtro){
 async function fonteDados(){
   if(MODO==="supabase"){
     const [c,m,l]=await Promise.all([buscarTudo("mp_v_consultores_publico","*"),buscarTudo("mp_v_metas","*"),
-      buscarTudo("mp_v_linhas","consultor_id,competencia,formato,curso,dt_matricula")]);
+      buscarTudo("mp_v_linhas","id,consultor_id,competencia,formato,curso")]);
+    let dts={}; try{const {data,error}=await S.sb.rpc("mp_linhas_dt",{p_token:ehGestor()?null:(S.tok?.token||null)}); if(!error)(data||[]).forEach(r=>dts[r.id]=String(r.dt).slice(0,10));}catch(e){console.warn(e);}
+    let expV=null; try{const {data}=await S.sb.from("mp_v_config").select("chave,valor"); expV=(data||[]).find(x=>x.chave==="experiencia_versao")?.valor??null;}catch(e){}
     let imps=[]; try{imps=await buscarTudo("mp_v_importacoes","id,competencia,importado_em,data_base,status,modo,por_consultor");}catch(e){console.warn(e);}
     let pr=[]; try{pr=await buscarTudo("mp_v_pos","consultor_id,competencia,realizado");}catch(e){console.warn(e);}
     let mu=[]; try{mu=await buscarTudo("mp_v_metas_unidade","competencia,meta_graduacao,meta_pos");}catch(e){console.warn(e);}
@@ -3524,7 +3620,8 @@ async function fonteDados(){
       posReal:pr.map(r=>({cid:r.consultor_id,comp:String(r.competencia).slice(0,7),real:r.realizado})),
       metasUnid:Object.fromEntries(mu.map(r=>[String(r.competencia).slice(0,7),{grad:r.meta_graduacao,pos:r.meta_pos}])),
       unidConq:uc.map(r=>({id:r.id,nome:r.nome,comp:String(r.competencia).slice(0,7),categoria:r.categoria,trofeu:r.trofeu,descricao:r.descricao,em:r.criado_em})),
-      linhas:l.map(r=>({cid:r.consultor_id,comp:String(r.competencia).slice(0,7),fmt:FMT_DB[r.formato],curso:r.curso,dt:r.dt_matricula?String(r.dt_matricula).slice(0,10):null})),
+      linhas:l.map(r=>({cid:r.consultor_id,comp:String(r.competencia).slice(0,7),fmt:FMT_DB[r.formato],curso:r.curso,dt:dts[r.id]||null})),
+      expVersao:expV, soCid:ehGestor()?null:S.usuario?.id,
       imps:imps.map(r=>({id:r.id,comp:String(r.competencia).slice(0,7),em:r.importado_em,dataBase:r.data_base?String(r.data_base).slice(0,10):null,status:r.status,modo:r.modo,por:r.por_consultor||{}}))};
   }
   const fotosDemo=lerLS("mp_fotos_demo",{});
@@ -3535,7 +3632,8 @@ async function fonteDados(){
   S.local.importacoes.filter(i=>i.status==="confirmada").forEach(i=>i.linhas.forEach(r=>
     linhas.push({cid:r.cid,comp:i.comp,fmt:r.fmt,curso:r.curso,dt:r.dt||null})));
   const imps=S.local.importacoes.map(i=>({id:i.id,comp:i.comp,em:i.em,dataBase:i.dataBase||null,status:i.status,modo:i.modo,por:i.resumo?.por_consultor||{}}));
-  return {cons,metas,linhas,imps,posReal,metasUnid:S.local.metasUnid||{},unidConq:(S.local.unidConq||[]).filter(x=>x.publicado!==false)};
+  const so=ehGestor()?null:S.usuario?.id; if(so) linhas.forEach(l=>{if(l.cid!==so) l.dt=null;}); /* consultor só vê as próprias datas */
+  return {cons,metas,linhas,imps,posReal,metasUnid:S.local.metasUnid||{},unidConq:(S.local.unidConq||[]).filter(x=>x.publicado!==false),expVersao:lerLS("mp_exp_demo",null),soCid:so};
 }
 
 /* Semanas de segunda a domingo, recortadas aos dias do mês */
@@ -3563,14 +3661,15 @@ function calcular(F){
   comps.forEach(comp=>{
     const L=F.linhas.filter(l=>l.comp===comp), semanas=semanasDoMes(comp);
     const [a,mm]=comp.split("-").map(Number), nDias=new Date(Date.UTC(a,mm,0)).getUTCDate();
-    const comDt=L.filter(l=>l.dt&&l.dt.slice(0,7)===comp), semDt=L.length-comDt.length;
+    const comDt=L.filter(l=>l.dt&&l.dt.slice(0,7)===comp), semDt=L.filter(l=>!l.dt&&(!F.soCid||l.cid===F.soCid)).length;
     const db=(F.imps||[]).filter(i=>i.comp===comp&&i.status==="confirmada"&&i.dataBase).map(i=>i.dataBase).sort().at(-1)||null;
     const maxDt=comDt.map(l=>l.dt).sort().at(-1)||null;
     const ate=(db&&db.slice(0,7)===comp)?db:(db&&db>comp+"-31"?`${comp}-${String(nDias).padStart(2,"0")}`:maxDt);
     const tl=linhaDoTempo(F.imps||[],comp);
     const lista=F.cons.map(c=>{
-      if(c.pos){const m=metaDe[c.id+"|"+comp]||{},r=realPos[c.id+"|"+comp];
-        return {id:c.id,login:c.login,nome:c.nome,foto:c.foto,pos:true,meta:m.pos??null,meta_pres:null,meta_ead:null,meta_semi:null,meta_eadp:null,
+      if(c.pos){const m=metaDe[c.id+"|"+comp]||{},r=realPos[c.id+"|"+comp], mu=(F.metasUnid||{})[comp]||{};
+        const nomePos=/p[óo]s/i.test(c.nome)?c.nome:primeiroNome(c.nome)+" Pós";
+        return {id:c.id,login:c.login,nome:nomePos,foto:c.foto,pos:true,meta:m.pos??mu.pos??null,meta_pres:null,meta_ead:null,meta_semi:null,meta_eadp:null,
           pres:0,semi:0,eadp:0,extra:0,pos_real:r??0,pos_lancado:r!=null,cursos:null,sem:null,dias:null};}
       const R=L.filter(l=>l.cid===c.id), cnt=k=>R.filter(l=>l.fmt===k).length, elig=R.filter(l=>l.fmt!=="extra");
       const eligDt=elig.filter(l=>l.dt&&l.dt.slice(0,7)===comp);
@@ -3582,8 +3681,8 @@ function calcular(F){
         pres:cnt("pres"),semi:cnt("semi"),eadp:cnt("eadp"),extra:cnt("extra"),
         cursos:Object.entries(cursos).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],"pt-BR")),
         cursosFmt:Object.fromEntries(["pres","semi","eadp"].map(k=>{const m={};elig.filter(l=>l.fmt===k).forEach(l=>{const n=l.curso||"(curso em branco na planilha)";m[n]=(m[n]||0)+1;});return [k,Object.entries(m).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],"pt-BR"))];})),
-        sem:comDt.length?semanas.map(w=>dias.slice(w.d0-1,w.d1).reduce((s,x)=>s+x,0)):null,
-        dias:comDt.length?dias:null};
+        sem:comDt.length&&(!F.soCid||F.soCid===c.id)?semanas.map(w=>dias.slice(w.d0-1,w.d1).reduce((s,x)=>s+x,0)):null,
+        dias:comDt.length&&(!F.soCid||F.soCid===c.id)?dias:null}; /* consultor nunca recebe o Velocity individual dos colegas */
     });
     porComp[comp]={lista,semanas,ate,semDt,tl,dataBase:db};
   });
@@ -3595,14 +3694,14 @@ async function carregarCalculado(Fx){
   S.competencias=C.comps.length?C.comps:[compAtual()];
   if(!S.competencia||!S.competencias.includes(S.competencia)) S.competencia=C.comComp.at(-1)||S.competencias[0];
   const P=C.porComp[S.competencia];
-  S.consultores=P?preparar(P.lista.filter(c=>!c.pos)):[];
+  S.consultores=P?preparar(P.lista):[];
   S.posLista=P?preparar(P.lista.filter(c=>c.pos)):[];
   S.vel=P?{semanas:P.semanas,ate:P.ate,semDt:P.semDt,tl:P.tl}:null;
   const ultImp=(F.imps||[]).filter(i=>i.status==="confirmada").sort((a,b)=>String(a.em).localeCompare(String(b.em))).at(-1);
   S.dataBase=ultImp?.dataBase||null;
   S.conquistas=[];
   Object.entries(C.porComp).forEach(([comp,p])=>{if(comp===S.competencia) return;
-    p.lista.filter(c=>!c.pos).forEach(c=>{const v=c.pres+c.semi+c.eadp; if(c.meta&&v>=c.meta) S.conquistas.push({id:c.id,comp,meta:c.meta,real:v});});});
+    p.lista.forEach(c=>{const v=c.pos?c.pos_real:c.pres+c.semi+c.eadp; if(c.meta&&v>=c.meta) S.conquistas.push({id:c.id,comp,meta:c.meta,real:v});});});
   if(MODO!=="supabase"&&S.usuario&&!ehGestor()){const f=F.cons.find(x=>x.id===S.usuario.id);if(f)S.usuario.foto=f.foto;}
   if(MODO==="supabase"&&S.usuario&&!ehGestor()){const f=F.cons.find(x=>x.id===S.usuario.id);if(f)S.usuario.foto=f.foto||FOTOS[f.login]||S.usuario.foto;}
 }
@@ -4161,7 +4260,7 @@ function blocosInferiores(){
       ${semanas&&semanas.length?barrasSemanas(semanas,sw):eu?.pos?`<p class="vazio-txt" style="padding:20px">Pós-Graduação: resultado lançado pelo gestor, sem evolução por data.</p>`:`<p class="vazio-txt" style="padding:20px">Disponível após a primeira importação aprovada com DT MATRICULA.</p>`}</div>
     ${arenaMiniHTML()}
     <div class="card bloco reage entra fio clicavel rk-cursos" data-det="cursos" role="button" tabindex="0" style="--d:200ms"><h3>${gestor?"Cursos com mais matrículas":"Meus cursos campeões"}<small>top 3</small></h3>${base.every(c=>Array.isArray(c.cursos))?chipsCursos():""}
-      ${cursos&&cursos.length?listaCursos(cursos,totalVal)+`<span class="ver-todos">Ver todos os cursos ›</span>`:`<p class="vazio-txt" style="padding:20px">${eu?.pos?"Pós-Graduação: cursos não vêm da planilha.":(S.cursoFmt&&S.cursoFmt!=="todos")?"Sem matrículas nesta modalidade no mês.":"Sem matrículas que contam para a meta neste mês."}</p>`}</div>`;
+      <div class="rkc-corpo">${cursos&&cursos.length?listaCursos(cursos,totalVal)+`<span class="ver-todos">Ver todos os cursos ›</span>`:`<p class="vazio-txt" style="padding:20px">${eu?.pos?"Pós-Graduação: cursos não vêm da planilha.":(S.cursoFmt&&S.cursoFmt!=="todos")?"Sem matrículas nesta modalidade no mês.":"Sem matrículas que contam para a meta neste mês."}</p>`}</div></div>`;
 }
 const CURSO_FILTROS=[["todos","Todos"],["pres","Presencial"],["semi","Semipresencial"],["eadp","EAD + Prática"]];
 function cursosDe(base){
@@ -4172,6 +4271,19 @@ function cursosDe(base){
   return {lista,tot,f};
 }
 const chipsCursos=()=>`<div class="cf-chips" role="group" aria-label="Filtrar cursos por modalidade">${CURSO_FILTROS.map(([k,t])=>`<button class="cf-chip${(S.cursoFmt||"todos")===k?' on':''}" data-cf="${k}">${t}</button>`).join("")}</div>`;
+/* troca de modalidade instantânea: usa os dados já carregados e só redesenha a lista */
+function ligarChipsCursos(c){
+  const card=c.querySelector(".rk-cursos"); if(!card) return;
+  const corpo=card.querySelector(".rkc-corpo"); if(corpo) corpo.style.minHeight=corpo.offsetHeight+"px";
+  card.querySelectorAll("[data-cf]").forEach(b=>b.onclick=e=>{e.stopPropagation(); if(S.cursoFmt===b.dataset.cf) return;
+    S.cursoFmt=b.dataset.cf; card.querySelectorAll("[data-cf]").forEach(x=>x.classList.toggle("on",x===b));
+    const g=ehGestor(),eu=S.consultores.find(x=>x.id===S.usuario.id),base=g?hunters():(eu?[eu]:[]),C=cursosDe(base),L=C.lista.slice(0,3);
+    corpo.classList.add("troca");
+    requestAnimationFrame(()=>{corpo.innerHTML=L.length?listaCursos(L,C.tot)+`<span class="ver-todos">Ver todos os cursos ›</span>`:`<p class="vazio-txt" style="padding:20px">Sem matrículas nesta modalidade no mês.</p>`;
+      corpo.querySelectorAll(".barra i,[style*='--w']").forEach(i=>{const w=i.style.getPropertyValue("--w");if(w)i.style.width=w;});
+      requestAnimationFrame(()=>corpo.classList.remove("troca"));});
+  });
+}
 function barrasSemanas(v,sw){
   const max=Math.max(1,...v), melhor=v.indexOf(Math.max(...v));
   return `<div class="bs">${v.map((q,i)=>`<div class="bs-col${i===melhor&&q>0?' top':''}" title="${sw[i]?ddmm(sw[i].ini)+" a "+ddmm(sw[i].fim):""}: ${q} ${q===1?"matrícula":"matrículas"}">
@@ -4244,12 +4356,14 @@ function abrirPainel(id){
       <div class="posicao">${l.pos}º lugar · ${esc(f.rot)}${S.filtro!=="total"?`<br><span style="color:#d9c8ff;font-weight:600">${geral.pos}º no ranking geral</span>`:""}</div></div>
     <div class="painel-dir">
       <div class="tot-mat"><b class="num">${fmtN(c.valido)}</b><span>${c.valido===1?"matrícula":"matrículas"} que contam para a meta · ${geral.pos}º no ranking geral</span></div>
-      <div class="tres-metas${c.pos?' so-pos':''}">${(c.pos?[["META PÓS-GRADUAÇÃO",c.meta,c.valido]]:[["META PRESENCIAL",c.meta_pres,c.pres||0],["META EAD",metaEadDe(c),(c.semi||0)+(c.eadp||0)],["META TOTAL",c.meta,c.valido]]).map(([t,m,r],i)=>{const p=m?r/m*100:null;
+      <div class="tres-metas${c.pos?' so-pos':''}">${(c.pos?[["EAD — PÓS-GRADUAÇÃO",c.meta,c.valido]]:[["META PRESENCIAL",c.meta_pres,c.pres||0],["META EAD",metaEadDe(c),(c.semi||0)+(c.eadp||0)],["META TOTAL",c.meta,c.valido]]).map(([t,m,r],i)=>{const p=m?r/m*100:null;
         return `<div class="tm${i===2?' total':''}"><small>${t}</small><div class="tm-nums"><span><em>Meta</em><b class="num">${m!=null?fmtN(m):"—"}</b></span><span><em>Realizado</em><b class="num">${fmtN(r)}</b></span></div>
           <span class="barra"><i class="${p>=100?'cheia':''}" style="--w:0%" data-w="${Math.min(p??0,100)}"></i></span><strong class="num" style="color:${p==null?'var(--muted)':corPct(p)}">${p==null?"Sem meta":fmtPct(p)}</strong></div>`;}).join("")}</div>
-      ${c.pos?`<p class="det-rodape">Pós-Graduação · resultado lançado manualmente pelo gestor${c.pos_lancado?"":" (ainda não lançado neste mês)"}.</p>`:""}
-      <div class="modal-lista"${c.pos?' hidden':''}>${mod("Presencial",c.pres,null)}${mod("Semipresencial",c.semi,null)}${mod("EAD + Prática",c.eadp,null)}
-        <div class="mod extra"><span>EAD Extra</span><b class="num">${fmtN(c.extra)}</b><em>Informativo · não conta para a meta</em></div></div>
+      ${c.pos?(()=>{const ant=(S.fonte?.posReal||[]).filter(r=>r.cid===c.id&&r.comp<S.competencia).sort((a,b)=>b.comp.localeCompare(a.comp))[0];
+        return `<div class="pos-evo"><small>EVOLUÇÃO DA PRODUÇÃO</small>${ant?`<b class="num">${nomeMes(ant.comp)}: ${ant.real} → ${nomeMes(S.competencia)}: ${c.valido}</b><span class="${c.valido>=ant.real?'cima':'baixo'}">${c.valido-ant.real>=0?"+":""}${c.valido-ant.real}</span>`:`<b>Primeiro mês com resultado lançado</b>`}</div>
+        <p class="det-rodape">Pós-Graduação · resultado oficial lançado pelo gestor${c.pos_lancado?"":" (ainda não lançado neste mês)"}. Não entra no realizado de Graduação da unidade.</p>`;})():""}
+${c.pos?'':`      <div class="modal-lista">${mod("Presencial",c.pres,null)}${mod("Semipresencial",c.semi,null)}${mod("EAD + Prática",c.eadp,null)}
+        <div class="mod extra"><span>EAD Extra</span><b class="num">${fmtN(c.extra)}</b><em>Informativo · não conta para a meta</em></div></div>`}
       ${c.meta!=null?`<div class="falta ${c.restante===0?'ok':'nao'}">${c.restante===0?`Meta batida!${c.valido-c.meta>0?` +${c.valido-c.meta} acima da meta.`:""}`:`Faltam ${c.restante} matrículas para bater a meta.`}</div>`:`<div class="falta nao">Meta de ${nomeMes(S.competencia)} ainda não cadastrada.</div>`}
     </div></div>`;
   abrirVeu(veu);
@@ -4377,7 +4491,7 @@ async function entrarConsultor(p){
 async function concluirEntradaConsultor(p){
   S.usuario={id:p.id,login:p.login,nome:p.nome,perfil:"consultor",foto:p.foto,pos:!!p.pos};
   try{localStorage.setItem("mp_ultimo",p.id);}catch(e){}
-  await carregarDados(); S.pagina="ranking"; montarApp(); ligarTempoReal();
+  await carregarDados(); S.pagina="ranking"; montarApp(); ligarTempoReal(); setTimeout(verificarExperiencia,250);
 }
 function pedirPin(p){
   const veu=document.createElement("div"); veu.className="veu";
@@ -4617,7 +4731,11 @@ async function atualizarArena(primeira){
 async function renderEquipe(c){
   c.innerHTML=`<div class="museu-topo"><div><h2>Gestão dos Consultores</h2><p>Cada consultor entra tocando na foto e digitando um PIN de 4 números. O PIN fica guardado de forma protegida e só pode ser redefinido aqui.</p></div></div>
     <div class="card tabela-wrap"><table class="cpf-tab"><thead><tr><th>Consultor</th><th>PIN</th><th>Definir novo PIN</th></tr></thead><tbody id="eq-corpo"><tr><td colspan="3">Carregando…</td></tr></tbody></table></div>
-    <p class="vel-regra">Ao redefinir um PIN, o consultor precisa entrar de novo em todos os aparelhos.</p>`;
+    <p class="vel-regra">Ao redefinir um PIN, o consultor precisa entrar de novo em todos os aparelhos.</p>
+    <div class="card fio exp-box"><div><h3>🔄 Reiniciar a experiência dos consultores</h3><p>Todos veem de novo as boas-vindas, a entrega da chave, a abertura do Museu, a revelação dos troféus e o voucher. <b>Nenhum dado é apagado</b>: matrículas, metas, troféus, prêmios sorteados e resgates continuam iguais. Quem não bateu a meta continua com o Museu fechado.</p></div>
+      <button class="btn-ouro" id="exp-reset">REINICIAR EXPERIÊNCIA</button></div>`;
+  $("#exp-reset").onclick=async e=>{const b=e.currentTarget; if(b.dataset.armado!=="1"){b.dataset.armado="1";b.textContent="CONFIRMAR REINÍCIO";return;}
+    b.disabled=true; try{await API.reiniciarExp(); avisar("foto"); b.textContent="EXPERIÊNCIA REINICIADA ✓"; toast(`<span class="mov sobe">✓</span><span>Pronto! Na próxima entrada, cada consultor vive a experiência de novo.</span>`);}catch(err){toast(`<span>${esc(errMsg(err))}</span>`);b.disabled=false;b.textContent="REINICIAR EXPERIÊNCIA";}};
   let st=[]; try{st=await API.pins();}catch(e){$("#eq-corpo").innerHTML=`<tr><td colspan="3">${esc(errMsg(e))}</td></tr>`;return;}
   const tem={}; st.forEach(x=>tem[x.consultor_id]=x.tem_pin);
   const todosC=(S.fonte?.cons||S.consultores).map(x=>({...x,foto:x.foto||FOTOS[x.login]}));
@@ -4849,6 +4967,44 @@ function exportarFotoOficial(){
         <text x="${cx}" y="${y+232+Math.min(nm.length,3)*26+6}" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="18" fill="#cbb8f0">${xe(nomeMes(x.comp))}</text></g>`;}).join("")}
     <text x="540" y="1270" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" letter-spacing="4" fill="#cbb8f0">FACULDADE ANHANGUERA · CAMPUS MARTE</text></svg>`;
   svgParaPng(svg,`galeria-oficial-bemarte-${S.competencia}.png`);
+}
+
+/* ---------- REINÍCIO DA EXPERIÊNCIA + BOAS-VINDAS ---------- */
+API.reiniciarExp=async()=>{
+  if(MODO!=="supabase"){gravarLS("mp_exp_demo",String(Date.now()));return;}
+  const {error}=await S.sb.rpc("mp_reiniciar_experiencia"); if(error) throw new Error(error.message);
+};
+function resetarExperienciaLocal(id){
+  delete S.cerimonia[id]; gravarLS("mp_cerimonia",S.cerimonia);
+  Object.keys(S.revelado).forEach(k=>{if(k.startsWith(id+"|"))delete S.revelado[k];}); gravarLS("mp_revelado",S.revelado);
+  const ma=lerLS("mp_meta_avisada",{}); Object.keys(ma).forEach(k=>{if(k.startsWith(id+"|"))delete ma[k];}); gravarLS("mp_meta_avisada",ma);
+  const rc=lerLS("mp_rei_cer",{}); Object.keys(rc).forEach(k=>{if(k.startsWith(id+"|"))delete rc[k];}); gravarLS("mp_rei_cer",rc); S.reiCer=rc;
+  S.cadeadoAnimado={}; try{sessionStorage.removeItem("mp_gloria");localStorage.removeItem("mp_bv_"+id);}catch(e){}
+  /* prêmio sorteado e resgates ficam preservados: a experiência se repete, os dados oficiais não mudam */
+}
+function verificarExperiencia(){
+  if(!S.usuario||ehGestor()) return;
+  const id=S.usuario.id, v=S.fonte?.expVersao, k="mp_exp_visto_"+id;
+  if(v&&lerLS(k,null)!==v){ if(lerLS(k,null)!==null||lerLS("mp_bv_"+id,false)) resetarExperienciaLocal(id); gravarLS(k,v); }
+  if(!lerLS("mp_bv_"+id,false)) boasVindas();
+}
+function boasVindas(){
+  if(document.querySelector(".bv-veu")) return;
+  const id=S.usuario.id, eu=S.consultores.find(x=>x.id===id), bateu=eu?.pct!=null&&eu.pct>=100;
+  const v=document.createElement("div"); v.className="bv-veu";
+  v.innerHTML=`<div class="bv" role="dialog" aria-modal="true" aria-label="Boas-vindas">
+    <div class="bv-raios"></div>
+    <div class="bv-logo">${coroaSVG("ouro","","width:86px")}<h1>MARTE <span>PERFORMANCE</span></h1><small>HUNTER · BeMarte</small></div>
+    <h2>Bem-vindo(a), ${esc(primeiroNome(S.usuario.nome))}!</h2>
+    <p>Sua jornada começa agora. Cada matrícula te leva mais perto do topo.</p>
+    <div class="bv-cards">
+      <div style="--d:700ms"><em>🏆</em><b>Ranking Hunter</b><span>Pódio, posição e atingimento da sua meta.</span></div>
+      <div style="--d:900ms"><em>🗝️</em><b>Museu de Troféus</b><span>${bateu?"Você bateu a meta: sua chave está esperando no Museu!":"Bata 100% da meta para receber a chave e abrir o Museu."}</span></div>
+      <div style="--d:1100ms"><em>⚔️</em><b>Arena Hunter</b><span>Desafios, reações e conquistas com a equipe.</span></div>
+    </div>
+    <button class="btn-ouro bv-ok" id="bv-ok">${bateu?"🗝️ RECEBER MINHA CHAVE":"COMEÇAR MINHA JORNADA"}</button></div>`;
+  document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on")); setTimeout(()=>confete(120,true,.2),600);
+  v.querySelector("#bv-ok").onclick=()=>{gravarLS("mp_bv_"+id,true);v.classList.add("sai");setTimeout(()=>{v.remove();if(bateu)irPara("museu");},350);};
 }
 
 /* ---------- MICROINTERAÇÕES ---------- */
