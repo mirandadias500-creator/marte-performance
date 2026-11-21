@@ -1036,6 +1036,11 @@ body.colab #ctl-logs,body.colab #ctl-pins{display:none}body.colab section:has(#c
 .pdd-comp .pdd-foto{width:clamp(74px,9vw,112px)}.pdd-comp.pdd-ouro .pdd-foto,.pdd-comp .pdd-ouro .pdd-foto{width:clamp(88px,11vw,132px)}.pdd-comp .pd-coroa{width:clamp(44px,5vw,62px)}
 .pdd-comp .pdd-pct{font-size:clamp(22px,2.8vw,34px)}.pdd-comp .pdd-ouro .pdd-base{height:58px}.pdd-comp .pdd-prata .pdd-base{height:42px}.pdd-comp .pdd-bronze .pdd-base{height:30px}.pdd-comp .pdd-base{font-size:20px}
 .bt-colab .bt-av{font-size:24px}
+.btn-aplicar{font:800 15px "Sora",ui-sans-serif,sans-serif;letter-spacing:.06em;color:#2b0e57;background:linear-gradient(180deg,#ffe58f,#e0a92e);border:1px solid #ffe08a;border-radius:14px;padding:13px 22px;cursor:pointer;box-shadow:0 4px 0 #a8761b,0 0 22px rgba(244,197,82,.45);transition:transform .08s,box-shadow .08s}
+.btn-aplicar:active{transform:translateY(3px);box-shadow:0 1px 0 #a8761b}
+.gm-dest{display:inline-block;margin-left:10px;font-size:12px;font-weight:700;color:#d9c8ff}.gm-box:not(.gm-unid) .gm-dest{color:#6b5a8a}
+@keyframes metaFlash{0%,100%{box-shadow:0 0 0 3px rgba(244,197,82,.12),0 0 40px -12px rgba(244,197,82,.65)}40%{box-shadow:0 0 0 6px rgba(244,197,82,.85),0 0 60px rgba(244,197,82,.9)}}
+.pace.meta-flash{animation:metaFlash 1s ease-in-out 2}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -2448,7 +2453,7 @@ function gestaoMetas(X){
     s+='<div class="gm-box gm-unid"><h3>🏢 META OFICIAL DA UNIDADE · '+PKS[pk]+'</h3><p class="sub2">Digitada por você. <b>Nunca</b> é a soma das metas dos consultores nem a soma Hunter + Mídia. Em branco = <b>SEM META DEFINIDA</b>.</p><div class="gm-u">'+
       (grad?'<label><span>PACE Hunter</span><input type="number" min="0" data-gmu="hunter" value="'+vv("unid","","hunter")+'" placeholder="Sem meta"></label><label><span>PACE Mídia</span><input type="number" min="0" data-gmu="midia" value="'+vv("unid","","midia")+'" placeholder="Sem meta"></label>':'<label><span>PACE Hunter</span><input type="number" min="0" data-gmu="hunter" value="'+vv("unid","","hunter")+'" placeholder="Sem meta"></label>')+
       '<label class="gm-tot"><span>TOTAL OFICIAL DA UNIDADE</span><input type="number" min="0" data-gmu="total" value="'+tot+'" placeholder="Sem meta"></label></div>'+
-      '<button class="btn primary" id="gm-su" type="button">Salvar meta da unidade</button>';
+      '<button class="btn-aplicar" id="gm-su" type="button">✓ APLICAR META DA UNIDADE</button><span class="gm-dest">vai para o topo do PACE (Total, Hunter e Mídia da unidade)</span>';
     var cons=(CFG.consultores[pk]||[]),sh=0,sm=0,ok=0;cons.forEach(function(c){var h=metaNova("cons",c,pk,per,ref,"hunter"),m=metaNova("cons",c,pk,per,ref,"midia");if(h!=null){sh+=+h;ok++}if(m!=null){sm+=+m;ok++}});
     s+='<p class="gm-info">Só para comparação (não é usada): soma das metas individuais deste período · Hunter <b>'+(ok?sh:"—")+'</b>'+(grad?' · Mídia <b>'+(ok?sm:"—")+'</b>':'')+' · Total <b>'+(ok?sh+sm:"—")+'</b></p></div>'}
   else{
@@ -2458,7 +2463,7 @@ function gestaoMetas(X){
       '<tr class="gm-pad"><td></td><td><b>Padrão</b><br><small>aplica nos selecionados</small></td><td><input type="number" min="0" data-gmp="hunter" placeholder="—"></td>'+(grad?'<td><input type="number" min="0" data-gmp="midia" placeholder="—"></td>':'')+'<td><button class="btn mini" id="gm-ap" type="button">Aplicar</button></td></tr>'+
       cons2.map(function(c){var h=vv("cons",c,"hunter"),m=vv("cons",c,"midia");return '<tr data-gmrow="'+esc(c)+'"><td><input type="checkbox" class="gm-ck" checked></td><td><span class="who">'+av(c,28)+'<b>'+esc(c)+'</b></span></td><td><input type="number" min="0" data-gmc="'+esc(c)+'|hunter" value="'+h+'" placeholder="—"></td>'+
         (grad?'<td><input type="number" min="0" data-gmc="'+esc(c)+'|midia" value="'+m+'" placeholder="—"></td>':'')+'<td class="r"><b class="gm-tl">'+(h===""&&m===""?"—":((+h||0)+(+m||0)))+'</b></td></tr>'}).join("")+
-      '</tbody></table></div><div class="irow"><button class="btn primary" id="gm-sc" type="button">Salvar metas dos consultores</button></div></div>'}
+      '</tbody></table></div><div class="irow"><button class="btn-aplicar" id="gm-sc" type="button">✓ APLICAR METAS DOS CONSULTORES</button><span class="gm-dest">vai para a linha de cada consultor no PACE '+({dia:"Dia",semana:"Semana",mes:"Mês",ciclo:"Ciclo"})[per]+' e para o Pódio</span></div></div>'}
   var Hs=CFG.metasOf.slice(-15).reverse();
   s+='<details class="gm-hist"><summary>Histórico de alterações de metas ('+CFG.metasOf.length+')</summary>'+(Hs.length?'<table class="st"><thead><tr><th>Quando</th><th>Quem</th><th>Escopo</th><th>Produto</th><th>Período</th><th>Tipo</th><th class="r">Meta</th></tr></thead><tbody>'+Hs.map(function(m){return '<tr><td>'+esc(fmtDT(m.em))+'</td><td>'+esc(m.por||"")+'</td><td>'+(m.esc==="unid"?"Unidade":esc(m.cons))+'</td><td>'+esc(PKS[m.prod]||m.prod)+'</td><td>'+esc(m.tp+" · "+(m.ref==="ciclo"?"ciclo":m.ref))+'</td><td>'+esc(m.cat||"total")+'</td><td class="r">'+(m.meta==null?"removida":m.meta)+'</td></tr>'}).join("")+'</tbody></table>':'<p class="sub2">Nenhuma alteração ainda.</p>')+'</details></section>';
   return s}
@@ -2472,13 +2477,13 @@ function wireGM(){
   function grava(esc,c,cat,raw){var ant=metaNova(esc,c,pk,per,ref,cat),nv=raw===""?null:+raw;if(raw!==""&&(isNaN(nv)||nv<0))return -1;
     if((ant==null?null:+ant)===nv)return 0;CFG.metasOf.push({esc:esc,cons:c||"",prod:pk,tp:per,ref:ref,cat:cat,meta:nv,em:nowIso(),por:IMP.por||"Gestor"});return 1}
   var su=byId2("gm-su");if(su)su.onclick=function(){var n=0,er=0;document.querySelectorAll("[data-gmu]").forEach(function(i){var r=grava("unid","",i.getAttribute("data-gmu"),i.value.trim());if(r<0)er++;else n+=r});
-    if(er){toast("Valor inválido: use números a partir de 0.");return}STATE.msg=n?{up:1,html:"Meta oficial da unidade salva. As metas dos consultores não mudaram."}:{html:"Nenhuma alteração na meta da unidade."};render()};
+    if(er){toast("Valor inválido: use números a partir de 0.");return}STATE.msg=n?{up:1,html:"✓ Meta oficial da unidade aplicada no topo do PACE "+({dia:"Dia",semana:"Semana",mes:"Mês",ciclo:"Ciclo"})[per]+" · "+PKS[pk]+". As metas dos consultores não mudaram."}:{html:"✓ Meta da unidade já aplicada: veja no topo do PACE "+({dia:"Dia",semana:"Semana",mes:"Mês",ciclo:"Ciclo"})[per]+"."};irParaPainel(pk,per)};
   var all=byId2("gm-all");if(all)all.onchange=function(){document.querySelectorAll(".gm-ck").forEach(function(c){c.checked=all.checked})};
   var tot=function(tr){var h=tr.querySelector('[data-gmc$="|hunter"]'),mi=tr.querySelector('[data-gmc$="|midia"]'),b=tr.querySelector(".gm-tl");var hv=h?h.value:"",mv=mi?mi.value:"";if(b)b.textContent=hv===""&&mv===""?"—":((+hv||0)+(+mv||0))};
   document.querySelectorAll("[data-gmc]").forEach(function(i){i.oninput=function(){tot(i.closest("tr"))}});
   var ap=byId2("gm-ap");if(ap)ap.onclick=function(){var n=0;document.querySelectorAll("[data-gmrow]").forEach(function(tr){if(!tr.querySelector(".gm-ck").checked)return;document.querySelectorAll("[data-gmp]").forEach(function(p){var v=p.value.trim();if(v==="")return;var i=tr.querySelector('[data-gmc$="|'+p.getAttribute("data-gmp")+'"]');if(i){i.value=v;n++}});tot(tr)});toast(n?"Padrão aplicado nos selecionados. Confira e salve.":"Digite o padrão e selecione os consultores.")};
   var sc=byId2("gm-sc");if(sc)sc.onclick=function(){var n=0,er=0;document.querySelectorAll("[data-gmc]").forEach(function(i){var k=i.getAttribute("data-gmc").split("|"),r=grava("cons",k[0],k[1],i.value.trim());if(r<0)er++;else n+=r});
-    if(er){toast("Valor inválido: use números a partir de 0.");return}STATE.msg=n?{up:1,html:"Metas dos consultores salvas ("+n+" alteração(ões)). A meta oficial da unidade não mudou."}:{html:"Nenhuma alteração nas metas dos consultores."};render()};
+    if(er){toast("Valor inválido: use números a partir de 0.");return}STATE.msg=n?{up:1,html:"✓ Metas dos consultores aplicadas no PACE "+({dia:"Dia",semana:"Semana",mes:"Mês",ciclo:"Ciclo"})[per]+" ("+n+" alteração(ões)). A meta oficial da unidade não mudou."}:{html:"✓ Metas dos consultores já aplicadas: veja as linhas no PACE "+({dia:"Dia",semana:"Semana",mes:"Mês",ciclo:"Ciclo"})[per]+"."};irParaPainel(pk,per)};
 }
 
 /* ---------- PÓDIO DO DIA integrado ao ranking ---------- */
@@ -2504,6 +2509,16 @@ function capturarRanking(){var el=byId2("share");if(!el)return;toast("Gerando im
   var go=function(){document.body.classList.add("capturando");html2canvas(el,{backgroundColor:"#2a0d5c",scale:2,useCORS:true,ignoreElements:function(n){return n.classList&&(n.classList.contains("rk-tabs")||n.id==="btn-cap")}}).then(function(cv){document.body.classList.remove("capturando");
     var a=document.createElement("a");a.download="PACE_ranking_"+STATE.date+".png";a.href=cv.toDataURL("image/png");a.click();toast("✓ Imagem do ranking salva.")}).catch(function(e){document.body.classList.remove("capturando");toast("Não consegui gerar a imagem: "+e.message)})};
   if(window.html2canvas)go();else{var s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";s.onload=go;s.onerror=function(){toast("Sem conexão para gerar a imagem.")};document.head.appendChild(s)}}
+
+/* depois de aplicar: abre o PACE no período e produto da meta, para ver onde ela entrou */
+function irParaPainel(pk,per){
+  STATE.tab="pace";STATE.period=per;STATE.rk="geral";STATE.f.prod=PKN[pk];STATE.f.cons="";
+  if(per!=="ciclo"){var hoje=dkey(TODAY),ini=per==="semana"?GM.sem:GM.mes+"-01";
+    if(per==="semana"){var fimS=dkey(addD(pd(GM.sem),4));STATE.date=hoje>=GM.sem&&hoje<=fimS?hoje:fimS}
+    else{var u=new Date(+GM.mes.slice(0,4),+GM.mes.slice(5,7),0);STATE.date=hoje.slice(0,7)===GM.mes?hoje:dkey(u)}
+    if(per==="dia"&&!isBiz(pd(STATE.date))){var d=pd(STATE.date);while(!isBiz(d)&&d.getDate()>1)d=addD(d,-1);STATE.date=dkey(d)}}
+  save();render();window.scrollTo({top:0,behavior:"smooth"});
+  setTimeout(function(){var e=document.querySelector(".pace");if(e){e.classList.add("meta-flash");setTimeout(function(){e.classList.remove("meta-flash")},2200)}},120)}
 
 /* ================= v4 · ACESSOS POR ÁREA · ARRASTAR PARA PREENCHER · PÓDIO EM TODAS AS VISÕES ================= */
 var TABS_AREA=[["pace","📊 PACE"],["vel","⚡ PACE Velocity"],["ctl","📋 Controle de Matrículas"],["metas","🎯 Gestão de Metas"]];
