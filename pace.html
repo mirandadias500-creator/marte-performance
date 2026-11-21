@@ -2938,6 +2938,60 @@ function pintarStBar(){var b=byId2("st-bar");if(b){b.innerHTML=stBarHTML();b.que
 var _ctab6=controleTab;controleTab=function(X){return _ctab6(X).replace('<div class="cx-bar">','<div class="st-bar" id="st-bar"></div><div class="st-obs" id="st-obs" hidden></div><div class="cx-bar">')};
 var _grid6=ctlGrid;ctlGrid=function(fim){_grid6(fim);pintarStBar()};
 var _ak6=atualizarKpis;atualizarKpis=function(){_ak6.apply(this,arguments);pintarStBar()};
+/* ================= v11 · filtros destravados · exportar em lista (Excel) · copiar só as colunas escolhidas ================= */
+var CAMPOS_CP=[["c","Consultor",function(R){return R.c||""}],["nome","Aluno",function(R){return R.nome||R.nomeA||""}],["cpf","CPF",function(R){return cpfDig(R.cpf)||R.cpfM||""}],["tel","Telefone",function(R){return R.tel||""}],
+  ["curso","Curso",function(R){return R.curso||""}],["st","Status da matrícula",function(R){return R.st||""}],["falta","O que falta",function(R,r){return pendDe(r).join(", ")}]];
+EXT.campos=EXT.campos||["c","cpf","tel","st","falta"];
+function camposSel(){return CAMPOS_CP.filter(function(c){return EXT.campos.indexOf(c[0])>=0})}
+function linhasAlvo(){var sel=EXT.rsel.map(rowDeIdx).filter(Boolean);return {L:sel.length?sel:(EXT.ultL||[]),sel:sel.length>0}}
+function chipsCampos(id){return '<span class="cpc" id="'+id+'">'+CAMPOS_CP.map(function(c){return '<button type="button" class="cpc-b'+(EXT.campos.indexOf(c[0])>=0?" on":"")+'" data-cpc="'+c[0]+'">'+c[1]+'</button>'}).join("")+'</span>'}
+function ligarChips(box,depois){if(!box)return;box.querySelectorAll("[data-cpc]").forEach(function(b){b.onclick=function(e){e.stopPropagation();var k=b.getAttribute("data-cpc"),p=EXT.campos.indexOf(k);
+  if(p>=0){if(EXT.campos.length===1){toast("Deixe pelo menos uma coluna marcada.");return}EXT.campos.splice(p,1)}else EXT.campos.push(k);
+  EXT.campos=CAMPOS_CP.map(function(c){return c[0]}).filter(function(x){return EXT.campos.indexOf(x)>=0});b.classList.toggle("on",EXT.campos.indexOf(k)>=0);if(depois)depois()}})}
+/* copiar linhas: só as colunas marcadas (uma coluna = só os valores, um por linha) */
+copiarLinhasSel=function(){var S=EXT.rsel.map(rowDeIdx).filter(Boolean);if(!S.length)return;var C=camposSel();
+  var lin=S.map(function(r){return C.map(function(c){return String(c[2](r._raw,r)).replace(/[\t\n]+/g," ").trim()}).join("\t")});
+  var t=(C.length>1?C.map(function(c){return c[1]}).join("\t")+"\n":"")+lin.join("\n"),msg="✓ "+S.length+" linha(s) copiada(s) · "+C.map(function(c){return c[1]}).join(", ");
+  try{navigator.clipboard.writeText(t).then(function(){toast(msg)},function(){fallbackCopy(t,msg)})}catch(e){fallbackCopy(t,msg)}};
+var _prs11=pintarRsel;pintarRsel=function(){_prs11();var b=byId2("rsel-bar");if(!b)return;
+  b.innerHTML='<b>'+EXT.rsel.length+'</b> linha(s) · copiar: '+chipsCampos("cpc-rs")+'<button type="button" class="btn mini" id="rs-cp">⧉ Copiar</button><button type="button" class="btn mini" id="rs-xl">⬇ Exportar</button><button type="button" class="btn mini" id="rs-x">✕</button>';
+  ligarChips(byId2("cpc-rs"));byId2("rs-cp").onclick=copiarLinhasSel;byId2("rs-xl").onclick=exportarLista;byId2("rs-x").onclick=function(){EXT.rsel=[];pintarRsel()}};
+/* exportar em lista: Excel com as colunas marcadas (padrão: consultor, CPF, telefone, status e o que falta) */
+function exportarLista(){var A=linhasAlvo(),L=A.L.slice(),C=camposSel();if(!L.length){toast("Nenhuma matrícula para exportar com esses filtros.");return}
+  L.sort(function(a,b){return String(a._raw.c||"").localeCompare(String(b._raw.c||""),"pt-BR")||((a.t||0)-(b.t||0))});
+  var aoa=[C.map(function(c){return c[1]})].concat(L.map(function(r){return C.map(function(c){return String(c[2](r._raw,r))})}));
+  if(!window.XLSX){var q=function(v,k){v=String(v==null?"":v);if((k==="cpf"||k==="tel")&&v)return '="'+v.replace(/"/g,"")+'"';return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+    var csv=aoa.map(function(l,i){return l.map(function(v,j){return i?q(v,C[j][0]):q(v)}).join(";")}).join("\r\n"),bl=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}),lk=document.createElement("a");
+    lk.href=URL.createObjectURL(bl);lk.download="lista_matriculas_"+dkey(new Date())+".csv";document.body.appendChild(lk);lk.click();setTimeout(function(){URL.revokeObjectURL(lk.href);lk.remove()},500);
+    toast("✓ "+L.length+" matrícula(s) exportada(s)"+(A.sel?" (linhas selecionadas)":" (filtro atual)"));return}
+  var ws=XLSX.utils.aoa_to_sheet(aoa);Object.keys(ws).forEach(function(k){if(k[0]!=="!"&&ws[k].t==="n"){ws[k].t="s";ws[k].v=String(ws[k].v)}});
+  ws["!cols"]=C.map(function(c){return {wch:c[0]==="falta"?34:c[0]==="st"?26:c[0]==="cpf"||c[0]==="tel"?16:24}});ws["!autofilter"]={ref:ws["!ref"]};
+  var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Lista");XLSX.writeFile(wb,"lista_matriculas_"+dkey(new Date())+".xlsx");
+  toast("✓ "+L.length+" matrícula(s) exportada(s)"+(A.sel?" (linhas selecionadas)":" (filtro atual)"))}
+function menuExportar(btn){document.querySelector(".xp-menu")?.remove();var m=document.createElement("div");m.className="xp-menu";var A=linhasAlvo();
+  m.innerHTML='<b>Exportar em lista (Excel)</b><small>'+A.L.length+' matrícula(s) · '+(A.sel?"linhas selecionadas":"filtro atual")+' · marque as colunas</small>'+chipsCampos("cpc-xp")+'<div class="xp-a"><button type="button" class="btn mini" id="xp-no">Cancelar</button><button type="button" class="btn mini primary" id="xp-ok">⬇ Baixar Excel</button></div>';
+  document.body.appendChild(m);var rc=btn.getBoundingClientRect();m.style.top=Math.min(rc.bottom+6,innerHeight-220)+"px";m.style.left=Math.max(8,Math.min(rc.right-340,innerWidth-348))+"px";
+  ligarChips(byId2("cpc-xp"));byId2("xp-no").onclick=function(){m.remove()};byId2("xp-ok").onclick=function(){m.remove();exportarLista()};
+  setTimeout(function(){document.addEventListener("mousedown",function fx(e){if(!m.contains(e.target)&&e.target!==btn){m.remove();document.removeEventListener("mousedown",fx)}})},0)}
+/* filtros dos cabeçalhos: tira a alça de redimensionar que ficava por cima do ▾ e põe uma alça fina na borda da coluna */
+function ligarCabecalho(){var ths=document.querySelectorAll("#ctlx table.xl thead th"),cols=document.querySelectorAll("#ctlx table.xl colgroup col");
+  ths.forEach(function(th,i){if(th.querySelector(".th-rz"))return;var h=document.createElement("span");h.className="th-rz";h.title="Arraste para ajustar a largura";th.appendChild(h);
+    h.onmousedown=function(e){e.preventDefault();e.stopPropagation();var x0=e.clientX,w0=th.getBoundingClientRect().width;document.body.classList.add("rz-arr");
+      var mv=function(ev){var w=Math.max(70,Math.round(w0+ev.clientX-x0));if(cols[i])cols[i].style.width=w+"px";if(COLS[i])COLS[i][2]=w};
+      var up=function(){document.removeEventListener("mousemove",mv);document.removeEventListener("mouseup",up);document.body.classList.remove("rz-arr")};
+      document.addEventListener("mousemove",mv);document.addEventListener("mouseup",up)};
+    h.onclick=function(e){e.stopPropagation()}});
+  document.querySelectorAll("[data-hf]").forEach(function(b){b.onclick=function(e){e.preventDefault();e.stopPropagation();menuFiltro(b)};b.onmousedown=function(e){e.stopPropagation()}})}
+var _ctab11=controleTab;controleTab=function(X){return _ctab11(X).replace('⬇ Exportar resultado filtrado','⬇ Exportar lista')};
+var _wc11=wireCtl;wireCtl=function(){_wc11();var cs=byId2("cx-csv");if(cs)cs.onclick=function(e){e.stopPropagation();menuExportar(cs)};ligarCabecalho()};
+var _grid11=ctlGrid;ctlGrid=function(fim){_grid11(fim);ligarCabecalho()};
+(function(){var st=document.createElement("style");st.textContent=
+  '.th-in{resize:none!important;overflow:visible!important}table.xl thead th{overflow:visible}.th-fb{position:relative;z-index:5;pointer-events:auto}'+
+  '.th-rz{position:absolute;top:0;right:-3px;width:7px;height:100%;cursor:col-resize;z-index:4}.th-rz:hover{background:rgba(244,197,82,.55)}body.rz-arr,body.rz-arr *{cursor:col-resize!important;user-select:none!important}'+
+  '.cpc{display:inline-flex;flex-wrap:wrap;gap:4px}.cpc-b{font:700 11.5px "Manrope",sans-serif;border-radius:999px;padding:3px 9px;cursor:pointer;border:1px solid #8b6fd6;background:transparent;color:#c9b8f3}.cpc-b.on{background:#f4c552;border-color:#f4c552;color:#2b0e57}'+
+  '.xp-menu{position:fixed;z-index:160;width:340px;background:#fff;border:1.5px solid #7c3aed;border-radius:14px;box-shadow:0 20px 40px -14px rgba(59,20,119,.55);padding:12px;display:flex;flex-direction:column;gap:8px;font-family:"Manrope",sans-serif}'+
+  '.xp-menu b{color:#2b0e57}.xp-menu small{color:#6b5b8e}.xp-menu .cpc-b{color:#4c1d95;border-color:#c9b8f3}.xp-menu .cpc-b.on{color:#2b0e57}.xp-a{display:flex;justify-content:flex-end;gap:6px}.rsel-bar{flex-wrap:wrap;max-width:96vw}';
+  document.head.appendChild(st)})();
 /* ================= v10 · Pós e Profissionalizante em categorias próprias abaixo do ranking da Graduação ================= */
 function catsAbaixo(X){var h="",sk=EXT.skipC;EXT.skipC=null;[["pp","PÓS-GRADUAÇÃO","pos","🎓"],["pf","PROFISSIONALIZANTE","prof","🛠"]].forEach(function(z){var PCz=X[z[0]];if(!PCz||!PCz.rows||!PCz.rows.length)return;
   h+='<div class="cat-ab"><div class="cat-h"><span>'+z[3]+' CATEGORIA '+z[1]+'</span><small>ranking próprio · não entra no pódio nem no ranking da Graduação · matrículas com pagamento no período</small></div>'+rankTable(X,PCz,z[2])+'</div>'});EXT.skipC=sk;return h}
