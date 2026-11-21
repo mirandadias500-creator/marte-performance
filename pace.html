@@ -1206,7 +1206,7 @@ function stCat(v){var k=low(v);if(!k)return "outro";var mp=(CFG.mapaSt||{})[k];i
 var STLBL={pend:"Pendente",cancel:"Cancelamento",cursando:"Cursando",aguard:"Para refletir",aceite:"Pendente: aceite",vest:"Pendente: Vest.",reda:"Pendente: redação",pag:"Pendente: Pag.",outro:"Outra situação"};
 function nEtapa(v){var k=stCat(v);return k==="outro"?(String(v||"").trim()||"Não informado"):STLBL[k]}
 function isOk(r){return r.stk==="aguard"||r.stk==="cursando"}
-var PCUT0=new Date(2026,9,13,0,0,0).getTime(),PCUT=PCUT0,PCUTPREV=null;try{var _pc=CFG.pendcut||JSON.parse(localStorage.getItem("pace-pendcut")||"null");if(_pc&&_pc.cut>=PCUT0){PCUT=_pc.cut;PCUTPREV=_pc.prev||null}}catch(e){}function savePCut(){CFG.pendcut={cut:PCUT,prev:PCUTPREV};try{localStorage.setItem("pace-pendcut",JSON.stringify({cut:PCUT,prev:PCUTPREV}))}catch(e){}}function isPend(r){return r.stk!=="cursando"&&r.stk!=="aguard"&&r.stk!=="cancel"&&!(r.t&&r.t.getTime()<PCUT)}
+var PCUT0=new Date(2026,9,13,0,0,0).getTime(),PCUT=PCUT0,PCUTPREV=null;try{var _pc=CFG.pendcut||JSON.parse(localStorage.getItem("pace-pendcut")||"null");if(_pc&&_pc.cut>=PCUT0){PCUT=_pc.cut;PCUTPREV=_pc.prev||null}}catch(e){}function savePCut(){CFG.pendcut={cut:PCUT,prev:PCUTPREV};try{localStorage.setItem("pace-pendcut",JSON.stringify({cut:PCUT,prev:PCUTPREV}))}catch(e){}}function isPend(r){return r.stk!=="cursando"&&r.stk!=="aguard"&&r.stk!=="cancel"&&!r.wb1&&!r.mEad&&!/winback/.test(low(r.st||""))&&!(r.t&&r.t.getTime()<PCUT)}
 function merged(r){return !!(r.dupOf&&r.same&&r.dup!=="distinta")}
 function sht(s){return String(s).replace(/^Pendente:\s*/,"")}
 function rkey(t,c,curso){return String(t||"").slice(0,19)+"|"+low(c)+"|"+low(curso)}function tShift(t,ds){var d=pd(String(t||"").slice(0,19));if(!d)return "";d=new Date(d.getTime()+ds*1000);return dkey(d)+"T"+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+":"+("0"+d.getSeconds()).slice(-2)}
@@ -1268,7 +1268,7 @@ function compute(){
   Object.keys(GR).forEach(function(k){var g=GR[k];if(g.length<2)return;g.sort(function(a,b){return a.t-b.t});var rep=g[0],same=[rep];rep.dupN=g.length;
     g.slice(1).forEach(function(n){var d=DEC(n.key);n.dupOf=rep;n.same=low(n.curso)===low(rep.curso)&&n.prod===rep.prod;n.dup=d==="dist"?"distinta":d==="dup"?"confirmada":(n.same?"possivel":"curso_dif");if(n.dup==="possivel")rep.risco=1;if(n.dup!=="distinta"&&n.same)same.push(n)});
     var last=same[same.length-1];if(last!==rep){rep.st=last.st;rep.stk=last.stk;rep.etapa=last.etapa}});
-  R.forEach(function(n){var f=[];if(n.mEad)f.push("Mídia EAD");if(n.wb1)f.push("Winback -1 ano");if(n.dup==="confirmada")f.push("Duplicata");if(n.dup==="possivel")f.push("Possível duplicata");n.fora=f;n.elig=!f.length;n.valid=n.elig&&n.stk!=="cancel"});
+  R.forEach(function(n){var f=[];if(n.mEad)f.push("Mídia EAD");if(n.wb1)f.push("Winback -1 ano");if(n.dup==="confirmada")f.push("Duplicata");if(n.dup==="possivel")f.push("Possível duplicata");n.fora=f;n.elig=!f.length;n.valid=n.elig&&n.stk!=="cancel"&&!/winback/.test(low(n.st||""))&&(STATE.period==="dia"||n.stk==="cursando")});
   var D=pd(STATE.date)||TODAY,f=STATE.f;
   CIC0=new Date(PCUT0);CIC0=day0(CIC0);R.forEach(function(r){if(r.pay){var x=day0(r.pay);if(x<CIC0)CIC0=x}});
   var F=R.filter(function(r){return (!f.cons||r.c===f.cons)&&(!f.prod||r.prod===f.prod)&&(!f.mod||r.mod===f.mod)&&(!f.curso||r.curso===f.curso)&&(!f.canal||r.canal===f.canal)&&(!f.origem||r.origem===f.origem)});
@@ -1757,9 +1757,10 @@ function pendOntem(X){var T=new Date();T.setHours(0,0,0,0);T=T.getTime();var Y=[
   return {Y:Y,res:Y.filter(function(y){return !inP.has(y.r)}).map(function(y){return y.r}),nov:X.pend.filter(function(r){return !inY.has(r)})}}
 function evo(a,b,tt){var d=b-a,t=' title="'+esc((tt?tt+": ":"")+"ontem "+a+" → hoje "+b)+'"';return d<0?'<span class="pev dn"'+t+'>▼'+(-d)+'</span>':d>0?'<span class="pev up"'+t+'>▲'+d+'</span>':'<span class="pev eq"'+t+'>=</span>'}
 function pendSec(X){
-  var P=X.pend,ok=X.ops.filter(function(r){return r.stk==="aguard"}).length,EV=pendOntem(X),yN=function(f){return EV.Y.filter(function(y){return f(y)}).length};
-  var types=group(P,function(r){return r.etapa}),CX=X.F.filter(function(r){return r.prod!=="Pós-graduação"&&!merged(r)&&r.stk==="cancel"});
-  var s='<section class="card pad psec"><div class="sec-h"><h2 class="ptitle">'+vt('uc')+(CFG.warnIcon?'<img class="wicon" src="'+CFG.warnIcon+'" alt="">':'')+'Pendências das matrículas</h2><span class="scope">todas as datas</span></div>';
+  var PER=STATE.period,inP=function(r){return PER==="ciclo"||inR(r.pay||r.t,X.Rg)},OPS=X.ops.filter(inP);
+  var P=X.pend.filter(inP),ok=OPS.filter(function(r){return r.stk==="aguard"}).length,EV=pendOntem({ops:OPS,pend:P}),yN=function(f){return EV.Y.filter(function(y){return f(y)}).length};
+  var types=group(P,function(r){return r.etapa}),CX=X.F.filter(function(r){return r.prod!=="Pós-graduação"&&!merged(r)&&r.stk==="cancel"&&inP(r)});
+  var s='<section class="card pad psec"><div class="sec-h"><h2 class="ptitle">'+vt('uc')+(CFG.warnIcon?'<img class="wicon" src="'+CFG.warnIcon+'" alt="">':'')+'Pendências das matrículas</h2><span class="scope">'+(PER==="ciclo"?'ciclo · todas as datas':({dia:'no dia ',semana:'na semana ',mes:'no mês '}[PER])+(PER==="dia"?ddmm(X.D):ddmm(X.Rg[0])+' a '+ddmm(X.Rg[1])))+'</span></div>';
   var nComP=0;(function(){var m={};P.forEach(function(r){m[r.c]=1});nComP=Object.keys(m).length})();
   s+=(P.length?'<div class="pwarn">'+(CFG.warnIcon?'<img class="wsm" src="'+CFG.warnIcon+'" alt="">':TRI)+'<span><b>Atenção:</b> '+nComP+' '+plural(nComP,"consultor com pendência","consultores com pendências")+' em aberto. Regularize antes, para subir cursando.</span></div>':'');
   s+='<div class="ptop"><div class="ptot'+(P.length?' bad':'')+'"><span>Pendências da unidade</span><b class="'+(P.length?"c-r":"c-g")+'">'+P.length+'</b>'+evo(EV.Y.length,P.length,"Unidade")+
