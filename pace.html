@@ -1145,6 +1145,7 @@ td.dc .dcv{display:block;font-size:9.5px;color:#1f9d55;font-weight:700;margin-to
 .cat-ab{margin-top:22px;border-top:2px dashed #ddd2f5;padding-top:14px}
 .cat-h{display:flex;align-items:baseline;gap:12px;margin:0 4px 8px}.cat-h span{font-weight:900;letter-spacing:.06em;color:#2a1a55;font-size:15px}.cat-h small{color:#7a6f96;font-size:11.5px}
 .cat-ab .rt tfoot{display:none}
+.pdd-cat{display:inline-block;margin:2px auto 0;font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.06em;background:#2a1a55;color:#f5c84b;border-radius:999px;padding:2px 8px}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -1366,9 +1367,9 @@ function render0(){
     h+='<section class="card pad" id="share"><div class="sec-h"><h2 class="rtitle">'+vt('c')+(STATE.rk==="google"?"Avaliações Google":STATE.rk==="pend"?"Pendências":STATE.rk==="metas"?"Metas · semana e mês":perLbl)+' <span class="scope">'+(STATE.rk==="metas"?'referência '+ddmm(D)+(f.prod?' · '+esc(f.prod):'')+(f.cons?' · '+esc(f.cons):''):STATE.rk==="pend"?'todas as datas · sem Pós-graduação':rgTxt+(noPace?'':' · '+PKN[PK]))+'</span></h2>'+
     '<div class="rk-tabs"><div class="seg">'+[["geral","GERAL"],["hunter","HUNTER"],["midia","MÍDIA"],["google","GOOGLE"],["pend","PENDÊNCIAS"],["metas","METAS"]].map(function(t){return '<button type="button" data-rk="'+t[0]+'" class="'+(STATE.rk===t[0]?"on":"")+'">'+t[1]+'</button>'}).join("")+'</div><button class="btn" id="btn-copy" type="button">Copiar para o grupo</button><button class="btn btn-cap" id="btn-cap" type="button">📸 CAPTURAR RANKING</button><button class="btn primary nomax" id="btn-max" type="button">⛶ Maximizar PACE</button></div></div>';
   var isList=STATE.rk==="google"||STATE.rk==="pend"||STATE.rk==="metas";
-  var PCr=PC;
+  var PCr=(!f.prod&&!f.cons&&PK==="grad")?{rows:PC.rows.concat(X.pp.rows.map(function(x){return Object.assign({},x,{_pk:"pos"})}),X.pf.rows.map(function(x){return Object.assign({},x,{_pk:"prof"})})),sum:PC.sum,hasMidia:PC.hasMidia}:PC;
   var PDZ=null;EXT.skipC=null;if(!f.cons&&!isList&&!noPace&&pode("pace")){PDZ=podioCalc(X,PCr,PK);EXT.skipC=PDZ.top.map(function(x){return x.c});h+=podioHTMLInt(PDZ)}
-  h+=noPace&&!isList?'<div class="empty">Sem PACE definido para '+esc(f.prod)+'.</div>':rankTable(X,PCr,PK);
+  h+=noPace&&!isList?'<div class="empty">Sem PACE definido para '+esc(f.prod)+'.</div>':rankTable(X,PC,PK);
   if(!isList)h+='<div class="rule"><span class="chip g">≥ 100% do PACE</span><span class="chip y">70% a 99%</span><span class="chip r">abaixo de 70%</span><span>· 1º e 2º em verde · Ordem automática: maior % do PACE; empate: mais matrículas válidas, depois mais matrículas lançadas, depois menor gap, depois nome. Sem meta vai para o fim · Total PACE = matrículas lançadas elegíveis com status <b>Cursando</b>. Produção total, modalidades e situação consideram todas as Hunter + Mídia do período, inclusive as fora do PACE.</span></div>';
   if(false){[["pp","PÓS-GRADUAÇÃO","pos"],["pf","PROFISSIONALIZANTE","prof"]].forEach(function(z){var q=X[z[0]].rows;if(q.length)h+='<div class="sub-pace posbox"><div class="pt">PACE '+z[1]+' · Hunter EAD<span>'+(STATE.period==="dia"?ddmm(D):ddmm(X.Rg[0])+" a "+ddmm(X.Rg[1]))+'</span></div>'+q.map(function(x){var b=band(x.ph);return '<div class="pr">'+av(x.c,44,b)+'<span class="pn">'+esc(x.c)+'</span><div class="rm2"><b class="'+nc(b)+'">'+x.h+'</b><span class="mt">'+(x.mInf?'Meta <em>'+x.mh+'</em>':'Meta não informada')+'</span></div><span class="fl">'+(x.mh>0&&x.h>x.mh?'<b class="c-g">+'+(x.h-x.mh)+' acima da meta</b>':'faltam '+FAL(x.gh))+'</span><div class="pw" style="min-width:160px"><span class="pc '+nc(b)+'">'+pct(x.ph)+'</span>'+bar(x.ph,b)+'</div><span class="chip '+b+'">'+bandLbl(x.ph)+'</span></div>'}).join("")+'</div>'})}
   if(!f.prod&&!f.cons&&!isList&&PK==="grad")h+=catsAbaixo(X);
@@ -2925,6 +2926,11 @@ var _ak6=atualizarKpis;atualizarKpis=function(){_ak6.apply(this,arguments);pinta
 /* ================= v10 · Pós e Profissionalizante em categorias próprias abaixo do ranking da Graduação ================= */
 function catsAbaixo(X){var h="",sk=EXT.skipC;EXT.skipC=null;[["pp","PÓS-GRADUAÇÃO","pos","🎓"],["pf","PROFISSIONALIZANTE","prof","🛠"]].forEach(function(z){var PCz=X[z[0]];if(!PCz||!PCz.rows||!PCz.rows.length)return;
   h+='<div class="cat-ab"><div class="cat-h"><span>'+z[3]+' CATEGORIA '+z[1]+'</span><small>ranking próprio · não entra no pódio nem no ranking da Graduação · matrículas com pagamento no período</small></div>'+rankTable(X,PCz,z[2])+'</div>'});EXT.skipC=sk;return h}
+/* v11 · Pós e Profissionalizante disputam o pódio (ficam só nas categorias abaixo no ranking) */
+var _pdh11=podioHTMLInt;podioHTMLInt=function(P){var h=_pdh11(P);
+  h=h.replace(" · Graduação: Hunter + Mídia"," · Graduação: Hunter + Mídia · Pós e Profissionalizante também disputam o pódio");
+  (P.top||[]).forEach(function(x){if(x.pk==="pos"||x.pk==="prof")h=h.replace('<b class="pdd-nome">'+esc(x.c)+'</b>','<b class="pdd-nome">'+esc(x.c)+'</b><em class="pdd-cat">'+(x.pk==="pos"?"PÓS-GRADUAÇÃO":"PROFISSIONALIZANTE")+'</em>')});
+  return h};
 
 render();
 };
