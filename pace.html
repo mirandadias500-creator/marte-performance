@@ -1,4 +1,5 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>PACE Unidade — Campus Marte</title><meta name="theme-color" content="#2a0d5c"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>PACE Unidade — Campus Marte</title><meta name="theme-color" content="#2a0d5c"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.uni-d{display:block;font:600 10.5px "Manrope",sans-serif;font-style:normal;opacity:.75;margin-top:2px;white-space:nowrap}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style id="ds">.kx{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}
@@ -1260,6 +1261,7 @@ function group(rows,keyf){var m={};rows.forEach(function(r){var k=keyf(r);if(k==
 function uniq(rows,f){var s={};rows.forEach(function(r){s[r[f]]=1});return Object.keys(s).sort()}
 
 /* ---------- cálculo ---------- */
+function isUni(c){return /^unidade$/i.test(String(c||"").trim())}
 function compute(){
   var seen={},R=[],dups=0;
   var nseen={};STATE.rows.forEach(function(r){if(r.del)return;var k=JSON.stringify(r);if(seen[k]){dups++;return}seen[k]=1;var k0=rkey(r.t,r.c,r.curso);if(nearKey(nseen,r)){dups++;return}nseen[k0]=1;var n=norm(r);if(n.t&&n.t.getTime()>=PCUT0)R.push(n)});unifyCursos(R);
@@ -1281,8 +1283,8 @@ function compute(){
   var semData=F.filter(function(r){return !r.pay}).length;
   /* PACE */
   function pace(prodKey,prodName){
-    var list=CFG.consultores[prodKey].slice(),M=CFG.metas[prodKey];
-    P.forEach(function(r){if(r.prod===prodName&&(r.canal==="Hunter"||r.canal==="Mídia")&&list.indexOf(r.c)<0)list.push(r.c)});
+    var list=CFG.consultores[prodKey].filter(function(c){return !isUni(c)}),M=CFG.metas[prodKey];
+    P.forEach(function(r){if(r.prod===prodName&&(r.canal==="Hunter"||r.canal==="Mídia")&&list.indexOf(r.c)<0&&!isUni(r.c))list.push(r.c)});
     if(f.cons)list=list.filter(function(c){return c===f.cons});
     var rows=list.map(function(c){var inList=CFG.consultores[prodKey].indexOf(c)>=0;
       var all=P.filter(function(r){return r.c===c&&r.prod===prodName}),mine=all.filter(function(r){return r.valid});
@@ -1296,6 +1298,10 @@ function compute(){
         g:Pg.filter(function(r){return r.c===c&&r.g}).length}});
     rows.forEach(function(x){aplicarMetaInd(x,prodKey,D)});
     var sum={h:0,m:0,t:0,mh:0,mm:0,mt:0,prodT:0,fo:0};rows.forEach(function(x){for(var k in sum)sum[k]+=x[k]});
+    /* matrículas lançadas como "Unidade" (site, pagamento online…): não são de nenhum consultor, mas contam no total da unidade */
+    sum.uN=0;sum.uMods={};if(!f.cons){var uAll=P.filter(function(r){return isUni(r.c)&&r.prod===prodName&&(r.canal==="Hunter"||r.canal==="Mídia")}),uV=uAll.filter(function(r){return r.valid});
+      var uh=uV.filter(function(r){return r.canal==="Hunter"}).length,um=uV.filter(function(r){return r.canal==="Mídia"}).length;
+      sum.h+=uh;sum.m+=um;sum.t+=uh+um;sum.prodT+=uAll.length;sum.fo+=uAll.filter(function(r){return !r.elig}).length;sum.uN=uh+um;uAll.forEach(function(r){sum.uMods[r.mod]=(sum.uMods[r.mod]||0)+1})}
     sum.gh=Math.max(0,sum.mh-sum.h);sum.gm=Math.max(0,sum.mm-sum.m);sum.gt=Math.max(0,sum.mt-sum.t);sum.pt=sum.mt?sum.t/sum.mt:null;sum.ph=sum.mh?sum.h/sum.mh:null;sum.pm=sum.mm?sum.m/sum.mm:null;
     sum.mInf=rows.some(function(x){return x.mInf});sum.mImp=rows.some(function(x){return x.mImp});aplicarMetaUnid(sum,rows,prodKey,D,f);return {rows:rows,sum:sum,hasMidia:prodKey==="grad"};
   }
@@ -1441,8 +1447,8 @@ function rankTable(X,PC,usePos){
       '<td class="r"'+O({k:"pace",pk:PKr,canal:"Hunter",c:x.c,lbl:"Hunter · "+x.c})+'>'+cell(x.h,x.mh,x.gh,x.ph)+'</td>'+(showM?'<td class="r"'+O({k:"pace",pk:PKr,canal:"Mídia",c:x.c,lbl:"Mídia · "+x.c})+'>'+cell(x.m,x.mm,x.gm,x.pm)+'</td>':'')+'<td class="r"'+O({k:"pace",pk:PKr,c:x.c,lbl:"Total PACE · "+x.c})+'>'+cell(x.t,x.mt,x.gt,x.pt)+'</td><td class="r"><b>'+x.prodT+'</b>'+(x.fo?'<div><span class="fora">'+x.fo+' fora do PACE</span></div>':'')+'</td>'+
       '<td><div class="pw"><span class="pc '+nc(b)+'">'+pct(p)+'</span><div style="flex:1;min-width:0">'+bar2(p,b,(mode==="geral"&&x.mt)?x.prodT/x.mt:null)+((mode==="geral"&&x.mt&&x.prodT>x.t)?'<div class="lzt">'+x.prodT+' lançada(s) · '+pct(x.prodT/x.mt)+' com as pendentes</div>':'')+'</div></div></td><td class="xo"><div class="mods">'+(mods||'<span class="c-n">—</span>')+'</div></td><td class="xo"><div class="sts">'+(st||'<span class="ot">—</span>')+'</div></td>'+mdc(x.mods)+'<td><span class="chip '+b+'">'+bandLbl(p)+'</span></td></tr>'});
   var S=PC.sum;
-  var UM={};PC.rows.forEach(function(x){for(var k in x.mods)UM[k]=(UM[k]||0)+x.mods[k]});var ucel=function(v,m,lbl,can){return '<td class="r"'+O(can?{k:"pace",pk:PKr,canal:can,lbl:lbl}:{k:"pace",pk:PKr,lbl:lbl})+'><div class="rm2"><b>'+v+'</b><span class="mt">Meta <em>'+(m==null?'—':m)+'</em></span></div></td>'};
-  s+='</tbody><tfoot><tr><td></td><td><div class="who">'+ulogo(64)+'<span class="unm">Unidade</span></div></td>'+DAYS.map(function(){return '<td class="dc"></td>'}).join("")+ucel(S.h,S.mh,"Hunter · unidade","Hunter")+(showM?ucel(S.m,S.mm,"Mídia · unidade","Mídia"):'')+ucel(S.t,S.mt,"Total PACE · unidade")+'<td></td><td><div class="pw"><span class="pc '+nc(band(S[key]))+'">'+pct(S[key])+'</span>'+bar(S[key],band(S[key]))+'</div></td><td class="xo"></td><td class="xo"></td>'+mdc(UM)+'<td></td></tr></tfoot></table></div>';
+  var UM={};PC.rows.forEach(function(x){for(var k in x.mods)UM[k]=(UM[k]||0)+x.mods[k]});for(var uk in (S.uMods||{}))UM[uk]=(UM[uk]||0)+S.uMods[uk];var ucel=function(v,m,lbl,can){return '<td class="r"'+O(can?{k:"pace",pk:PKr,canal:can,lbl:lbl}:{k:"pace",pk:PKr,lbl:lbl})+'><div class="rm2"><b>'+v+'</b><span class="mt">Meta <em>'+(m==null?'—':m)+'</em></span></div></td>'};
+  s+='</tbody><tfoot><tr><td></td><td><div class="who">'+ulogo(64)+'<span class="unm">Unidade'+(S.uN?'<small class="uni-d">inclui '+S.uN+' lançada'+(S.uN>1?'s':'')+' direto pela unidade</small>':'')+'</span></div></td>'+DAYS.map(function(){return '<td class="dc"></td>'}).join("")+ucel(S.h,S.mh,"Hunter · unidade","Hunter")+(showM?ucel(S.m,S.mm,"Mídia · unidade","Mídia"):'')+ucel(S.t,S.mt,"Total PACE · unidade")+'<td></td><td><div class="pw"><span class="pc '+nc(band(S[key]))+'">'+pct(S[key])+'</span>'+bar(S[key],band(S[key]))+'</div></td><td class="xo"></td><td class="xo"></td>'+mdc(UM)+'<td></td></tr></tfoot></table></div>';
   return s;
 }
 function pendList(X){
@@ -1585,7 +1591,7 @@ function velData(X){
   var satV={};if(C.dias==="trab")rows.forEach(function(r){var x=day0(r.pay);if(x.getDay()===6&&!FER[dkey(x)])satV[dkey(x)]=1});
   var W=[];for(var d=day0(CIC0);d<=end;d=addD(d,1))if(isBiz(d)||satV[dkey(d)])W.push(d);
   var ix=function(dt){var x=day0(dt),k=0;for(var i=0;i<W.length;i++){if(W[i]<=x)k=i;else break}return k};
-  var cons=[],cpk={};PKS2.forEach(function(k){(CFG.consultores[k]||[]).forEach(function(c){if(cons.indexOf(c)<0){cons.push(c);cpk[c]=k}})});rows.forEach(function(r){if(cons.indexOf(r.c)<0&&r.c&&!/^n[aã]o informado$/i.test(r.c)){cons.push(r.c);cpk[r.c]=pkOf(r.prod)}});if(f.cons)cons=[f.cons];
+  var cons=[],cpk={};PKS2.forEach(function(k){(CFG.consultores[k]||[]).forEach(function(c){if(cons.indexOf(c)<0){cons.push(c);cpk[c]=k}})});rows.forEach(function(r){if(cons.indexOf(r.c)<0&&r.c&&!/^(n[aã]o informado|unidade)$/i.test(r.c)){cons.push(r.c);cpk[r.c]=pkOf(r.prod)}});if(f.cons)cons=[f.cons];
   var Z=function(){return W.map(function(){return 0})},cnt={},u=Z();cons.forEach(function(c){cnt[c]=Z()});
   var mod={};rows.forEach(function(r){var i=ix(r.pay);u[i]++;if(cnt[r.c])cnt[r.c][i]++;var mk=r.mod||"Não informado";(mod[mk]=mod[mk]||Z())[i]++});
   /* semanas e meses do ciclo */
@@ -3199,12 +3205,13 @@ async function entrarGestor(){
 /* ---------- FORMULÁRIO DOS CONSULTORES ---------- */
 var FS={lista:[],quem:null,tok:null,op:{cursos:[],bases:[]},chave:null};
 var PROD={grad:"Graduação",pos:"Pós-graduação",prof:"Profissionalizante"};
-function fotoDe(n){return (IMGS.fotos||{})[n]||""}
+function fotoDe(n){if(/^unidade$/i.test(n||""))return IMGS.logoUnidade||"";return (IMGS.fotos||{})[n]||""}
 async function formInicio(){
   document.body.className="h-boot h-form";
   try{var t=JSON.parse(localStorage.getItem("pace_form_tok")||"null");
     if(DEMO){var c=window.PACE_DEMO_SEED.config.consultores;FS.lista=c.grad.map(function(n){return {nome:n,prod:"grad",login:n.toLowerCase(),tem_pin:true}}).concat(c.pos.map(function(n){return {nome:n,prod:"pos",login:n.toLowerCase(),tem_pin:true}}),c.prof.map(function(n){return {nome:n,prod:"prof",login:null,tem_pin:true}}))}
     else{var q=await sb.rpc("pace_lista_form");if(q.error)throw q.error;FS.lista=q.data}
+    if(!FS.lista.some(function(p){return /^unidade$/i.test(p.nome)}))FS.lista=FS.lista.concat([{nome:"Unidade",prod:"grad",login:null,tem_pin:false}]);
     var ult=localStorage.getItem("pace_form_quem");if(ult&&FS.lista.some(function(p){return p.nome===ult})){FS.quem=FS.lista.filter(function(p){return p.nome===ult})[0];return formTela()}
     formQuem()}catch(e){boot.innerHTML='<main class="bt-tela"><div class="bt-card">'+crown()+'<h1>Formulário <b>PACE</b></h1><p class="bt-err">'+esc(errMsg(e))+'</p></div></main>'}}
 function formQuem(msg){
