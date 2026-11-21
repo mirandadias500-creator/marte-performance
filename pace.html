@@ -1084,6 +1084,40 @@ table.xl tbody tr:hover td.fc .flag{filter:brightness(1.05);box-shadow:0 0 0 2px
 .undo-bar{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:121;background:#2a0d5c;color:#fff;border:1px solid #f4c552;border-radius:999px;padding:8px 10px 8px 16px;font:700 13px "Manrope",sans-serif;display:flex;gap:10px;align-items:center;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
 .undo-bar .btn{background:#f4c552;color:#2b0e57;border-color:#ffe08a}
 #cx-exp{display:none!important}
+/* v7 · central de edição, exclusão, anexos, histórico */
+.fl-ap{background-color:#fff1c2;color:#7a5200}.fl-anx{background-color:#1d4fb8;color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23fff'/%3E%3C/svg%3E")}
+.flag:disabled{opacity:.85;cursor:not-allowed;background-image:none;padding-right:10px}
+td.fc-anx{display:table-cell}td.fc-anx .flag{width:calc(100% - 28px)}.anx-ver{margin-left:4px;border:1px solid #c9b8f3;background:#fff;border-radius:7px;cursor:pointer;width:24px;height:22px;font-size:12px;vertical-align:middle}
+table.xl tbody tr.ativa td{background:#e7dcff!important;box-shadow:inset 0 2px 0 #7c3aed,inset 0 -2px 0 #7c3aed}
+.k3d.k-exc b{color:#6b6b6b}.k3d.on.k-exc b{color:#fff}
+.excl-aviso{background:#f4f1f8;border:1px dashed #b9a8dd;border-radius:12px;padding:8px 12px;margin-bottom:8px;font-size:13px;color:#3b1477;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dr2{width:min(640px,98vw);padding:0;display:flex;flex-direction:column;background:#faf7ff}
+.dr2-cab{position:sticky;top:0;z-index:2;background:linear-gradient(135deg,#2a0d5c,#4c1d95);color:#fff;padding:16px 18px 14px;border-bottom:2px solid #f4c552}
+.dr2-ey{font:800 10.5px "Manrope",sans-serif;letter-spacing:.2em;color:#ffe08a}.dr2-q{display:flex;gap:12px;align-items:center;margin-top:8px}
+.dr2-q h3{font:800 19px "Sora",ui-sans-serif,sans-serif;margin:0;color:#fff}.dr2-q span{display:block;font-size:13px;color:#e3d6ff}.dr2-q small{display:block;font-size:11px;color:#bda9ef;margin-top:2px}
+.dr2-bts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.dr2-bts .b3d{padding:8px 12px;font-size:11.5px}
+.b3d.b-ed{background:linear-gradient(180deg,#ffe58f,#e0a92e);color:#2b0e57;border-color:#ffe08a;box-shadow:0 3px 0 #a8761b}
+.b3d.b-del{background:linear-gradient(180deg,#ff6b81,#c21f3e);color:#fff;border-color:#e8475f;box-shadow:0 3px 0 #8a1328}
+.b3d.b-ok{background:linear-gradient(180deg,#34d399,#0b7a55);color:#fff;border-color:#34d399;box-shadow:0 3px 0 #065f46}
+.dr2-corpo{padding:12px 16px 90px;overflow:auto}
+.dr2-sec{background:#fff;border:1px solid #e3d8fb;border-radius:14px;margin-bottom:10px;box-shadow:0 4px 12px -10px rgba(91,33,182,.4)}
+.dr2-sec summary{cursor:pointer;padding:10px 14px;font:800 12.5px "Manrope",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#4c1d95}
+.dr2-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px 14px}.dr2-g label{display:flex;flex-direction:column;gap:3px;font:800 10px "Manrope",sans-serif;letter-spacing:.06em;color:#6b5a8a;text-transform:uppercase}.dr2-g label.full{grid-column:1/-1}
+.dr2-g input,.dr2-g select,.dr2-g textarea{font:600 13.5px "Manrope",sans-serif;text-transform:none;letter-spacing:0;border:1px solid #d6c9f5;border-radius:9px;padding:7px 9px;background:#fff;color:#1c1530}
+.dr2-g input:disabled,.dr2-g select:disabled,.dr2-g textarea:disabled{background:#f7f4fd;color:#3b2a5c;border-color:#ece4fb;opacity:1}
+.dr2-g input:not(:disabled):focus,.dr2-g select:not(:disabled):focus,.dr2-g textarea:not(:disabled):focus{outline:2px solid #7c3aed;outline-offset:0}
+.dr2-docs{padding:0 14px 14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.dr2-docs .doc{display:flex;gap:8px;align-items:center;background:#faf7ff;border:1px solid #ece4fb;border-radius:10px;padding:6px 10px;width:100%;box-sizing:border-box}.dr2-docs .doc span{flex:1;font-size:13px}
+.dr2-rod{position:sticky;bottom:0;margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:flex-end;padding:12px 16px;background:#fff;border-top:2px solid #f4c552;box-shadow:0 -10px 20px -14px rgba(59,20,119,.5)}
+.dr2-err{flex:1;color:#c21f3e;font-weight:800;font-size:13px}
+.ex-modal{position:fixed;inset:0;z-index:140;display:grid;place-items:center;background:rgba(20,6,45,.55);padding:14px}
+.ex-box{width:min(460px,96vw);background:#fff;border-radius:20px;padding:22px;text-align:center;border:2px solid #f3a2ae;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.ex-ic{font-size:38px}.ex-box h3{font:800 17px "Sora",sans-serif;color:#2b0e57;margin:6px 0 12px}.ex-d{display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:left}.ex-d div{background:#faf7ff;border:1px solid #ece4fb;border-radius:10px;padding:6px 9px}.ex-d span{display:block;font:800 9.5px "Manrope",sans-serif;color:#6b5a8a;letter-spacing:.06em;text-transform:uppercase}.ex-box .irow{justify-content:center;margin-top:12px}
+.lg-f{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.lg-f input,.lg-f select{font:600 12.5px "Manrope",sans-serif;border:1px solid #ddd0fb;border-radius:9px;padding:6px 8px}
+.lg2{background:#fff;border:1px solid #e3d8fb;border-radius:14px;padding:10px 14px;margin-bottom:8px;box-shadow:0 4px 12px -10px rgba(91,33,182,.4)}
+.lg2 summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;list-style:none}.lg2 summary::-webkit-details-marker{display:none}
+.lg-t{font-size:14px;color:#2b0e57}.lg-m{margin-left:auto;font-size:12px;color:#6b5a8a;font-weight:700}.lg-r{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.lg-ch{font-size:12px;background:#f3eeff;border:1px solid #e3d8fb;border-radius:999px;padding:2px 10px;color:#3b1477}.lg-ch i{font-style:normal;font-weight:800;color:#7c3aed}
+.lg2 table{margin-top:8px}.lg-mais{margin-top:4px}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -2690,6 +2724,102 @@ var _am0=aplicarMassa;aplicarMassa=function(col,valor,i0,i1){var L=celulasCol(co
     u.antes.forEach(function(a){var r=a[0],v=a[1],cur=r[u.col];if(String(cur||"")===String(v||""))return;if(u.col==="st")(r.stHist=r.stHist||[]).push({de:cur,para:v||"—",em:em,a:"Desfeito · "+por});else (r.flagHist=r.flagHist||[]).push({campo:FLAG[u.col].lbl,de:cur,para:v||"—",em:em,por:por+" (desfeito)"});if(v==null||v==="")delete r[u.col];else r[u.col]=v;n++});
     EXT.undo=null;salvarJa("↶ "+n+" célula(s) voltaram ao valor anterior.");window.__X=compute();_ctlGrid0();ligarSelecao();pintarChips();atualizarKpis()}};
 
+/* ================= v7 · CENTRAL DE EDIÇÃO · EXCLUSÃO LÓGICA · STATUS DO ANEXO · PERMISSÕES FINAS ================= */
+function tem(p){return !window.PACE_HOST||PACE_HOST.perms().indexOf(p)>=0}
+FLAG.anexoSt={lbl:"STATUS DO ANEXO",ops:["Sem anexo","Anexo pendente","Anexado","Validado","Rejeitado"]};
+function anexoDe(R){if(R.anexoSt)return R.anexoSt;return (R.termos||[]).length?"Anexado":R.bop==="Sim"?"Anexo pendente":"Sem anexo"}
+(function(){var get=function(k){return COLS.filter(function(c){return c[0]===k})[0]};
+  var ordem=["t","c","prod","mod","canal","pag","vest","contr","st","anexoSt","nome","cpf","tel","pay"],resto=COLS.filter(function(c){return ordem.indexOf(c[0])<0&&c[0]!=="termos"});
+  var nv=ordem.map(function(k){return k==="anexoSt"?["anexoSt","STATUS DO ANEXO",170,null]:k==="nome"?["nome","Nome do aluno",200,function(r){return r._raw.nome||r._raw.nomeA}]:get(k)}).concat(resto,[get("termos")]);
+  COLS.length=0;nv.forEach(function(c){COLS.push(c)})})();
+var _flagCor0=flagCor;flagCor=function(k,v){if(k!=="anexoSt")return _flagCor0(k,v);return {"Sem anexo":"fl-vazio","Anexo pendente":"fl-ap","Anexado":"fl-anx","Validado":"fl-cur","Rejeitado":"fl-pen"}[v]||"fl-vazio"};
+var _celFlag0=celFlag;celFlag=function(k,r,i){if(k!=="anexoSt"){var h=_celFlag0(k,r,i);return tem("status")?h:h.replace("<select ","<select disabled ")}
+  var v=anexoDe(r._raw),n=(r._raw.termos||[]).length;
+  return '<td class="fc fc-anx"><select class="flag '+flagCor(k,v)+'" data-fl="anexoSt" data-i="'+i+'"'+(tem("status")?'':' disabled')+' aria-label="Status do anexo">'+FLAG.anexoSt.ops.map(function(o){return '<option'+(o===v?" selected":"")+'>'+o+'</option>'}).join("")+'</select>'+(n&&tem("anexos")?'<button type="button" class="anx-ver" data-termo="'+i+'" title="Ver termo">📄</button>':'')+'</td>'};
+var _mudar0=mudarFlag;mudarFlag=function(i,k,v,sl){var r=STATE.rows[i];if(k==="anexoSt"&&r&&!r.anexoSt)r.anexoSt=anexoDe(r);_mudar0(i,k,v,sl);if(k==="anexoSt"&&v==="Anexado"&&(r.termos||[]).length&&tem("anexos"))verTermos(r)};
+/* exclusões (lixeira) */
+function excluidas(){return STATE.rows.filter(function(r){return r.del}).map(function(r){var n=norm(r);n.key=n.key||rkey(r.t,r.c,r.curso);return n})}
+var _base0=ctlBase;ctlBase=function(){var X=window.__X;return EXT.f.excl?excluidas():X.R.filter(function(r){return !r._raw.del})};
+/* indicadores + botão de excluídas */
+var _ctab0=controleTab;controleTab=function(X){var h=_ctab0(X),nEx=STATE.rows.filter(function(r){return r.del}).length;
+  if(tem("restaurar"))h=h.replace('<button type="button" class="k3d k-dup','<button type="button" class="k3d k-exc'+(EXT.f.excl?" on":"")+'" data-kexc="1"><span>🗑 EXCLUÍDAS</span><b>'+nEx+'</b></button><button type="button" class="k3d k-dup');
+  if(!tem("exportar"))h=h.replace('id="cx-csv"','id="cx-csv" hidden');
+  if(EXT.f.excl)h=h.replace('<div class="cx-chips"','<div class="excl-aviso">🗑 Você está vendo as matrículas <b>excluídas</b>. Clique numa linha para restaurar. <button type="button" class="btn mini" id="sair-excl">Voltar às ativas</button></div><div class="cx-chips"');
+  return h};
+var _wc1=wireCtl;wireCtl=function(){_wc1();var ke=document.querySelector("[data-kexc]");if(ke)ke.onclick=function(){EXT.f.excl=!EXT.f.excl;EXT.f.kpi="";EXT.f.dup=false;render()};
+  var se=byId2("sair-excl");if(se)se.onclick=function(){EXT.f.excl=false;render()};
+  document.querySelectorAll("#cx-body tr[data-row]").forEach(function(tr){tr.addEventListener("click",function(){document.querySelectorAll("#cx-body tr.ativa").forEach(function(x){x.classList.remove("ativa")});tr.classList.add("ativa")})})};
+/* ---------- CENTRAL DE EDIÇÃO DA MATRÍCULA ---------- */
+var CAMPOS=[
+  ["Aluno",[["nome","Nome do aluno","text"],["cpf","CPF do aluno","cpf"],["tel","Telefone do aluno","tel"]]],
+  ["Matrícula",[["c","Consultor responsável","cons"],["prod","Produto",["Graduação","Pós-graduação","Profissionalizante"]],["mod","Formato de oferta",["Presencial","Semipresencial","EAD","EAD + Prática"]],["curso","Curso","text"],["turno","Turno do curso","text"],["canal","Canal da primeira inscrição",["Hunter","Mídia","Distribuidor","Revendedores"]],["pay","Data de pagamento da matrícula","date"],["pma","Período de matrícula","text"]]],
+  ["Situação",[["pag","Pagamento","flag"],["vest","Vestibular","flag"],["contr","Contratos","flag"],["st","Status da matrícula","flag"],["anexoSt","Status do anexo","flag"],["etapa","Etapa informada pelo consultor","text"]]],
+  ["Bolsa e origem",[["bolsa","Bolsa ofertada","text"],["bop","Foi ofertada a bolsa operação?",["Sim","Não"]],["bopPct","Percentual da bolsa (%)","pct"],["origem","Ação comercial","text"],["base","Qual base foi convertida?","text"],["parc","Veio de empresa parceira?",["Sim","Não"]],["emp","Nome da empresa parceira","text"],["g","Avaliação no Google","text"]]],
+  ["Observações",[["obs","Observações","area"]]]];
+var CAMPO_PERM={st:"status",pag:"status",vest:"status",contr:"status",anexoSt:"status",cpf:"cpf",tel:"tel"};
+function podeEditar(k){if(!tem("editar")&&!(CAMPO_PERM[k]==="status"&&tem("status"))&&k!=="obs")return false;if(k==="cpf"&&!tem("cpf"))return false;if(k==="tel"&&!tem("tel"))return false;return true}
+function cpfValido(d){if(!/^\d{11}$/.test(d)||/^(\d)\1{10}$/.test(d))return false;var s=0,i;for(i=0;i<9;i++)s+=+d[i]*(10-i);var v=(s*10)%11%10;if(v!==+d[9])return false;s=0;for(i=0;i<10;i++)s+=+d[i]*(11-i);return (s*10)%11%10===+d[10]}
+function valCampo(R,k){if(k==="cpf")return cpfDig(R.cpf)||"";if(k==="anexoSt")return anexoDe(R);if(k==="pay")return String(R.pay||"").slice(0,10);if(k==="nome")return R.nome||"";var v=R[k];return v==null?"":String(v)}
+function inputCampo(R,f,ed){var k=f[0],t=f[2],v=valCampo(R,k),dis=ed&&podeEditar(k)?"":" disabled";
+  if(Array.isArray(t)||t==="flag"||t==="cons"){var ops=t==="flag"?FLAG[k].ops.slice():t==="cons"?ALLCONS.slice():t.slice();if(v&&ops.indexOf(v)<0)ops.unshift(v);return '<select data-ed="'+k+'"'+dis+'>'+(v?'':'<option value="">—</option>')+ops.map(function(o){return '<option'+(o===v?" selected":"")+'>'+esc(o)+'</option>'}).join("")+'</select>'}
+  if(t==="area")return '<textarea data-ed="'+k+'" rows="3"'+dis+'>'+esc(v)+'</textarea>';
+  if(k==="cpf"&&!tem("cpf"))return '<input value="'+esc(R.cpfM||"protegido")+'" disabled>';
+  if(k==="tel"&&!tem("tel"))return '<input value="protegido" disabled>';
+  return '<input data-ed="'+k+'" type="'+(t==="date"?"date":t==="pct"?"number":"text")+'"'+(t==="pct"?' min="0" max="100" step="0.01"':'')+(t==="cpf"?' inputmode="numeric" maxlength="14"':'')+' value="'+esc(v)+'"'+dis+'>'}
+function abrirDetalhe(i,editando){var R=STATE.rows[i];if(!R)return;var X=window.__X,r=X.R.filter(function(x){return x._raw===R})[0]||norm(R);
+  document.querySelector(".cx-drawer")?.remove();
+  var A=_base0(),DUP=dupInfo(A),d=r&&DUP[r.key],irm=d?A.filter(function(x){return x._raw.dg===R.dg&&x._raw!==R}):[];
+  var H=(R.stHist||[]).map(function(h){return {em:h.em,t:'<b>Status: '+esc(h.para)+'</b> <small>de '+esc(h.de)+' · '+esc(h.a||"")+'</small>'}}).concat((R.flagHist||[]).map(function(h){return {em:h.em,t:'<b>'+esc(h.campo)+': '+esc(h.para)+'</b> <small>de '+esc(h.de)+' · '+esc(h.por||"")+'</small>'}}),(R.editHist||[]).map(function(h){return {em:h.em,t:'<b>Edição: '+esc(Object.keys(h.depois||{}).join(", "))+'</b> <small>'+esc(h.por||"")+'</small>'}}),(R.termosHist||[]).map(function(h){return {em:h.em,t:'<b>Termo '+esc(h.acao)+':</b> '+esc(h.nome)+' <small>'+esc(h.por||"")+'</small>'}}))
+    .sort(function(a,b){return String(b.em).localeCompare(String(a.em))});
+  var v=document.createElement("div");v.className="cx-drawer";
+  var ro=!editando;
+  v.innerHTML='<div class="dr-veu"></div><aside class="dr dr2" role="dialog" aria-modal="true" aria-label="Detalhes da matrícula">'+
+   '<div class="dr2-cab"><span class="dr2-ey">'+(R.del?"🗑 MATRÍCULA EXCLUÍDA":"DETALHES DA MATRÍCULA")+'</span><div class="dr2-q">'+av(R.c,52)+'<div><h3>'+esc(R.nome||R.nomeA||"Aluno sem nome")+'</h3><span>'+esc(R.c)+' · '+esc(R.prod)+' · '+esc(R.curso)+'</span><small>ID '+esc(String(R._id||"novo").slice(0,8))+' · '+esc(origemDe(R))+' · lançado em '+esc(fmtDT(R.t))+'</small></div></div>'+
+   '<div class="dr2-bts">'+(R.del?(tem("restaurar")?'<button class="b3d b-ok" id="dr-rest" type="button">↺ RESTAURAR MATRÍCULA</button>':''):(ro&&(tem("editar")||tem("status"))?'<button class="b3d b-ed" id="dr-ed" type="button">✏️ EDITAR MATRÍCULA</button>':'')+(tem("excluir")?'<button class="b3d b-del" id="dr-del" type="button">🗑 EXCLUIR MATRÍCULA</button>':''))+'<button class="b3d" id="dr-fe" type="button">✕ FECHAR</button></div></div>'+
+   (d?'<div class="dr-dup">⚠️ <b>'+(d.conf?"Duplicata confirmada":"Possível duplicidade")+'</b> · '+d.n+' registros com o mesmo CPF<div class="dr-dupl">'+irm.map(function(x){return '<button type="button" data-irmao="'+STATE.rows.indexOf(x._raw)+'">'+esc(fmtDT(x._raw.t))+' · '+esc(x.c)+' · '+esc(x.curso)+' · '+esc(x.st)+'</button>'}).join("")+'</div><div class="irow"><button class="btn mini" data-dec="dist" type="button">São distintas</button><button class="btn mini" data-dec="dup" type="button">Confirmar duplicata</button><button class="btn mini" data-dec="" type="button">Desfazer</button></div></div>':'')+
+   '<div class="dr2-corpo">'+CAMPOS.map(function(sec,si){return '<details class="dr2-sec"'+(si<3?" open":"")+'><summary>'+sec[0]+'</summary><div class="dr2-g">'+sec[1].map(function(f){return '<label class="'+(f[2]==="area"?"full":"")+'"><span>'+f[1]+'</span>'+inputCampo(R,f,!ro)+'</label>'}).join("")+'</div></details>'}).join("")+
+   '<details class="dr2-sec" open><summary>Termos de bolsa (PDF)</summary><div class="dr2-docs">'+(tem("anexos")?((R.termos||[]).map(function(p,ix){return '<div class="doc"><span>📄 '+esc(String(p).split("/").pop().replace(/^\d+-/,""))+'</span><button class="btn mini" data-dver="'+ix+'" type="button">Ver / baixar</button>'+(tem("editar")?'<button class="btn mini" data-dsub="'+ix+'" type="button">Substituir</button>':'')+'</div>'}).join("")||'<p class="sub2">Nenhum termo anexado.</p>')+
+      (tem("editar")?'<button class="btn mini primary" id="dr-anx" type="button">＋ Anexar PDF</button>':''):'<p class="sub2">Sem permissão para ver anexos.</p>')+'</div></details>'+
+   '<details class="dr2-sec"><summary>Histórico de alterações ('+H.length+')</summary>'+(H.length?'<ul class="dr-h">'+H.slice(0,60).map(function(h){return '<li>'+h.t+' <small>· '+esc(fmtDT(h.em))+'</small></li>'}).join("")+'</ul>':'<p class="sub2">Sem alterações registradas.</p>')+'</details></div>'+
+   (ro?'':'<div class="dr2-rod"><span class="dr2-err" id="dr-err"></span><button class="b3d" id="dr-canc" type="button">Cancelar</button><button class="btn-aplicar" id="dr-salvar" type="button">💾 SALVAR ALTERAÇÕES</button></div>')+'</aside>';
+  document.body.appendChild(v);
+  var fechar=function(){v.remove()};v.querySelector(".dr-veu").onclick=fechar;v.querySelector("#dr-fe").onclick=fechar;
+  document.addEventListener("keydown",function e1(e){if(e.key==="Escape"){fechar();document.removeEventListener("keydown",e1)}});
+  v.querySelectorAll("[data-irmao]").forEach(function(b){b.onclick=function(){abrirDetalhe(+b.getAttribute("data-irmao"))}});
+  v.querySelectorAll("[data-dec]").forEach(function(b){b.onclick=function(){var val=b.getAttribute("data-dec");CFG.dupDec=CFG.dupDec||{};[r].concat(irm).forEach(function(x){if(val==="dup")delete CFG.dupDec[x.key];else if(val)CFG.dupDec[x.key]=val;else delete CFG.dupDec[x.key]});if(val==="dup")CFG.dupDec[r.key]="dup";fechar();salvarJa("Decisão de duplicidade salva.");window.__X=compute();ctlGrid();atualizarKpis()}});
+  var ed=v.querySelector("#dr-ed");if(ed)ed.onclick=function(){abrirDetalhe(i,true)};
+  var cn=v.querySelector("#dr-canc");if(cn)cn.onclick=function(){abrirDetalhe(i,false)};
+  var cpfIn=v.querySelector('[data-ed="cpf"]');if(cpfIn)cpfIn.oninput=function(){cpfIn.value=cpfIn.value.replace(/\D/g,"").slice(0,11)};
+  var sv=v.querySelector("#dr-salvar");if(sv)sv.onclick=function(){var er=v.querySelector("#dr-err"),antes={},depois={},msg="";
+    v.querySelectorAll("[data-ed]").forEach(function(el){if(el.disabled)return;var k=el.getAttribute("data-ed"),nv=el.value.trim(),av0=valCampo(R,k);if(nv===av0)return;
+      if(k==="cpf"&&nv){var dd=nv.replace(/\D/g,"");if(dd.length!==11)msg="CPF precisa ter 11 números.";else if(!cpfValido(dd))msg="CPF inválido: confira os dígitos.";nv=dd}
+      if(k==="bopPct"&&nv!==""&&(isNaN(+nv)||+nv<0||+nv>100))msg="Percentual da bolsa deve ser de 0 a 100.";
+      if(k==="nome"&&nv&&nv.split(/\s+/).length<2)msg="Informe o nome completo do aluno.";
+      antes[k]=av0;depois[k]=nv});
+    if(msg){er.textContent=msg;return}if(!Object.keys(depois).length){abrirDetalhe(i,false);toast("Nenhuma alteração.");return}
+    var em=nowIso(),por=IMP.por||"Gestor";
+    Object.keys(depois).forEach(function(k){var nv=depois[k];
+      if(k==="st")(R.stHist=R.stHist||[]).push({de:antes[k]||"—",para:nv,em:em,a:"Edição da matrícula · "+por});
+      else if(FLAG[k])(R.flagHist=R.flagHist||[]).push({campo:FLAG[k].lbl,de:antes[k]||"—",para:nv,em:em,por:por});
+      if(k==="bopPct")R[k]=nv===""?null:+nv;else if(nv==="")delete R[k];else R[k]=nv;
+      if(k==="cpf")R.cpfM=nv?cpfMask(nv):"";if(k==="nome")R.nomeA=nv?nomeAbr(nv):R.nomeA});
+    (R.editHist=R.editHist||[]).push({em:em,por:por,antes:antes,depois:depois});
+    salvarJa("✓ Matrícula atualizada ("+Object.keys(depois).length+" campo(s)) por "+por);assignDg();window.__X=compute();ctlGrid();atualizarKpis();abrirDetalhe(i,false)};
+  var dl=v.querySelector("#dr-del");if(dl)dl.onclick=function(){confirmarExclusao(R,function(){fechar()})};
+  var rs=v.querySelector("#dr-rest");if(rs)rs.onclick=function(){if(!confirm("Restaurar esta matrícula para o Controle e para os indicadores?"))return;delete R.del;R.restInfo={por:IMP.por||"Gestor",em:nowIso()};fechar();salvarJa("↺ Matrícula restaurada.");window.__X=compute();ctlGrid();atualizarKpis()};
+  v.querySelectorAll("[data-dver]").forEach(function(b){b.onclick=function(){if(window.PACE_HOST)PACE_HOST.termos([R.termos[+b.getAttribute("data-dver")]])}});
+  var ax=v.querySelector("#dr-anx");if(ax)ax.onclick=function(){escolherPdf(function(fs){PACE_HOST.anexar(R,fs,null,function(){abrirDetalhe(i,editando)})})};
+  v.querySelectorAll("[data-dsub]").forEach(function(b){b.onclick=function(){var ix=+b.getAttribute("data-dsub");escolherPdf(function(fs){PACE_HOST.anexar(R,fs.slice(0,1),ix,function(){abrirDetalhe(i,editando)})},true)}})}
+function escolherPdf(cb,um){var inp=document.createElement("input");inp.type="file";inp.accept="application/pdf,.pdf";inp.multiple=!um;inp.onchange=function(){var fs=[].slice.call(inp.files).filter(function(f){return /\.pdf$/i.test(f.name)&&f.size<=10485760});if(fs.length!==inp.files.length)toast("Só PDF até 10 MB.");if(fs.length)cb(fs)};inp.click()}
+function confirmarExclusao(R,depois){document.querySelector(".ex-modal")?.remove();var m=document.createElement("div");m.className="ex-modal";
+  m.innerHTML='<div class="ex-box"><div class="ex-ic">🗑</div><h3>Deseja realmente excluir esta matrícula do Controle?</h3><div class="ex-d"><div><span>Aluno</span><b>'+esc(R.nome||R.nomeA||"—")+'</b></div>'+(tem("cpf")?'<div><span>CPF</span><b>'+esc(cpfDig(R.cpf)||R.cpfM||"—")+'</b></div>':'')+'<div><span>Consultor</span><b>'+esc(R.c)+'</b></div><div><span>Curso</span><b>'+esc(R.curso)+'</b></div></div>'+
+   '<p class="sub2">Ela sai das listas e dos indicadores, mas fica guardada: o gestor pode restaurar em <b>🗑 Excluídas</b>.</p><div class="irow"><button class="b3d" id="ex-no" type="button">CANCELAR</button><button class="b3d b-del" id="ex-ok" type="button">CONFIRMAR EXCLUSÃO</button></div></div>';
+  document.body.appendChild(m);m.querySelector("#ex-no").onclick=function(){m.remove()};
+  m.querySelector("#ex-ok").onclick=function(){m.remove();R.del="Excluída no Controle de Matrículas";R.delInfo={por:IMP.por||"Gestor",em:nowIso()};if(depois)depois();salvarJa("🗑 Matrícula excluída (pode ser restaurada).");window.__X=compute();ctlGrid();atualizarKpis()}}
+var _vc0=valorCol;valorCol=function(k,r){return k==="anexoSt"?anexoDe(r._raw):_vc0(k,r)};
+
+var _ak0=atualizarKpis;atualizarKpis=function(){_ak0();var e=document.querySelector("[data-kexc] b");if(e)e.textContent=STATE.rows.filter(function(r){return r.del}).length};
+
 render();
 };
 </script>
@@ -2745,10 +2875,12 @@ async function salvar(log){
       var o=limpo(r),a=old?JSON.parse(old):null;ups.push({id:r._id,dados:o,origem:r._o||"historico"});
       if(!a)aud.push({id:r._id,acao:"inclusao",antes:null,depois:{c:o.c,curso:o.curso,st:o.st||o.etapa,pay:o.pay}});
       else{
-        if(String(a.st||a.etapa||"")!==String(o.st||o.etapa||"")){aud.push({id:r._id,acao:"status",antes:{st:a.st||a.etapa||""},depois:{st:o.st||o.etapa||""}});mud.push({id:r._id,c:o.c,aluno:o.nomeA||"",curso:o.curso,de:a.st||a.etapa||"",para:o.st||o.etapa||""})}
-        if(!a.del&&o.del)aud.push({id:r._id,acao:"remocao",antes:{del:null},depois:{del:o.del}});
+        if(String(a.st||a.etapa||"")!==String(o.st||o.etapa||"")){aud.push({id:r._id,acao:"status",antes:{st:a.st||a.etapa||""},depois:{st:o.st||o.etapa||""}});mud.push({id:r._id,c:o.c,aluno:o.nomeA||"",curso:o.curso,campo:"Status",de:a.st||a.etapa||"",para:o.st||o.etapa||""})}
+        if(!a.del&&o.del){aud.push({id:r._id,acao:"remocao",antes:{del:null},depois:{del:o.del}});mud.push({id:r._id,c:o.c,aluno:o.nomeA||"",curso:o.curso,campo:"Exclusão",de:"ativa",para:"excluída"})}
+        if(a.del&&!o.del){aud.push({id:r._id,acao:"restauracao",antes:{del:a.del},depois:{del:null}});mud.push({id:r._id,c:o.c,aluno:o.nomeA||"",curso:o.curso,campo:"Restauração",de:"excluída",para:"ativa"})}
+        [["pag","Pagamento"],["vest","Vestibular"],["contr","Contratos"],["anexoSt","Status do anexo"]].forEach(function(z){if(String(a[z[0]]||"")!==String(o[z[0]]||""))mud.push({id:r._id,c:o.c,aluno:o.nomeA||"",curso:o.curso,campo:z[1],de:a[z[0]]||"—",para:o[z[0]]||"—"})});
         var ks=["c","prod","pay","curso","mod","canal","base","bolsa","origem","pag","vest","contr","tel","turno","obs","cpf"].filter(function(k){return String(a[k]==null?"":a[k])!==String(o[k]==null?"":o[k])});
-        if(ks.length){var an={},de={};ks.forEach(function(k){an[k]=a[k];de[k]=o[k]});aud.push({id:r._id,acao:"correcao",antes:an,depois:de})}
+        if(ks.length){var an={},de={};ks.forEach(function(k){an[k]=a[k];de[k]=o[k]});aud.push({id:r._id,acao:"correcao",antes:an,depois:de});var ksv=ks.filter(function(k){return ["pag","vest","contr"].indexOf(k)<0});if(ksv.length)mud.push({id:r._id,c:o.c,aluno:o.nomeA||"",curso:o.curso,campo:"Edição",de:"",para:ksv.join(", ")})}
       }});
     var cfg=semImgs(A.cfg),cjs=JSON.stringify(cfg),cfgMud=cjs!==SNAPCFG;
     var reg=null;
@@ -2788,7 +2920,7 @@ async function verTermosHost(paths){
 var AREA={pace:"pace",vel:"velocity",ctl:"controle",metas:"metas"};
 async function revalidar(){try{if(DEMO)return;var r=ADM?await sb.rpc("pace_adm_perms",{p_token:ADM.token}):await sb.rpc("pace_adm_perms",{p_token:null});if(!r.error){var novo=r.data||[];if(novo.join()!==PERMS.join()){PERMS=novo;window.PACE_API&&PACE_API.render()}if(!PERMS.length){aviso("Sua sessão terminou. Entre de novo.",true);setTimeout(function(){location.reload()},1500)}}}catch(e){}}
 async function acessosUI(el){if(!el)return;try{var L=DEMO?[]:(await sb.rpc("pace_usuarios_lista")).data||[];
-  var P=[["controle","Controle de Matrículas"],["cpf","Ver CPF e telefone"],["pace","PACE"],["velocity","PACE Velocity"]];
+  var P=[["controle","Ver matrículas (Controle)"],["status","Alterar flags e status"],["editar","Editar matrículas"],["cpf","Ver CPF completo"],["tel","Ver telefone"],["anexos","Acessar anexos"],["excluir","Excluir matrículas"],["restaurar","Restaurar matrículas"],["exportar","Exportar dados"],["pace","PACE"],["velocity","PACE Velocity"]];
   el.innerHTML='<div class="ac-l">'+L.map(function(u){return '<div class="ac-i"><b>'+esc(u.nome)+'</b> <small>@'+esc(u.login)+(u.ativo?'':' · <span class="c-r">revogado</span>')+'</small><span class="ac-p">'+(u.perms||[]).map(function(x){return '<i>'+esc(x)+'</i>'}).join("")+'</span><button class="btn mini" data-acrev="'+esc(u.login)+'" data-at="'+(u.ativo?0:1)+'" type="button">'+(u.ativo?"Revogar":"Reativar")+'</button></div>'}).join("")+'</div>'+
    '<div class="ac-f"><input id="ac-l" placeholder="usuário (ex.: ana)"><input id="ac-n" placeholder="Nome"><input id="ac-s" type="password" placeholder="Senha (mín. 6)">'+P.map(function(p){return '<label><input type="checkbox" data-acp="'+p[0]+'"'+(p[0]==="controle"?" checked":"")+'> '+p[1]+'</label>'}).join("")+'<button class="btn primary" id="ac-ok" type="button">Salvar acesso</button></div><p class="sub2">Gestão de Metas e Acessos são só do gestor. Trocar a senha ou as permissões derruba as sessões abertas daquela pessoa.</p>';
   el.querySelector("#ac-ok").onclick=async function(){var per=[].slice.call(el.querySelectorAll("[data-acp]:checked")).map(function(c){return c.getAttribute("data-acp")});
@@ -2797,15 +2929,33 @@ async function acessosUI(el){if(!el)return;try{var L=DEMO?[]:(await sb.rpc("pace
     try{var r=await sb.rpc("pace_usuario_salvar",{p_login:u.login,p_nome:u.nome,p_senha:"",p_perms:u.perms,p_ativo:b.getAttribute("data-at")==="1"});if(r.error)throw r.error;aviso("Acesso atualizado.");acessosUI(el)}catch(e){aviso(esc(errMsg(e)),true)}}})}
   catch(e){el.innerHTML='<div class="empty">'+esc(errMsg(e))+'</div>'}}
 window.PACE_HOST={salvar:salvar,termos:verTermosHost,pode:function(tab){var a=AREA[tab]||"pace";return PERMS.indexOf(a)>=0},perms:function(){return PERMS},adm:function(){return !!ADM},revalidar:revalidar,acessos:acessosUI,
-  logs:async function(el){if(!el||el._ok)return;el._ok=1;try{var L;
-      if(DEMO)L=(JSON.parse(localStorage.getItem("pace_demo_db")).logs||[]).slice(0,30);
-      else{var q=await sb.from("pace_log").select("em,por,tipo,arquivo,resumo,mudancas").order("em",{ascending:false}).limit(30);if(q.error)throw q.error;L=q.data}
-      var TP={bi:"📎 Base do BI",importacao:"📥 Importação",ajuste:"✏️ Ajuste"};
-      el.innerHTML=L.length?L.map(function(l,i){var mu=l.mudancas||[],t=l.resumo&&l.resumo.tot;
-        return '<details class="lg"><summary><b>'+(TP[l.tipo]||l.tipo)+'</b> · '+new Date(l.em).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})+' · '+esc(l.por||"")+(l.arquivo?' · <i>'+esc(l.arquivo)+'</i>':'')+
-          '<span class="lg-n">'+(t?(t.novos||0)+' novos · '+(t.atual||0)+' status alterados':((l.resumo&&l.resumo.registros)||0)+' registro(s)')+'</span></summary>'+
-          (mu.length?'<table class="st"><thead><tr><th>Consultor</th><th>Aluno</th><th>Curso</th><th>De</th><th>Para</th></tr></thead><tbody>'+mu.slice(0,200).map(function(m){return '<tr><td>'+esc(m.c)+'</td><td>'+esc(m.aluno)+'</td><td>'+esc(m.curso)+'</td><td>'+esc(m.de)+'</td><td><b>'+esc(m.para)+'</b></td></tr>'}).join("")+'</tbody></table>':'<p class="sub2">Sem mudança de status nesta gravação.</p>')+'</details>'}).join(""):'<div class="empty">Nenhuma gravação registrada ainda.</div>'}
+  logs:async function(el,todos){if(!el)return;if(el._ok&&!todos)return;el._ok=1;try{var L;
+      if(DEMO)L=(JSON.parse(localStorage.getItem("pace_demo_db")).logs||[]).slice(0,todos?200:30);
+      else{var q=await sb.from("pace_log").select("em,por,tipo,arquivo,resumo,mudancas").order("em",{ascending:false}).limit(todos?200:30);if(q.error)throw q.error;L=q.data}
+      var TP={bi:"📎 Base do BI",importacao:"📥 Importação",ajuste:"✏️ Ajuste no Controle"},F=el._f||{dt:"",por:"",tp:""};
+      var resumo=function(l){var mu=l.mudancas||[],g={};mu.forEach(function(m){var k=(m.campo||"Status")+"|"+(m.de||"")+"|"+(m.para||"");g[k]=(g[k]||0)+1});var ks=Object.keys(g).sort(function(a,b){return g[b]-g[a]});
+        var ids={};mu.forEach(function(m){ids[m.id||m.aluno+m.curso]=1});var n=Object.keys(ids).length||(l.resumo&&(l.resumo.registros||(l.resumo.tot&&(l.resumo.tot.atual+l.resumo.tot.novos))))||0;
+        return {n:n,linhas:ks.slice(0,4).map(function(k){var p=k.split("|");return '<span class="lg-ch"><b>'+esc(p[0])+':</b> '+(p[1]?esc(p[1])+' → ':'')+esc(p[2])+(g[k]>1?' <i>×'+g[k]+'</i>':'')+'</span>'}).join("")+(ks.length>4?'<span class="lg-ch">+'+(ks.length-4)+' tipo(s)</span>':'')}};
+      var pors=Array.from(new Set(L.map(function(l){return l.por||""}).filter(Boolean)));
+      var V=L.filter(function(l){if(F.dt&&String(l.em).slice(0,10)!==F.dt&&new Date(l.em).toLocaleDateString("sv-SE")!==F.dt)return false;if(F.por&&l.por!==F.por)return false;if(F.tp&&l.tipo!==F.tp)return false;return (l.mudancas||[]).length||l.tipo!=="ajuste"||(l.resumo&&l.resumo.registros)});
+      var mostra=todos?V:V.slice(0,5);
+      el.innerHTML='<div class="lg-f"><input type="date" data-lgf="dt" value="'+esc(F.dt)+'" title="Filtrar por data"><select data-lgf="por"><option value="">Todos os responsáveis</option>'+pors.map(function(p){return '<option'+(p===F.por?" selected":"")+'>'+esc(p)+'</option>'}).join("")+'</select><select data-lgf="tp"><option value="">Todos os tipos</option>'+Object.keys(TP).map(function(t){return '<option value="'+t+'"'+(t===F.tp?" selected":"")+'>'+TP[t]+'</option>'}).join("")+'</select></div>'+
+        (mostra.length?mostra.map(function(l){var R=resumo(l),mu=l.mudancas||[];
+          return '<details class="lg2"><summary><span class="lg-t"><b>'+R.n+' matrícula(s) atualizada(s)</b> · '+(TP[l.tipo]||esc(l.tipo))+(l.arquivo?' · <i>'+esc(l.arquivo)+'</i>':'')+'</span><span class="lg-m">'+esc(l.por||"")+' · '+new Date(l.em).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})+'</span><span class="lg-r">'+R.linhas+'</span></summary>'+
+            (mu.length?'<table class="st"><thead><tr><th>Consultor</th><th>Aluno</th><th>Curso</th><th>Campo</th><th>De</th><th>Para</th></tr></thead><tbody>'+mu.slice(0,300).map(function(m){return '<tr><td>'+esc(m.c)+'</td><td>'+esc(m.aluno)+'</td><td>'+esc(m.curso)+'</td><td>'+esc(m.campo||"Status")+'</td><td>'+esc(m.de)+'</td><td><b>'+esc(m.para)+'</b></td></tr>'}).join("")+'</tbody></table>':'<p class="sub2">Sem detalhes por matrícula nesta operação.</p>')+'</details>'}).join(""):'<div class="empty">Nenhuma operação com esses filtros.</div>')+
+        (!todos&&V.length>5?'<button class="b3d lg-mais" type="button">VER HISTÓRICO COMPLETO ('+V.length+')</button>':'');
+      el.querySelectorAll("[data-lgf]").forEach(function(x){x.onchange=function(){F[x.getAttribute("data-lgf")]=x.value;el._f=F;el._ok=0;PACE_HOST.logs(el,todos)}});
+      var mb=el.querySelector(".lg-mais");if(mb)mb.onclick=function(){el._ok=0;PACE_HOST.logs(el,true)}}
     catch(e){el.innerHTML='<div class="empty">'+esc(errMsg(e))+'</div>'}},
+  anexar:async function(R,files,trocar,cb){try{var em=new Date().toISOString(),por=GESTOR,nomes=[];
+      for(var i=0;i<files.length;i++){var f=files[i],nm="adm-"+String(R._id||uuid()).slice(0,8)+"/"+Date.now()+"-"+f.name.normalize("NFD").replace(/[^\w.-]+/g,"_").slice(-80);
+        if(!DEMO){var up=await sb.storage.from("pace-termos").upload(nm,f,{contentType:"application/pdf",upsert:false});if(up.error)throw up.error}
+        R.termos=R.termos||[];R.termosHist=R.termosHist||[];
+        if(trocar!=null&&R.termos[trocar]){R.termosHist.push({acao:"substituído",nome:String(R.termos[trocar]).split("/").pop(),por:por,em:em,antigo:R.termos[trocar]});R.termos[trocar]=nm}
+        else R.termos.push(nm);R.termosHist.push({acao:"anexado",nome:f.name,por:por,em:em});nomes.push(f.name)}
+      if(!R.anexoSt||R.anexoSt==="Sem anexo"||R.anexoSt==="Anexo pendente"||R.anexoSt==="Rejeitado")R.anexoSt="Anexado";
+      await salvar(null);aviso("📄 "+nomes.length+" termo(s) "+(trocar!=null?"substituído":"anexado")+"(s).");cb&&cb()}
+    catch(e){aviso("Não consegui anexar: "+esc(errMsg(e)),true)}},
   pins:async function(el){if(!el||el._ok)return;el._ok=1;try{var L;
       if(DEMO)L=[{nome:"Giulia",prod:"prof",login:null,tem_pin:false}];
       else{var q=await sb.rpc("pace_lista_form");if(q.error)throw q.error;L=q.data}
@@ -2831,7 +2981,7 @@ function telaGestor(msg,aberto){
   gc.onclick=function(){fc.hidden=false;f.hidden=true;gc.classList.add("on");document.getElementById("bt-u").focus()};
   fc.onsubmit=async function(e){e.preventDefault();var b=this.querySelector("button");b.disabled=true;b.textContent="ENTRANDO…";
     try{var u=document.getElementById("bt-u").value.trim(),pw=document.getElementById("bt-p").value;
-      if(DEMO){if(pw!=="demo123")throw new Error("DEMO: senha demo123");ADM={token:"demo",nome:u||"Colaboradora"};PERMS=["controle"]}
+      if(DEMO){if(pw!=="demo123")throw new Error("DEMO: senha demo123");ADM={token:"demo",nome:u||"Colaboradora"};PERMS=["controle","status"]}
       else{var r=await sb.rpc("pace_adm_login",{p_login:u,p_senha:pw});if(r.error)throw r.error;if(r.data.erro)throw new Error(r.data.erro);ADM={token:r.data.token,nome:r.data.nome};PERMS=r.data.perms||[]}
       try{sessionStorage.setItem("pace_adm",JSON.stringify(ADM))}catch(x){}
       await entrarGestor()}catch(err){telaGestor(errMsg(err),"colab")}}
@@ -2842,8 +2992,8 @@ async function entrarGestor(){
   if(ADM){GESTOR=ADM.nome}
   else if(!DEMO){var u=await sb.auth.getUser();if(!u.data||!u.data.user)return telaGestor();
     var p=await sb.from("mp_consultores").select("perfil,ativo,nome,nome_exibicao").eq("auth_user_id",u.data.user.id).maybeSingle();
-    if(!p.data||p.data.perfil!=="gestor"||!p.data.ativo){await sb.auth.signOut();return telaGestor("Este usuário não tem acesso de gestor.")}GESTOR=p.data.nome_exibicao||p.data.nome||"Gestor";PERMS=["pace","velocity","controle","metas","cpf","acessos"]}
-  else{PERMS=["pace","velocity","controle","metas","cpf","acessos"]}
+    if(!p.data||p.data.perfil!=="gestor"||!p.data.ativo){await sb.auth.signOut();return telaGestor("Este usuário não tem acesso de gestor.")}GESTOR=p.data.nome_exibicao||p.data.nome||"Gestor";PERMS=["pace","velocity","controle","metas","cpf","tel","editar","status","anexos","excluir","restaurar","exportar","acessos"]}
+  else{PERMS=["pace","velocity","controle","metas","cpf","tel","editar","status","anexos","excluir","restaurar","exportar","acessos"]}
   boot.innerHTML='<main class="bt-tela"><div class="bt-card">'+crown()+'<h1>PACE <b>UNIDADE</b></h1><p>Carregando matrículas…</p></div></main>';
   try{var d=prepararSeed(await carregarTudo());boot.innerHTML="";document.body.className="h-pace";
     var bar=document.createElement("div");bar.className="h-bar";bar.innerHTML='<span class="h-marca">'+crown()+'<b>PACE</b> UNIDADE <i>· Portal Comercial Marte</i></span><span class="h-dir"><span class="h-quem">'+esc(GESTOR)+(ADM?' · acesso: '+esc(PERMS.join(", ")):' · gestor')+'</span>'+(C.HUNTER_URL?'<a href="'+esc(C.HUNTER_URL)+'">← Portal</a>':'')+'<button id="h-sair" type="button">Sair</button></span>';
@@ -2941,7 +3091,7 @@ function confete(){var c=document.createElement("div");c.className="fm-conf";for
 (async function(){
   try{if(!DEMO)sb=supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY)}catch(e){boot.innerHTML='<p class="bt-err">Não consegui conectar ao banco.</p>';return}
   if(FORM){if(!DEMO){try{canal=sb.channel("pace-unidade",{config:{broadcast:{self:false}}}).subscribe()}catch(e){}}return formInicio()}
-  try{var sa=JSON.parse(sessionStorage.getItem("pace_adm")||"null");if(sa&&sa.token){ADM=sa;if(!DEMO){var pr=await sb.rpc("pace_adm_perms",{p_token:sa.token});PERMS=pr.data||[]}else PERMS=["controle"];if(PERMS.length)return entrarGestor();ADM=null}}catch(x){ADM=null}
+  try{var sa=JSON.parse(sessionStorage.getItem("pace_adm")||"null");if(sa&&sa.token){ADM=sa;if(!DEMO){var pr=await sb.rpc("pace_adm_perms",{p_token:sa.token});PERMS=pr.data||[]}else PERMS=["controle","status"];if(PERMS.length)return entrarGestor();ADM=null}}catch(x){ADM=null}
   if(!DEMO){var s=await sb.auth.getSession();if(s.data&&s.data.session)return entrarGestor()}
   telaGestor()})();
 })();
