@@ -2636,9 +2636,9 @@ function capturarRanking(){var el=byId2("share");if(!el)return;toast("Gerando im
 function irParaPainel(pk,per){
   STATE.tab="pace";STATE.period=per;STATE.rk="geral";STATE.f.prod=pk==="grad"?"":PKN[pk];STATE.f.cons="";
   if(per!=="ciclo"){var hoje=dkey(TODAY),ini=per==="semana"?GM.sem:GM.mes+"-01";
-    if(per==="semana"){var fimS=dkey(addD(pd(GM.sem),4));STATE.date=hoje>=GM.sem&&hoje<=fimS?hoje:fimS}
+    if(per==="semana"){var fimS=dkey(addD(pd(GM.sem),6));STATE.date=hoje>=GM.sem&&hoje<=fimS?hoje:fimS}
     else{var u=new Date(+GM.mes.slice(0,4),+GM.mes.slice(5,7),0);STATE.date=hoje.slice(0,7)===GM.mes?hoje:dkey(u)}
-    if(per==="dia"&&!isBiz(pd(STATE.date))){var d=pd(STATE.date);while(!isBiz(d)&&d.getDate()>1)d=addD(d,-1);STATE.date=dkey(d)}}
+    /* sábado e domingo também valem: a matrícula entra no dia em que foi feita (sem pular para o último dia útil) */}
   save();render();window.scrollTo({top:0,behavior:"smooth"});
   setTimeout(function(){var e=document.querySelector(".pace");if(e){e.classList.add("meta-flash");setTimeout(function(){e.classList.remove("meta-flash")},2200)}},120)}
 
