@@ -899,6 +899,14 @@ body.tabctl .filters{display:none}.ctl-t td{white-space:nowrap}.ctl-t td:nth-chi
 .bt-card h1,.fm-cab h1,.fm-pin h2{color:#fff!important}
 .bi-res .bir b{color:#fff!important}.bi-res .bir.g b{color:#6ee7b7!important}.bi-res .bir.r b{color:#fda4af!important}.bi-res .bir.y b{color:#ffe08a!important}.bi-res .bir.b b{color:#c4b5fd!important}
 .bi-res .bi-conf,.bi-res .bi-conf label{color:#fff!important}.bi-res .bi-conf>b{color:#ffe08a!important}.bi-res h4{color:#ffe08a!important}
+
+.bt-gestor{display:flex;align-items:center;gap:12px;width:100%;margin:10px 0 12px;padding:12px 14px;border-radius:16px;border:1px solid rgba(244,197,82,.55);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;text-align:left;font:inherit;transition:background .2s,box-shadow .2s}
+.bt-gestor:hover,.bt-gestor.on{background:rgba(244,197,82,.12);box-shadow:0 0 20px rgba(244,197,82,.3)}
+.bt-av{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:linear-gradient(155deg,#fff6c9,#f4c552 45%,#a8761b);color:#2b0e57;font:800 20px "Sora",sans-serif;flex:none}
+.bt-gestor small{display:block;font:800 10px "Manrope",sans-serif;letter-spacing:.2em;color:#d9c8ff}.bt-gestor b{font:800 18px "Sora",sans-serif}
+.bt-gestor i{margin-left:auto;font-style:normal;font-size:24px;color:#ffe08a}
+.bt-sep{display:flex;align-items:center;gap:10px;margin:18px 0 10px;color:#d9c8ff;font:800 10px "Manrope",sans-serif;letter-spacing:.2em}.bt-sep:before,.bt-sep:after{content:"";flex:1;height:1px;background:rgba(244,197,82,.35)}
+.bt-form{display:block;width:100%;box-sizing:border-box;padding:14px;border-radius:14px;text-decoration:none;font:800 15px "Sora",sans-serif;letter-spacing:.06em;color:#2b0e57;background:linear-gradient(180deg,#ffe58f,#e0a92e);border:1px solid #ffe08a;box-shadow:0 0 24px rgba(244,197,82,.45),0 8px 16px -8px rgba(0,0,0,.5)}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -2150,14 +2158,17 @@ window.PACE_HOST={salvar:salvar,
     catch(e){el.innerHTML='<div class="empty">'+esc(errMsg(e))+'</div>'}}};
 
 /* ---------- login do gestor ---------- */
-function telaGestor(msg){
+function telaGestor(msg,aberto){
   document.body.className="h-boot";
-  boot.innerHTML='<main class="bt-tela"><div class="bt-card">'+crown()+'<span class="bt-ey">PORTAL COMERCIAL MARTE</span><h1>PACE <b>UNIDADE</b></h1><p>Área do gestor · entre com a <b>senha do CRM</b></p>'+
-    '<form id="bt-f"><input id="bt-s" type="password" autocomplete="current-password" placeholder="Senha do CRM" '+(DEMO?'value="demo"':'')+' required><button class="bt-btn" type="submit">ENTRAR</button><p class="bt-err" role="alert">'+esc(msg||"")+'</p></form>'+
-    '<a class="bt-link" href="?form">É consultor? Abrir o formulário de matrícula →</a>'+(C.HUNTER_URL?'<a class="bt-link" href="'+esc(C.HUNTER_URL)+'">← Voltar ao Portal</a>':'')+'</div></main>';
-  document.getElementById("bt-f").onsubmit=async function(e){e.preventDefault();var b=this.querySelector("button"),s=document.getElementById("bt-s").value;b.disabled=true;b.textContent="ENTRANDO…";
+  boot.innerHTML='<main class="bt-tela"><div class="bt-card">'+crown()+'<span class="bt-ey">PORTAL COMERCIAL MARTE</span><h1>PACE <b>UNIDADE</b></h1>'+
+    '<button class="bt-gestor'+(aberto||msg?' on':'')+'" id="bt-g" type="button"><span class="bt-av">B</span><span><small>GESTOR</small><b>Bruno</b></span><i>›</i></button>'+
+    '<form id="bt-f"'+(aberto||msg?'':' hidden')+'><input id="bt-s" type="password" autocomplete="current-password" placeholder="Senha do CRM" '+(DEMO?'value="demo"':'')+' required><button class="bt-btn" type="submit">ENTRAR</button><p class="bt-err" role="alert">'+esc(msg||"")+'</p></form>'+
+    '<div class="bt-sep"><span>CONSULTORES</span></div><a class="bt-form" href="?form">📝 FORMULÁRIO DE MATRÍCULA</a>'+(C.HUNTER_URL?'<a class="bt-link" href="'+esc(C.HUNTER_URL)+'">← Voltar ao Portal</a>':'')+'</div></main>';
+  var f=document.getElementById("bt-f"),g=document.getElementById("bt-g");
+  g.onclick=function(){f.hidden=false;g.classList.add("on");document.getElementById("bt-s").focus()};
+  f.onsubmit=async function(e){e.preventDefault();var b=this.querySelector("button"),s=document.getElementById("bt-s").value;b.disabled=true;b.textContent="ENTRANDO…";
     try{if(!DEMO){var r=await sb.auth.signInWithPassword({email:C.GESTOR_EMAIL,password:s});if(r.error)throw new Error("Senha incorreta. Use a mesma senha do CRM.")}else if(s!=="demo")throw new Error("DEMO: senha demo");
-      await entrarGestor()}catch(err){telaGestor(errMsg(err))}}}
+      await entrarGestor()}catch(err){telaGestor(errMsg(err),true)}}}
 async function entrarGestor(){
   if(!DEMO){var u=await sb.auth.getUser();if(!u.data||!u.data.user)return telaGestor();
     var p=await sb.from("mp_consultores").select("perfil,ativo,nome,nome_exibicao").eq("auth_user_id",u.data.user.id).maybeSingle();
@@ -2168,7 +2179,7 @@ async function entrarGestor(){
     document.body.insertBefore(bar,document.body.firstChild);
     document.getElementById("h-sair").onclick=async function(){if(!DEMO)await sb.auth.signOut();location.reload()};
     window.iniciarPACE(d);try{if(!window.PACE_API.imp.por)window.PACE_API.imp.por=GESTOR}catch(e){}resnap();ultimaMarca=await marcaAtual();ligarTempoReal()}
-  catch(e){console.error(e);telaGestor("Não consegui carregar o PACE: "+errMsg(e)+(/pace_/.test(errMsg(e))?" (rode o SQL do PACE no Supabase)":""))}}
+  catch(e){console.error(e);telaGestor(/pace_/.test(errMsg(e))?"O banco do PACE ainda não foi criado: rode o SQL do passo 1 no Supabase e entre de novo.":"Não consegui carregar o PACE: "+errMsg(e),true)}}
 
 /* ---------- FORMULÁRIO DOS CONSULTORES ---------- */
 var FS={lista:[],quem:null,tok:null,op:{cursos:[],bases:[]},chave:null};
