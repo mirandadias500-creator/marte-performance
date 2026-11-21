@@ -916,6 +916,19 @@ body.tabctl .filters{display:none}.ctl-t td{white-space:nowrap}.ctl-t td:nth-chi
 .bt-gestor em{display:block;font-style:normal;font-size:12px;color:#e3d6ff;font-weight:600}
 .bt-card{position:relative;overflow:hidden}.bt-card:before{content:"";position:absolute;inset:-60% -30% auto;height:120%;background:conic-gradient(from 180deg at 50% 0%,transparent 0 42%,rgba(255,226,140,.14) 47%,transparent 52% 100%);animation:pdRaio 12s linear infinite;pointer-events:none}
 .bt-card>*{position:relative}
+.gm-sel{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:12px}
+.gm-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:14px}@media(max-width:1000px){.gm-grid{grid-template-columns:1fr}}
+.gm-box{border:1px solid #ece4fb;border-radius:16px;padding:14px;background:#fbf9ff}
+.gm-box h3{font:800 15px "Sora",ui-sans-serif,sans-serif;color:#2b0e57;margin-bottom:4px}
+.gm-unid{background:linear-gradient(160deg,#2a0d5c,#3b1477);border-color:rgba(244,197,82,.6);color:#fff}
+.gm-unid h3{color:#ffe08a}.gm-unid .sub2{color:#e3d6ff}.gm-unid .sub2 b{color:#fff}
+.gm-u{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.gm-u label{display:flex;flex-direction:column;gap:5px;font:800 12px "Manrope",sans-serif;color:#ffe08a}.gm-u small{display:block;font-weight:600;color:#d9c8ff;font-size:10.5px}
+.gm-u input{font:800 22px "Sora",sans-serif;padding:8px 10px;border-radius:12px;border:1px solid rgba(244,197,82,.6);background:#fff;color:#2b0e57;width:100%;box-sizing:border-box}
+.gm-info{font-size:12px;color:#d9c8ff;margin-top:10px}.gm-info b{color:#fff}
+.gm-t input{width:70px;font:700 14px "Manrope",sans-serif;border:1px solid #e3d8fb;border-radius:8px;padding:5px 7px;text-align:right}
+.gm-t td{white-space:nowrap}.gm-pad td{background:#fff8e1}.gm-t .who{display:flex;align-items:center;gap:8px}
+.sem-meta{color:#b4233f!important;font-size:15px!important}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -1051,9 +1064,10 @@ function compute(){
       var st={ok:hm.filter(isOk).length,ac:hm.filter(function(r){return r.stk==="aceite"}).length};st.ot=hm.length-st.ok-st.ac;
       return {mInf:imp||cfg,mImp:imp,mods:mods,st:st,c:c,prodT:allHM.length,fo:fo,h:h,m:m,t:t,mh:mh,mm:mm,mt:mt,gh:Math.max(0,mh-h),gm:Math.max(0,mm-m),gt:Math.max(0,mt-t),ph:mh?h/mh:null,pm:mm?m/mm:null,pt:mt?t/mt:null,
         g:Pg.filter(function(r){return r.c===c&&r.g}).length}});
+    rows.forEach(function(x){aplicarMetaInd(x,prodKey,D)});
     var sum={h:0,m:0,t:0,mh:0,mm:0,mt:0,prodT:0,fo:0};rows.forEach(function(x){for(var k in sum)sum[k]+=x[k]});
     sum.gh=Math.max(0,sum.mh-sum.h);sum.gm=Math.max(0,sum.mm-sum.m);sum.gt=Math.max(0,sum.mt-sum.t);sum.pt=sum.mt?sum.t/sum.mt:null;sum.ph=sum.mh?sum.h/sum.mh:null;sum.pm=sum.mm?sum.m/sum.mm:null;
-    sum.mInf=rows.some(function(x){return x.mInf});sum.mImp=rows.some(function(x){return x.mImp});return {rows:rows,sum:sum,hasMidia:prodKey==="grad"};
+    sum.mInf=rows.some(function(x){return x.mInf});sum.mImp=rows.some(function(x){return x.mImp});aplicarMetaUnid(sum,rows,prodKey,D,f);return {rows:rows,sum:sum,hasMidia:prodKey==="grad"};
   }
   var pg=pace("grad","Graduação"),pp=pace("pos","Pós-graduação"),pf=pace("prof","Profissionalizante");
   var pendAll=F.filter(function(r){return r.prod!=="Pós-graduação"&&!merged(r)&&isPend(r)});
@@ -1078,7 +1092,7 @@ function render0(){
   h+='<header class="top"><div class="brandrow">'+''+'<div><div class="eyebrow">Faculdade Anhanguera · Campus Marte</div><h1>PACE Unidade — Matrículas e Performance</h1>'+
     '<div class="today"><span>Hoje: <b>'+DOW[TODAY.getDay()]+', '+ddmm(TODAY)+'/'+TODAY.getFullYear()+'</b></span><span>Mês: <b>'+MES[TODAY.getMonth()]+'/'+TODAY.getFullYear()+'</b></span><span><b>'+bizLeft+'</b> dias úteis restantes no mês (incl. hoje)</span></div></div></div>'+
     '<button class="btn" id="btn-up" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/></svg>Importar histórico e metas</button><button class="btn primary btn-bi" id="btn-bi" type="button">📎 ANEXAR BASE DE ATUALIZAÇÃO</button><button class="btn" id="btn-form" type="button">🔗 Link do formulário</button></header>';
-  h+='<nav class="ptabs" aria-label="Visões"><button type="button" data-tab="pace" class="'+(STATE.tab!=="vel"&&STATE.tab!=="ctl"?"on":"")+'">📊 PACE</button><button type="button" data-tab="vel" class="vt2 '+(STATE.tab==="vel"?"on":"")+'">⚡ PACE Velocity</button><button type="button" data-tab="ctl" class="vt3 '+(STATE.tab==="ctl"?"on":"")+'">📋 Controle de Matrículas</button></nav>';
+  h+='<nav class="ptabs" aria-label="Visões"><button type="button" data-tab="pace" class="'+(STATE.tab!=="vel"&&STATE.tab!=="ctl"&&STATE.tab!=="metas"?"on":"")+'">📊 PACE</button><button type="button" data-tab="vel" class="vt2 '+(STATE.tab==="vel"?"on":"")+'">⚡ PACE Velocity</button><button type="button" data-tab="ctl" class="vt3 '+(STATE.tab==="ctl"?"on":"")+'">📋 Controle de Matrículas</button><button type="button" data-tab="metas" class="vt3 '+(STATE.tab==="metas"?"on":"")+'">🎯 Gestão de Metas</button></nav>';
   OREG=[];
   if(STATE.msg){var sfx=STATE.msg.up?(STATE.art?" Por enquanto só você vê esta versão. Publique para atualizar o link para todos.":" ✓ Salvo no banco — já vale para todos."):"";
     h+='<div class="banner'+(STATE.msg.err?" err":"")+'"><span>'+STATE.msg.html+sfx+'</span>'+(STATE.msg.up&&STATE.art?'<button class="btn primary" id="btn-pub" type="button">Publicar para todos</button>':'')+'</div>';}
@@ -1098,6 +1112,7 @@ function render0(){
   document.body.classList.toggle("tabvel",STATE.tab==="vel");
   if(STATE.tab==="vel"){h+=velTab(X);h+='<footer class="pgfoot"><span>PACE Velocity — Campus Marte · Autoria: Bruno Dias</span><span>Fonte: '+esc(CFG.arquivo)+' · '+R.length+' matrículas na base</span></footer>';
     document.body.classList.toggle("pmax",false);document.getElementById("app").innerHTML=h;wireBase();wireVel();return}
+  if(STATE.tab==="metas"){h+=gestaoMetas(X)+'<footer class="pgfoot"><span>PACE Unidade — Campus Marte</span><span></span></footer>';document.getElementById("app").innerHTML=h;wireBase();return}
   if(STATE.tab==="ctl"){h+=controleTab(X);h+='<footer class="pgfoot"><span>PACE Unidade — Campus Marte · Autoria: Bruno Dias</span><span>'+R.length+' matrículas na base</span></footer>';document.body.classList.toggle("pmax",false);document.getElementById("app").innerHTML=h;wireBase();return}
   /* individual */
   if(f.cons)h+='<div class="viewing">'+(f.cons?'<span>Você está vendo: <b>'+esc(f.cons)+'</b> — todos os números abaixo são só deste consultor.</span><button class="btn" id="v-unit" type="button">Ver unidade completa</button>':
@@ -1113,7 +1128,7 @@ function render0(){
   if(noPace){h+='<div class="card pace"><div class="tot"><div class="lbl">'+perLbl+'</div><div class="pcbig c-n" style="font-size:24px">Sem PACE definido</div><div class="ln">'+esc(f.prod)+': meta ainda não cadastrada</div></div></div>'}
   else{var bH=band(S.ph),bM=band(S.pm),LP=X.P.filter(function(r){return r.prod===PKN[PK]&&!merged(r)&&r.elig}),lT=LP.filter(function(r){return r.canal==="Hunter"||r.canal==="Mídia"}).length,lH=LP.filter(function(r){return r.canal==="Hunter"}).length,lM=LP.filter(function(r){return r.canal==="Mídia"}).length,lzl=function(l,t,m){return (m&&l>t)?'<div class="lzt">'+l+' lançada(s) · '+pct(l/m)+' com as pendentes</div>':''};
     h+='<div class="card pace" style="--nsub:'+(2+subs.length)+'"><div class="tot"'+O({k:"pace",pk:PK,lbl:"PACE Total "+PSUF+" · "+PKS[PK]})+'><div class="lbl">PACE Total '+PSUF+' · '+PKS[PK]+' · '+rgTxt+'<i class="oi">i</i></div><div class="pcbig '+nc(bS)+'">'+pct(S.pt)+'<span class="pcl">do PACE</span></div>'+bar2(S.pt,bS,S.mt?lT/S.mt:null)+lzl(lT,S.t,S.mt)+
-      '<div class="ln rmbig"><span class="lr">Realizado <b>'+S.t+'</b></span><span class="sep">|</span><span class="lm">Meta <b>'+S.mt+'</b></span><span>Faltam '+FAL(S.gt)+'</span>'+''+'</div>'+projHtml(X,S)+'</div>'+
+      '<div class="ln rmbig"><span class="lr">Realizado <b>'+S.t+'</b></span><span class="sep">|</span><span class="lm">'+(S.mt==null?'<b class="sem-meta">Sem meta definida</b>':'Meta '+(S.oficial?'oficial ':'')+'<b>'+S.mt+'</b>')+'</span>'+(S.mt==null?'':'<span>Faltam '+FAL(S.gt)+'</span>')+''+''+'</div>'+projHtml(X,S)+'</div>'+
       '<div class="sub"'+O({k:"pace",pk:PK,canal:"Hunter",lbl:"PACE Hunter "+PSUF+" · "+PKS[PK]})+'><div class="lbl">PACE Hunter '+PSUF+'<i class="oi">i</i></div><div class="rm2 big"><b class="'+nc(bH)+'">'+S.h+'</b><span class="mt">Meta <em>'+S.mh+'</em></span></div>'+bar2(S.ph,bH,S.mh?lH/S.mh:null)+lzl(lH,S.h,S.mh)+'<div class="ft"><b>'+pct(S.ph)+'</b> do PACE · faltam '+FAL(S.gh)+'</div></div>'+
       '<div class="sub"'+O({k:"pace",pk:PK,canal:"Mídia",lbl:"PACE Mídia "+PSUF+" · "+PKS[PK]})+'><div class="lbl">PACE Mídia '+PSUF+'<i class="oi">i</i></div>'+(PC.hasMidia?'<div class="rm2 big"><b class="'+nc(bM)+'">'+S.m+'</b><span class="mt">Meta <em>'+S.mm+'</em></span></div>'+bar2(S.pm,bM,S.mm?lM/S.mm:null)+lzl(lM,S.m,S.mm)+'<div class="ft"><b>'+pct(S.pm)+'</b> do PACE · faltam '+FAL(S.gm)+'</div>':'<div class="v c-n" style="font-size:22px">Sem meta</div><div class="ft">'+PKS[PK]+' não tem PACE Mídia</div>')+'</div>'+
       subs.map(function(z){var QQ=X[z[0]],Q=QQ.sum,bp=band(Q.ph),who=QQ.rows.map(function(x){return x.c});return '<div class="sub possub"'+O({k:"pace",pk:z[1],canal:"Hunter",lbl:"PACE "+z[2]+" "+PSUF+" · Hunter"})+'><div class="lbl">PACE '+z[2]+' '+PSUF+' · Hunter<i class="oi">i</i></div><div class="rm2 big"><b class="'+nc(bp)+'">'+Q.h+'</b><span class="mt">'+(z[1]==="prof"&&!CFG.metas.prof.hunter?'Meta não informada':'Meta <em>'+Q.mh+'</em>')+'</span></div>'+bar(Q.ph,bp)+'<div class="ft"><b>'+pct(Q.ph)+'</b> do PACE · faltam '+FAL(Q.gh)+'</div><div class="posw">'+who.map(function(c){return av(c,30,bp)+'<span>'+esc(c)+'</span>'}).join("")+'</div></div>'}).join("")+
@@ -1191,7 +1206,7 @@ function rankTable(X,PC,usePos){
       '<td class="r"'+O({k:"pace",pk:PKr,canal:"Hunter",c:x.c,lbl:"Hunter · "+x.c})+'>'+cell(x.h,x.mh,x.gh,x.ph)+'</td>'+(showM?'<td class="r"'+O({k:"pace",pk:PKr,canal:"Mídia",c:x.c,lbl:"Mídia · "+x.c})+'>'+cell(x.m,x.mm,x.gm,x.pm)+'</td>':'')+'<td class="r"'+O({k:"pace",pk:PKr,c:x.c,lbl:"Total PACE · "+x.c})+'>'+cell(x.t,x.mt,x.gt,x.pt)+'</td><td class="r"><b>'+x.prodT+'</b>'+(x.fo?'<div><span class="fora">'+x.fo+' fora do PACE</span></div>':'')+'</td>'+
       '<td><div class="pw"><span class="pc '+nc(b)+'">'+pct(p)+'</span><div style="flex:1;min-width:0">'+bar2(p,b,(mode==="geral"&&x.mt)?x.prodT/x.mt:null)+((mode==="geral"&&x.mt&&x.prodT>x.t)?'<div class="lzt">'+x.prodT+' lançada(s) · '+pct(x.prodT/x.mt)+' com as pendentes</div>':'')+'</div></div></td><td class="xo"><div class="mods">'+(mods||'<span class="c-n">—</span>')+'</div></td><td class="xo"><div class="sts">'+(st||'<span class="ot">—</span>')+'</div></td><td><span class="chip '+b+'">'+bandLbl(p)+'</span></td></tr>'});
   var S=PC.sum;
-  s+='</tbody><tfoot><tr><td></td><td><div class="who">'+ulogo(64)+'<span class="unm">Unidade</span></div></td>'+DAYS.map(function(d){if(day0(d)>X.D)return '<td class="dc fut">—</td>';var n=PC.rows.reduce(function(a,x){return a+dayCnt(x.c,d)},0);return '<td class="dc"><b class="'+(n?'dn':'dz')+'">'+n+'</b></td>'}).join("")+'<td class="r"'+O({k:"pace",pk:PKr,canal:"Hunter",lbl:"Hunter · unidade"})+'><div class="rm2"><b>'+S.h+'</b><span class="mt">Meta <em>'+S.mh+'</em></span></div></td>'+(showM?'<td class="r"'+O({k:"pace",pk:PKr,canal:"Mídia",lbl:"Mídia · unidade"})+'><div class="rm2"><b>'+S.m+'</b><span class="mt">Meta <em>'+S.mm+'</em></span></div></td>':'')+'<td class="r"'+O({k:"pace",pk:PKr,lbl:"Total PACE · unidade"})+'><div class="rm2"><b>'+S.t+'</b><span class="mt">Meta <em>'+S.mt+'</em></span></div></td><td class="r"><b>'+S.prodT+'</b>'+(S.fo?'<div><span class="fora">'+S.fo+' fora</span></div>':'')+'</td><td><div class="pw"><span class="pc '+nc(band(S[key]))+'">'+pct(S[key])+'</span>'+bar(S[key],band(S[key]))+'</div></td><td colspan="3">Gap total '+FAL(S.gt)+'</td></tr></tfoot></table></div>';
+  s+='</tbody><tfoot><tr><td></td><td><div class="who">'+ulogo(64)+'<span class="unm">Unidade</span></div></td>'+DAYS.map(function(d){if(day0(d)>X.D)return '<td class="dc fut">—</td>';var n=PC.rows.reduce(function(a,x){return a+dayCnt(x.c,d)},0);return '<td class="dc"><b class="'+(n?'dn':'dz')+'">'+n+'</b></td>'}).join("")+'<td class="r"'+O({k:"pace",pk:PKr,canal:"Hunter",lbl:"Hunter · unidade"})+'><div class="rm2"><b>'+S.h+'</b><span class="mt">Meta <em>'+S.mh+'</em></span></div></td>'+(showM?'<td class="r"'+O({k:"pace",pk:PKr,canal:"Mídia",lbl:"Mídia · unidade"})+'><div class="rm2"><b>'+S.m+'</b><span class="mt">Meta <em>'+S.mm+'</em></span></div></td>':'')+'<td class="r"'+O({k:"pace",pk:PKr,lbl:"Total PACE · unidade"})+'><div class="rm2"><b>'+S.t+'</b><span class="mt">Meta <em>'+(S.mt==null?'—':S.mt)+'</em></span></div></td><td class="r"><b>'+S.prodT+'</b>'+(S.fo?'<div><span class="fora">'+S.fo+' fora</span></div>':'')+'</td><td><div class="pw"><span class="pc '+nc(band(S[key]))+'">'+pct(S[key])+'</span>'+bar(S[key],band(S[key]))+'</div></td><td colspan="3">'+(S.mt==null?'Sem meta oficial definida':'Gap total '+FAL(S.gt))+'</td></tr></tfoot></table></div>';
   return s;
 }
 function pendList(X){
@@ -1964,12 +1979,14 @@ var CROWN=function(m){var g={ouro:["#fff6c9","#f4c552","#a8761b"],prata:["#fffff
 /* ---------- PÓDIO DO DIA (maior atingimento da meta diária; só Cursando elegível) ---------- */
 function podioDia(){
   var per=STATE.period,X2;STATE.period="dia";try{X2=compute()}finally{STATE.period=per}
-  var D=X2.D,L=[].concat(X2.pg.rows,X2.pp.rows,X2.pf.rows).filter(function(x){return x.mt>0&&x.t>0});
+  var D=X2.D,L=[];[["grad",X2.pg],["pos",X2.pp],["prof",X2.pf]].forEach(function(z){z[1].rows.forEach(function(x){
+    var n=X2.P.filter(function(r){return r.c===x.c&&r.prod===PKN[z[0]]&&r.elig&&!merged(r)&&(r.canal==="Hunter"||r.canal==="Mídia")}).length,mt=x.mt;
+    if(mt>0&&n>0)L.push({c:x.c,t:n,mt:mt,pt:n/mt})})});
   L.sort(function(a,b){return (b.pt-a.pt)||(b.t-a.t)||String(a.c).localeCompare(b.c,"pt-BR")});
   var top=L.slice(0,3),MET=["ouro","prata","bronze"],PO=["1º","2º","3º"];
-  var s='<section class="card podio-dia" id="podio-dia"><div class="pdd-cab"><div><span class="pdd-ey">PACE · '+DOW[D.getDay()]+'</span><h2>🏆 PÓDIO DO DIA <em>'+ddmm(D)+'/'+D.getFullYear()+'</em></h2></div><span class="pdd-reg">Maior atingimento da meta diária · só matrículas <b>Cursando</b> elegíveis</span></div>';
+  var s='<section class="card podio-dia" id="podio-dia"><div class="pdd-cab"><div><span class="pdd-ey">PACE · '+DOW[D.getDay()]+'</span><h2>🏆 PÓDIO DO DIA <em>'+ddmm(D)+'/'+D.getFullYear()+'</em></h2></div><span class="pdd-reg">Maior atingimento da meta diária · meta individual diária · matrículas elegíveis lançadas no dia (qualquer status)</span></div>';
   if(!X2.biz){return s+'<p class="pdd-vazio">'+ddmm(D)+' não é dia útil: o Pódio do Dia aparece nos dias com meta.</p></section>'}
-  if(!top.length){return s+'<p class="pdd-vazio">Ainda ninguém com matrícula <b>Cursando</b> válida em '+ddmm(D)+'. O pódio aparece assim que os status subirem.</p></section>'}
+  if(!top.length){return s+'<p class="pdd-vazio">Ainda ninguém com matrícula elegível lançada em '+ddmm(D)+'.</p></section>'}
   var ord=top.length===1?[0]:top.length===2?[1,0]:[1,0,2];
   s+='<div class="pdd-palco">'+ord.map(function(i){var x=top[i],m=MET[i],f=(CFG.fotos||{})[x.c];
     return '<div class="pdd-lugar pdd-'+m+'"><div class="pdd-ft">'+CROWN(m)+'<span class="pdd-foto">'+(f?'<img src="'+f+'" alt="">':'<b>'+esc(initials(x.c))+'</b>')+'</span></div>'+
@@ -2053,15 +2070,61 @@ function wireExtras(){
   var mc=byId2("mig-corr");if(mc)mc.onclick=function(){if(!IMP.correcao&&!confirm("Ativar o modo correção do histórico? Use só para corrigir a base antiga. Tudo fica registrado."))return;IMP.correcao=!IMP.correcao;IMP.files=[];render()};
   document.querySelectorAll("[data-mapst]").forEach(function(s){s.onchange=function(){CFG.mapaSt=CFG.mapaSt||{};var k=low(s.getAttribute("data-mapst"));if(s.value)CFG.mapaSt[k]=s.value;else delete CFG.mapaSt[k];render()}});
   if(STATE.tab==="ctl")wireCtl();
+  if(STATE.tab==="metas")wireGM();
   if(window.PACE_HOST&&PACE_HOST.aposRender)PACE_HOST.aposRender();
 }
 function render(){
   if(STATE.msg&&STATE.msg.up&&!STATE.msg._sv){STATE.msg._sv=1;var lg=STATE.lastLog||null;STATE.lastLog=null;if(window.PACE_HOST)PACE_HOST.salvar(lg)}
-  document.body.classList.toggle("tabctl",STATE.tab==="ctl");render0();try{wireExtras()}catch(e){console.error(e)}
+  document.body.classList.toggle("tabctl",STATE.tab==="ctl"||STATE.tab==="metas");render0();try{wireExtras()}catch(e){console.error(e)}
 }
 window.PACE_API={get state(){return STATE},get cfg(){return CFG},get imp(){return IMP},render:render,
   recarregar:function(rows,cfg){STATE.rows=rows;for(var k in cfg)CFG[k]=cfg[k];refreshCons();assignDg();render()},
   aviso:function(html,err){STATE.msg={html:html,err:err?1:0};render()}};
+
+/* ================= METAS INDEPENDENTES: unidade (oficial) × consultores (individuais) ================= */
+CFG.metasOf=CFG.metasOf||[];
+function metaNova(esc,cons,pk,tp,ref){var L=CFG.metasOf.filter(function(m){return m.esc===esc&&(m.cons||"")===(cons||"")&&m.prod===pk&&m.tp===tp&&m.ref===ref});return L.length?L[L.length-1].meta:undefined}
+function refPer(per,D){return per==="dia"?dkey(D).slice(0,7):per==="semana"?dkey(range("semana",D)[0]):per==="mes"?dkey(D).slice(0,7):"ciclo"}
+function metaPer(esc,cons,pk,per,D){if(per==="dia"&&!isBiz(D))return undefined;var v=metaNova(esc,cons,pk,per,refPer(per,D));return v==null?undefined:v}
+function aplicarMetaInd(x,pk,D){var v=metaPer("cons",x.c,pk,STATE.period,D);if(v===undefined)return;x.mt=v;x.pt=v?x.t/v:null;x.gt=Math.max(0,v-x.t);x.mInf=true;x.mInd=true}
+function aplicarMetaUnid(sum,rows,pk,D,f){
+  if(f.cons){var r=rows[0];if(r){sum.mt=r.mt;sum.pt=r.pt;sum.gt=r.gt}return}
+  var v=metaPer("unid","",pk,STATE.period,D);sum.somaInd=sum.mt;
+  if(v===undefined){sum.mt=null;sum.pt=null;sum.gt=null;sum.semMeta=true}else{sum.mt=v;sum.pt=v?sum.t/v:null;sum.gt=Math.max(0,v-sum.t);sum.oficial=true}}
+var GM={pk:"grad",mes:null,sem:null};
+function gestaoMetas(X){
+  var D=X.D;GM.mes=GM.mes||dkey(D).slice(0,7);var sems=weeksOf(GM.mes);if(!GM.sem||sems.indexOf(GM.sem)<0)GM.sem=sems.indexOf(dkey(range("semana",D)[0]))>=0?dkey(range("semana",D)[0]):sems[0];
+  var pk=GM.pk,TP=[["dia","Diária",GM.mes],["semana","Semanal",GM.sem],["mes","Mensal",GM.mes],["ciclo","Ciclo","ciclo"]];
+  var val=function(esc,c,tp,ref){var v=metaNova(esc,c,pk,tp,ref);return v==null?"":v};
+  var cons=(CFG.consultores[pk]||[]).slice();
+  var soma=TP.map(function(t){var n=0,ok=0;cons.forEach(function(c){var v=metaNova("cons",c,pk,t[0],t[2]);if(v!=null){n+=+v;ok++}});return ok?n:"—"});
+  var s='<section class="card pad gm"><div class="sec-h"><h2>🎯 GESTÃO DE METAS</h2><span class="scope">meta da unidade e metas dos consultores são independentes</span></div>'+
+    '<div class="gm-sel"><div class="seg">'+[["grad","GRADUAÇÃO"],["pos","PÓS-GRADUAÇÃO"],["prof","PROFISSIONALIZANTE"]].map(function(p){return '<button type="button" data-gmpk="'+p[0]+'" class="'+(pk===p[0]?"on":"")+'">'+p[1]+'</button>'}).join("")+'</div>'+
+    '<label class="ctl-f"><span>Mês</span><select id="gm-mes">'+monthsOpts().map(function(m){return '<option value="'+m+'"'+(m===GM.mes?" selected":"")+'>'+refTxt("mes",m).replace("Mês ","")+'</option>'}).join("")+'</select></label>'+
+    '<label class="ctl-f"><span>Semana</span><select id="gm-sem">'+sems.map(function(w){return '<option value="'+w+'"'+(w===GM.sem?" selected":"")+'>'+refTxt("semana",w)+'</option>'}).join("")+'</select></label></div>';
+  s+='<div class="gm-grid"><div class="gm-box gm-unid"><h3>🎯 META OFICIAL DA UNIDADE</h3><p class="sub2">Digitada por você. <b>Nunca</b> é a soma das metas dos consultores. Em branco = <b>Sem meta definida</b>.</p>'+
+    '<div class="gm-u">'+TP.map(function(t){var v=val("unid","",t[0],t[2]);return '<label><span>'+t[1]+'<small>'+(t[0]==="dia"?"cada dia útil de "+refTxt("mes",GM.mes).replace("Mês ",""):t[0]==="semana"?refTxt("semana",GM.sem):t[0]==="mes"?refTxt("mes",GM.mes).replace("Mês ",""):"ciclo completo")+'</small></span><input type="number" min="0" step="1" data-gmu="'+t[0]+'" value="'+v+'" placeholder="Sem meta"></label>'}).join("")+'</div>'+
+    '<button class="btn primary" id="gm-su" type="button">Salvar meta da unidade</button>'+
+    '<p class="gm-info">Só para comparação (não é usada): soma das metas individuais · dia <b>'+soma[0]+'</b> · semana <b>'+soma[1]+'</b> · mês <b>'+soma[2]+'</b> · ciclo <b>'+soma[3]+'</b></p></div>';
+  s+='<div class="gm-box"><h3>👤 METAS INDIVIDUAIS</h3><p class="sub2">Cada consultor tem a sua. Em branco = usa a meta importada da planilha (se houver).</p>'+
+    '<div class="tbl"><table class="st gm-t"><thead><tr><th>Consultor</th>'+TP.map(function(t){return '<th class="r">'+t[1]+'</th>'}).join("")+'</tr></thead><tbody>'+
+    '<tr class="gm-pad"><td><b>Padrão</b><br><small>aplica nos campos abaixo</small></td>'+TP.map(function(t){return '<td><input type="number" min="0" data-gmp="'+t[0]+'" placeholder="—"></td>'}).join("")+'</tr>'+
+    cons.map(function(c){return '<tr><td><span class="who">'+av(c,28)+'<b>'+esc(c)+'</b></span></td>'+TP.map(function(t){return '<td><input type="number" min="0" data-gmc="'+esc(c)+'|'+t[0]+'" value="'+val("cons",c,t[0],t[2])+'" placeholder="—"></td>'}).join("")+'</tr>'}).join("")+
+    '</tbody></table></div><div class="irow"><button class="btn" id="gm-ap" type="button">Aplicar padrão a todos</button><button class="btn primary" id="gm-sc" type="button">Salvar metas individuais</button></div></div></div></section>';
+  return s}
+function wireGM(){
+  var D=pd(STATE.date)||TODAY,pk=GM.pk,TPR={dia:GM.mes,semana:GM.sem,mes:GM.mes,ciclo:"ciclo"};
+  document.querySelectorAll("[data-gmpk]").forEach(function(b){b.onclick=function(){GM.pk=b.getAttribute("data-gmpk");render()}});
+  var m=byId2("gm-mes");if(m)m.onchange=function(){GM.mes=m.value;GM.sem=null;render()};
+  var w=byId2("gm-sem");if(w)w.onchange=function(){GM.sem=w.value;render()};
+  function grava(esc,c,tp,raw){var ref=TPR[tp],ant=metaNova(esc,c,pk,tp,ref),nv=raw===""?null:Math.max(0,Math.round(+raw*100)/100);if(raw!==""&&isNaN(+raw))return 0;
+    if((ant==null?null:+ant)===nv)return 0;CFG.metasOf.push({esc:esc,cons:c||"",prod:pk,tp:tp,ref:ref,meta:nv,em:nowIso(),por:IMP.por||"Gestor"});return 1}
+  var su=byId2("gm-su");if(su)su.onclick=function(){var n=0;document.querySelectorAll("[data-gmu]").forEach(function(i){n+=grava("unid","",i.getAttribute("data-gmu"),i.value.trim())});
+    STATE.msg=n?{up:1,html:"Meta oficial da unidade salva ("+n+" período(s)). As metas dos consultores não mudaram."}:{html:"Nenhuma alteração na meta da unidade."};render()};
+  var ap=byId2("gm-ap");if(ap)ap.onclick=function(){document.querySelectorAll("[data-gmp]").forEach(function(p){var v=p.value.trim();if(v==="")return;document.querySelectorAll('[data-gmc$="|'+p.getAttribute("data-gmp")+'"]').forEach(function(i){i.value=v})});toast("Padrão aplicado nos campos. Confira e clique em Salvar metas individuais.")};
+  var sc=byId2("gm-sc");if(sc)sc.onclick=function(){var n=0;document.querySelectorAll("[data-gmc]").forEach(function(i){var k=i.getAttribute("data-gmc").split("|");n+=grava("cons",k[0],k[1],i.value.trim())});
+    STATE.msg=n?{up:1,html:"Metas individuais salvas ("+n+" alteração(ões)). A meta oficial da unidade não mudou."}:{html:"Nenhuma alteração nas metas individuais."};render()};
+}
 
 render();
 };
@@ -2072,6 +2135,7 @@ render();
 "use strict";
 var C=window.PACE_CONFIG||{},IMGS=JSON.parse(document.getElementById("pace-imgs").textContent);
 var DEMO=!C.SUPABASE_URL, FORM=/[?&]form\b/.test(location.search);
+var BCD=null;try{BCD=window.BroadcastChannel?new BroadcastChannel("pace-demo"):null}catch(e){}
 var GESTOR="Bruno Dias", sb=null, SNAP={}, SNAPCFG="", salvando=false, fila=null, canal=null, ultimaMarca="";
 var IMG_KEYS=["fotoGestor","fotos","logoUnidade","googleIcon","warnIcon","turmaIcon","paceIcon","empIcon","fotoTopo"];
 var boot=document.getElementById("boot");
@@ -2139,10 +2203,10 @@ async function salvar(log){
   finally{salvando=false;if(fila){var f=fila;fila=null;salvar(f.log)}}}
 
 /* ---------- tempo real ---------- */
-function avisar(){try{if(canal)canal.send({type:"broadcast",event:"pace",payload:{t:Date.now()}})}catch(e){}try{if(window.BroadcastChannel)new BroadcastChannel("pace-demo").postMessage("pace")}catch(e){}}
+function avisar(){try{if(canal)canal.send({type:"broadcast",event:"pace",payload:{t:Date.now()}})}catch(e){}try{if(BCD)BCD.postMessage("pace")}catch(e){}}
 function ligarTempoReal(){
   if(!DEMO){try{canal=sb.channel("pace-unidade",{config:{broadcast:{self:false}}}).on("broadcast",{event:"pace"},function(){recarregar("🔄 Nova matrícula ou atualização recebida")}).subscribe()}catch(e){}}
-  try{if(window.BroadcastChannel)new BroadcastChannel("pace-demo").onmessage=function(){recarregar("🔄 Nova matrícula ou atualização recebida")}}catch(e){}
+  try{if(BCD)BCD.onmessage=function(){recarregar("🔄 Nova matrícula ou atualização recebida")}}catch(e){}
   setInterval(async function(){if(document.hidden)return;try{var m=await marcaAtual();if(ultimaMarca&&m!==ultimaMarca)recarregar("🔄 Dados atualizados")}catch(e){}},30000)}
 
 /* ---------- área do gestor: histórico e PINs ---------- */
