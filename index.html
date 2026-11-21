@@ -1981,6 +1981,13 @@ tr.alterada{background:#fff8e1!important}
 .bs2-d.fora{opacity:.3}.bs2-d.fut .bs2-db{background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px)}.bs2-d.fut .bs2-dq{color:#8f7fb0}
 .rk-evo{border-radius:var(--raio);box-shadow:0 0 0 2px #c58d22,0 0 0 4px rgba(34,10,69,.9),0 0 0 5.5px #e6b23f,0 0 30px rgba(244,197,82,.25),0 24px 44px -20px rgba(0,0,0,.7)}
 .bs2-col.top.andamento .bs2-bar{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.25) 0 6px,transparent 6px 12px),linear-gradient(180deg,#fff4c4,#f1c24f 45%,#b07a16)}
+.som-convite{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:9000;display:flex;align-items:center;gap:12px;padding:12px 22px 12px 14px;border-radius:999px;border:1px solid rgba(255,226,140,.7);
+  background:linear-gradient(180deg,rgba(60,22,120,.95),rgba(30,8,64,.95));color:#fff;cursor:pointer;text-align:left;font:inherit;
+  box-shadow:0 0 0 4px rgba(244,197,82,.15),0 0 34px rgba(244,197,82,.45),0 18px 40px -14px rgba(0,0,0,.6);animation:scPulsa 2.2s ease-in-out infinite;transition:opacity .35s,transform .35s}
+.som-convite .sc-ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:19px;background:linear-gradient(180deg,#ffe58f,#e0a92e);color:#2b0e57;box-shadow:0 0 16px rgba(255,214,100,.8)}
+.som-convite b{display:block;font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.6px;color:#ffe08a}.som-convite small{display:block;font-size:12px;color:#e6dcff}
+.som-convite.feito{animation:none}.som-convite.sai{opacity:0;transform:translateX(-50%) translateY(20px)}
+@keyframes scPulsa{0%,100%{box-shadow:0 0 0 4px rgba(244,197,82,.15),0 0 26px rgba(244,197,82,.35),0 18px 40px -14px rgba(0,0,0,.6)}50%{box-shadow:0 0 0 8px rgba(244,197,82,.08),0 0 46px rgba(244,197,82,.65),0 18px 40px -14px rgba(0,0,0,.6)}}
 .som-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,226,140,.45);background:rgba(255,255,255,.06);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .15s}.som-btn:hover{background:rgba(255,226,140,.16)}.som-btn:active{transform:scale(.92)}
 </style>
 </head>
@@ -2270,6 +2277,7 @@ async function sair(){ if(S.sb&&ehGestor()) S.sb.auth.signOut(); else await API.
 
 /* ---------- SHELL ---------- */
 function montarApp(){
+  document.querySelector(".som-convite")?.remove();
   const menu=MENU.filter(m=>(!m.gestor||ehGestor())&&(!m.consultor||!ehGestor())); const u=S.usuario;
   const avatar=u.foto?`<img src="${u.foto}" alt="">`:`<span class="ico">${esc(u.nome[0])}</span>`;
   raiz.innerHTML=`
@@ -2291,8 +2299,8 @@ function montarApp(){
   </div>`;
   raiz.querySelectorAll("[data-pag]").forEach(b=>b.addEventListener("click",()=>irPara(b.dataset.pag)));
   arenaBadge();
-  const bp=$("#btn-som")&&($("#btn-som").onclick=e=>{const on=SOM.alternar();const b=e.currentTarget;b.textContent=on?"🔊":"🔇";b.title=on?"Som ligado · toque para desligar":"Som desligado · toque para ligar";b.setAttribute("aria-label",on?"Desligar som":"Ligar som");});
-  $("#btn-perfil"),mp=$("#menu-perfil");
+  $("#btn-som")&&($("#btn-som").onclick=e=>{const on=SOM.alternar();const b=e.currentTarget;b.textContent=on?"🔊":"🔇";b.title=on?"Som ligado · toque para desligar":"Som desligado · toque para ligar";b.setAttribute("aria-label",on?"Desligar som":"Ligar som");});
+  const bp=$("#btn-perfil"),mp=$("#menu-perfil");
   mp.addEventListener("click",e=>e.stopPropagation());
   bp.addEventListener("click",e=>{e.stopPropagation();mp.classList.toggle("hidden");bp.setAttribute("aria-expanded",!mp.classList.contains("hidden"));
     if(!mp.classList.contains("hidden"))setTimeout(()=>document.addEventListener("click",()=>{mp.classList.add("hidden");bp.setAttribute("aria-expanded","false");},{once:true}));});
@@ -2532,7 +2540,7 @@ function podioHTML(top,ant,meuId){
 function abrirGloria(){
   if(document.querySelector(".gloria-veu")) return;
   const {linhas}=ranquear(S.consultores,S.filtro), top=linhas.slice(0,3); if(!top.length) return;
-  const primeira=!sessionStorage.getItem("mp_gloria"); try{sessionStorage.setItem("mp_gloria","1");}catch(e){}
+  const primeira=!sessionStorage.getItem("mp_gloria"); try{sessionStorage.setItem("mp_gloria","1");}catch(e){} SOM.ganhou();
   const v=document.createElement("div"); v.className="gloria-veu";
   v.innerHTML=`<div class="gloria" role="dialog" aria-modal="true" aria-label="Pódio Hunter em tela cheia">
     <div class="cenario" style="background-image:url('${IMG_MUSEU}')"></div><canvas class="fogos gl-fogos" aria-hidden="true"></canvas>
@@ -3017,6 +3025,13 @@ const SOM=(()=>{
     ganhou(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; brilho(t,H(12),5,.06,.08); },
     revelar(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; tambor(t,.4,98);
       metal([H(-5),H(0),H(4),H(7)],t,.25,.15); metal([H(0),H(4),H(7),H(12)],t+.25,1.8,.2); brilho(t+.25,H(24),7,.06,.05); },
+    mensagem(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; nota(H(19),t,.35,{tipo:"sine",vol:.14}); nota(H(24),t+.12,.6,{tipo:"sine",vol:.14}); nota(H(31),t+.12,.5,{tipo:"triangle",vol:.03}); },
+    aviso(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; [0,7,12].forEach((x,i)=>nota(H(12+x),t+i*.11,.7,{tipo:"triangle",vol:.1})); brilho(t+.3,H(24),4,.06,.04); },
+    premio(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; nota(H(12),t,.12,{tipo:"triangle",vol:.08,comEco:false}); brilho(t+.03,H(24),5,.045,.05); },
+    coroa(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; tambor(t,.45,98); tambor(t+.14,.35,98); tambor(t+.28,.5,98);
+      metal([H(-5),H(2),H(7)],t+.3,.3,.16); metal([H(-12),H(0),H(4),H(7),H(12)],t+.6,2.8,.24); nota(H(-24),t+.6,2.8,{tipo:"sine",vol:.24});
+      brilho(t+.65,H(24),7,.07,.06); brilho(t+1.3,H(31),5,.06,.03); ruido(t+.6,2,{vol:.05,freq:9000,tipo:"highpass"}); },
+    ativar(){ ligado=true; try{localStorage.setItem("mp_som","on");}catch(e){} abrir(); ctx.resume(); api.premio(); },
     fanfarra(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; tambor(t,.4,98); tambor(t+.12,.3,98);
       [0,4,7].forEach((x,i)=>metal([H(x),H(x-12)],t+i*.16,.22,.14)); metal([H(-12),H(0),H(4),H(7),H(12)],t+.5,2.2,.22);
       nota(H(-24),t+.5,2.2,{tipo:"sine",vol:.22}); brilho(t+.55,H(24),7,.07,.05); }
@@ -3804,6 +3819,21 @@ async function carregarCalculado(Fx){
 }
 
 /* ---------- PORTAL COMERCIAL MARTE ---------- */
+/* som de clique em quase tudo; dourado onde tem prêmio */
+document.addEventListener("click",e=>{
+  const el=e.target.closest("button,a,[role=button],[role=tab],[data-pag],[data-entrar],[data-cf],[data-sw],[data-abrir],.carta,.modulo,.pod,.rk-linha,.trofeu,.museu-item,.chip,label");
+  if(!el||el.closest("[data-sem-som]")||el.disabled) return;
+  if(el.matches("#chave,#rol-revelar,#btn-som")) return; /* têm som próprio */
+  if(el.matches(".carta,.btn-ouro,[data-premio],.cupom,.cupom *,.trofeu,.museu-item")||el.closest(".carta,.cupom,.museu-item")) SOM.premio(); else SOM.toque();
+},true);
+function conviteSom(){
+  document.querySelector(".som-convite")?.remove();
+  let ok=false; try{ok=sessionStorage.getItem("mp_som_ok")==="1";}catch(e){} if(ok) return;
+  const b=document.createElement("button"); b.className="som-convite"; b.setAttribute("data-sem-som","");
+  b.innerHTML=`<span class="sc-ic">🔊</span><span><b>Ative o som</b><small>para uma melhor experiência</small></span>`;
+  b.onclick=()=>{SOM.ativar(); try{sessionStorage.setItem("mp_som_ok","1");}catch(e){} b.innerHTML=`<span class="sc-ic">✓</span><span><b>Som ativado!</b><small>bora pra cima 🚀</small></span>`; b.classList.add("feito"); setTimeout(()=>{b.classList.add("sai");setTimeout(()=>b.remove(),400);},1400);};
+  document.body.appendChild(b);
+}
 function telaPortal(){
   raiz.innerHTML=`
   <main class="portal-cm">
@@ -3827,7 +3857,7 @@ function telaPortal(){
 
     ${MODO==="demo"?'<span class="badge-demo portal-badge">DEMO <span>ambiente de testes</span></span>':""}
   </main>`;
-  $("#mod-hunter").onclick=()=>telaLogin();
+  $("#mod-hunter").onclick=()=>telaLogin(); conviteSom();
   $("#mod-crm").onclick=()=>{ if(CONFIG.CRM_URL) location.href=CONFIG.CRM_URL;
     else toast(`<span>O endereço do CRM ainda não foi configurado. Preencha CRM_URL no início do código.</span>`); };
 }
@@ -4598,7 +4628,7 @@ function ligarTempoReal(){
 }
 function avisar(ev){ try{ if(canalRT) canalRT.send({type:"broadcast",event:ev,payload:{}}); if(bcDemo) bcDemo.postMessage(ev);}catch(e){} }
 function aoAvisoArena(){ if(!S.usuario) return; if(S.pagina==="arena") atualizarArena(); else arenaBadge(); }
-async function aoAvisoFoto(){ if(!S.usuario) return; await carregarDados(); montarApp(); }
+async function aoAvisoFoto(){ if(!S.usuario) return; await carregarDados(); montarApp(); checarPrimeiro(); }
 
 /* ---------- ENTRADA DO CONSULTOR COM PIN ---------- */
 async function entrarConsultor(p){
@@ -4606,10 +4636,16 @@ async function entrarConsultor(p){
   if(t&&t.id===p.id&&await API.sessaoOk(t)){ S.tok=t; return concluirEntradaConsultor(p); }
   pedirPin(p);
 }
+function checarPrimeiro(atraso=0){
+  if(!S.usuario||ehGestor()||!S.consultores?.length) return;
+  const rk=ranquear(S.consultores,"total").linhas, eu=rk.find(l=>l.c.id===S.usuario.id); if(!eu) return;
+  const k="mp_pos_"+S.usuario.id+"_"+S.competencia, ant=lerLS(k,null); gravarLS(k,eu.pos);
+  if(eu.pos===1&&ant!==1) setTimeout(()=>{SOM.coroa(); confete(160,true); toast(`<span class="mov sobe">👑</span><span><b>Você está em 1º lugar no Ranking Hunter!</b></span>`);},atraso);
+}
 async function concluirEntradaConsultor(p){
   S.usuario={id:p.id,login:p.login,nome:p.nome,perfil:"consultor",foto:p.foto,pos:!!p.pos};
   try{localStorage.setItem("mp_ultimo",p.id);}catch(e){}
-  await carregarDados(); S.pagina="ranking"; montarApp(); SOM.vinheta(); ligarTempoReal(); setTimeout(verificarExperiencia,250);
+  await carregarDados(); S.pagina="ranking"; montarApp(); SOM.vinheta(); ligarTempoReal(); setTimeout(verificarExperiencia,250); checarPrimeiro(5200);
 }
 function pedirPin(p){
   const veu=document.createElement("div"); veu.className="veu";
@@ -4736,6 +4772,7 @@ async function arenaBadge(){
   if(!S.usuario||(!ehGestor()&&!S.tok&&MODO==="supabase")) return;
   try{const lido=lerLS(lidoKey(),0), novas=(await API.arena.listar(lido)).filter(m=>m.autor_id!==S.usuario.id).length;
     const sil=lerLS("mp_silencio",false);
+    if(S._novasAnt!=null&&novas>S._novasAnt&&!sil) SOM.mensagem(); S._novasAnt=novas;
     document.querySelectorAll("[data-nl]").forEach(b=>{b.textContent=novas>9?"9+":novas;b.classList.toggle("hidden",!novas||S.pagina==="arena");b.classList.toggle("quieto",sil);});}catch(e){}
 }
 function autorDe(m){
@@ -4824,6 +4861,7 @@ async function atualizarArena(primeira){
   const box=$("#arena-msgs"); if(!box) return;
   let L; try{L=await API.arena.listar(0);}catch(e){box.innerHTML=`<p class="vazio-txt">${esc(errMsg(e))}</p>`;return;}
   const antes=new Set((S.arenaMsgs||[]).map(m=>m.id)), perto=box.scrollHeight-box.scrollTop-box.clientHeight<120;
+  if(!primeira&&L.some(m=>!antes.has(m.id)&&m.autor_id!==S.usuario?.id)) SOM.mensagem();
   S.arenaMsgs=L;
   box.innerHTML=L.length?L.map(m=>msgHTML(m,!primeira&&!antes.has(m.id))).join(""):`<div class="arena-vazia">${coroaSVG("ouro","","width:60px")}<b>A Arena está aberta!</b><span>Seja o primeiro a lançar um desafio para a equipe.</span></div>`;
   if(primeira||perto) box.scrollTop=box.scrollHeight;
@@ -4956,7 +4994,7 @@ async function verificarAvisos(){
   const v=document.createElement("div"); v.className="aviso-pop"; v.setAttribute("role","alertdialog");
   v.innerHTML=`<button class="fechar av-x" aria-label="Fechar">${I.x}</button>${avisoCartao(m)}
     <div class="av-acoes">${mais?`<small>+${mais} ${mais===1?"aviso não lido":"avisos não lidos"} na Arena</small>`:"<span></span>"}<button class="btn-ouro" id="av-abrir">${m.tipo==="trofeu"?"🏆 VER TROFÉU":"Abrir na Arena"}</button></div>`;
-  document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on")); confete(m.tipo==="trofeu"?120:50,true,.2);
+  document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on")); confete(m.tipo==="trofeu"?120:50,true,.2); m.tipo==="trofeu"?SOM.fanfarra():SOM.aviso();
   const marcar=()=>{gravarLS(avisoKey(),Math.max(...novos.map(x=>x.id)));v.classList.remove("on");setTimeout(()=>v.remove(),300);};
   v.querySelector(".av-x").onclick=marcar;
   v.querySelector("#av-abrir").onclick=()=>{marcar(); if(m.tipo==="trofeu"){S.galAbrir=m.payload?.id;irPara("galeria");} else {S.arenaDestaque=m.id;irPara("arena");}};
