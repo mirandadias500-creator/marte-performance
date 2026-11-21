@@ -3219,7 +3219,7 @@ async function formTela(){
       FS.chave=null;avisar();formOk(d,res)}
     catch(err){var m=errMsg(err);er.textContent=m;b.disabled=false;b.textContent="ENVIAR MATRÍCULA";if(/Sessão expirada/i.test(m)){localStorage.removeItem("pace_form_tok");setTimeout(function(){formQuem(m)},1200)}}}}
 function formOk(d,res){
-  boot.innerHTML='<main class="fm-tela"><div class="bt-card fm-ok">'+crown()+'<span class="bt-ey">MATRÍCULA REGISTRADA</span><h1>✓ Enviada, <b>'+esc(FS.quem.nome)+'</b>!</h1><p><b>'+esc(d.nome)+'</b> · '+esc(d.curso)+'<br>Entrou no Controle de Matrículas como <b>Pendente</b>. Quando o status subir para Cursando, conta no seu PACE.</p>'+
+  boot.innerHTML='<main class="fm-tela"><div class="bt-card fm-ok">'+crown()+'<span class="bt-ey">MATRÍCULA REGISTRADA</span><h1>✓ Enviada, <b>'+esc(FS.quem.nome)+'</b>!</h1><p><b>'+esc(d.nome)+'</b> · '+esc(d.curso)+'<br>Entrou no Controle de Matrículas como <b>Pendente</b>. <b>Cobre o aceite imediatamente.</b> Sua matrícula já está no PACE.</p>'+
     '<button class="bt-btn" id="fm-nova" type="button">REGISTRAR OUTRA MATRÍCULA</button></div></main>';
   confete();document.getElementById("fm-nova").onclick=function(){formTela()}}
 function confete(){var c=document.createElement("div");c.className="fm-conf";for(var i=0;i<60;i++){var s=document.createElement("i");s.style.left=Math.random()*100+"%";s.style.animationDelay=(Math.random()*.6)+"s";s.style.background=["#f4c552","#fff3c4","#a78bfa","#ffffff"][i%4];c.appendChild(s)}document.body.appendChild(c);setTimeout(function(){c.remove()},2600)}
