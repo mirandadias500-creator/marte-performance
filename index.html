@@ -1988,6 +1988,25 @@ tr.alterada{background:#fff8e1!important}
 .som-convite b{display:block;font-family:var(--font-display);font-weight:800;font-size:14px;letter-spacing:.6px;color:#ffe08a}.som-convite small{display:block;font-size:12px;color:#e6dcff}
 .som-convite.feito{animation:none}.som-convite.sai{opacity:0;transform:translateX(-50%) translateY(20px)}
 @keyframes scPulsa{0%,100%{box-shadow:0 0 0 4px rgba(244,197,82,.15),0 0 26px rgba(244,197,82,.35),0 18px 40px -14px rgba(0,0,0,.6)}50%{box-shadow:0 0 0 8px rgba(244,197,82,.08),0 0 46px rgba(244,197,82,.65),0 18px 40px -14px rgba(0,0,0,.6)}}
+.gd-bar[data-dia],.gs-pt{cursor:pointer;outline:none}
+.gd-bar[data-dia] rect:not(.gd-hit){transition:filter .2s,transform .2s;transform-box:fill-box;transform-origin:bottom}
+.gd-bar[data-dia]:hover rect:not(.gd-hit),.gd-bar[data-dia]:focus rect:not(.gd-hit){filter:drop-shadow(0 0 6px rgba(244,197,82,.9)) brightness(1.15);transform:scaleY(1.04)}
+.gs-pt circle{transition:r .2s,filter .2s}.gs-pt:hover circle,.gs-pt:focus circle{filter:drop-shadow(0 0 8px rgba(244,197,82,.95));r:10}
+button.vel-ler{width:100%;border:0;font:inherit;cursor:pointer;text-align:left;transition:transform .18s,box-shadow .18s}
+button.vel-ler:hover{transform:translateY(-2px);box-shadow:0 0 0 1px #f0d48a inset,0 8px 20px -10px rgba(123,63,228,.5),0 0 18px rgba(244,197,82,.25)}
+.vl-seta{font-style:normal;font-weight:900;color:#c9a34a;font-size:20px;margin-left:4px}.vel-ler b{margin-left:auto}
+.vl-dica{margin:10px 2px 0;font-size:12px;color:var(--muted);font-weight:600}
+.dia-card .sc-topo{position:relative}.dc-data{display:flex;align-items:baseline;gap:10px}.dc-data em{font-style:normal;font-size:.55em;color:#c9a34a;letter-spacing:1px;text-transform:uppercase}
+.dc-nav{margin-left:auto;display:flex;gap:6px;margin-right:40px}.dc-seta{width:38px;height:38px;border-radius:50%;border:1px solid rgba(244,197,82,.6);background:linear-gradient(180deg,#3a1773,#1f0a45);color:#ffe08a;font-size:22px;font-weight:900;cursor:pointer;box-shadow:0 0 14px rgba(244,197,82,.25)}
+.dc-seta:disabled{opacity:.3;cursor:default}
+.dc-hero{display:flex;align-items:center;gap:14px;padding:16px 18px;margin:6px 0 10px;border-radius:18px;color:#fff;background:radial-gradient(120% 140% at 0% 0%,#7b3fe4,#2a0d5c 70%);box-shadow:0 0 0 1px rgba(244,197,82,.55) inset,0 14px 30px -16px rgba(42,13,92,.8),0 0 30px rgba(244,197,82,.18)}
+.dc-hero>b{font-family:var(--font-display);font-size:54px;line-height:1;background:linear-gradient(180deg,#fff3c4,#f4c552 55%,#b07a12);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 8px rgba(244,197,82,.4))}
+.dc-hero span{font-weight:700;color:#e8dcff}
+.dc-blocos{display:grid;grid-template-columns:1fr 1.4fr;gap:14px;margin-top:12px}.dc-blocos h4{margin:0 0 8px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.dc-fmt{display:grid;grid-template-columns:120px 1fr 34px;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700}
+.dc-fmt i{height:10px;border-radius:99px;background:#efe7fb;position:relative;overflow:hidden}.dc-fmt i::after{content:"";position:absolute;inset:0;width:var(--w);border-radius:inherit;background:linear-gradient(90deg,#7b3fe4,#f4c552);animation:dcEnche .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes dcEnche{from{width:0}}.dc-fmt b{text-align:right}
+@media(max-width:600px){.dc-blocos{grid-template-columns:1fr}.dc-hero>b{font-size:42px}.dia-card .sc-topo{flex-wrap:wrap}.dc-nav{order:3;width:100%;justify-content:center;margin:8px 0 0}}
 .som-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,226,140,.45);background:rgba(255,255,255,.06);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .15s}.som-btn:hover{background:rgba(255,226,140,.16)}.som-btn:active{transform:scale(.92)}
 </style>
 </head>
@@ -3557,7 +3576,7 @@ function graficoDias(dias,ate,comp){
   const n=dias.length,W=640,H=170,pl=6,pr=6,pt=22,pb=24,bw=(W-pl-pr)/n,max=Math.max(1,...dias.slice(0,ate)),melhor=dias.indexOf(Math.max(...dias));
   return `<div class="grafico gdias"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Matrículas por dia">
     ${dias.map((q,i)=>{const fut=i+1>ate,h=fut?0:(H-pt-pb)*q/max,x=pl+i*bw,y=H-pb-h,d=`${comp}-${String(i+1).padStart(2,"0")}`,dom=new Date(d+"T12:00:00").getDay()===0;
-      return `<g class="gd-bar${i===melhor&&q>0?' top':''}${fut?' fut':''}"><title>${ddmm(d)} (${dowDe(d)}): ${fut?"ainda não contemplado pela Data Base":q+" "+(q===1?"matrícula":"matrículas")}</title>
+      return `<g class="gd-bar${i===melhor&&q>0?' top':''}${fut?' fut':''}"${fut?"":` data-dia="${i}" tabindex="0" role="button"`}><rect class="gd-hit" x="${x.toFixed(1)}" y="0" width="${bw.toFixed(1)}" height="${H}" fill="transparent"/><title>${ddmm(d)} (${dowDe(d)}): ${fut?"ainda não contemplado pela Data Base":q+" "+(q===1?"matrícula":"matrículas")}</title>
         <rect x="${(x+bw*.15).toFixed(1)}" y="${fut?H-pb-3:y.toFixed(1)}" width="${(bw*.7).toFixed(1)}" height="${fut?3:Math.max(h,q?2:0).toFixed(1)}" rx="3" fill="${fut?'#ece4f8':i===melhor&&q>0?'url(#g-ouro)':'url(#g-roxo)'}"/>
         ${q&&!fut?`<text x="${(x+bw/2).toFixed(1)}" y="${(y-5).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="800" fill="${i===melhor?'#8a5e00':'#4b1c8f'}">${q}</text>`:""}
         <text x="${(x+bw/2).toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="9.5" font-weight="${dom?800:600}" fill="${dom?'#c62f48':'#7a6a93'}">${i+1}</text></g>`;}).join("")}
@@ -3600,10 +3619,11 @@ function renderVelocity(c){
   ${P&&P.antes?`${eu?`<section class="vel-hero">${cardVel(eu.c,true,true)}
      <div class="vel-hero-lado card">
        <h3>Sua leitura rápida</h3>
-       <div class="vel-ler"><span>Melhor semana do mês</span><b class="num">${(()=>{const s=eu.c.sem.slice(0,wiUlt+1),m=Math.max(...s);return rotSemanas()[s.indexOf(m)]+" · "+m+" matr.";})()}</b></div>
-       <div class="vel-ler"><span>Seu melhor dia</span><b class="num">${(()=>{const m=Math.max(...eu.c.dias);return m?ddmm(dia(eu.c.dias.indexOf(m)))+" · "+m+" matr.":"—";})()}</b></div>
-       <div class="vel-ler"><span>Seu curso campeão</span><b>${eu.c.cursos?.length?esc(eu.c.cursos[0][0])+" · "+eu.c.cursos[0][1]:"—"}</b></div>
-       <div class="vel-ler"><span>Ver uma semana em detalhe</span><b>Toque na sua foto 📸</b></div>
+       <button class="vel-ler" data-ler="semana"><span>Melhor semana do mês</span><b class="num">${(()=>{const s=eu.c.sem.slice(0,wiUlt+1),m=Math.max(...s);return rotSemanas()[s.indexOf(m)]+" · "+m+" matr.";})()}</b><i class="vl-seta">›</i></button>
+       <button class="vel-ler" data-ler="dia"><span>Seu melhor dia</span><b class="num">${(()=>{const m=Math.max(...eu.c.dias);return m?ddmm(dia(eu.c.dias.indexOf(m)))+" · "+m+" matr.":"—";})()}</b><i class="vl-seta">›</i></button>
+       <button class="vel-ler" data-ler="curso"><span>Seu curso campeão</span><b>${eu.c.cursos?.length?esc(eu.c.cursos[0][0])+" · "+eu.c.cursos[0][1]:"—"}</b><i class="vl-seta">›</i></button>
+       <button class="vel-ler" data-ler="foto"><span>Ver sua semana em detalhe</span><b>Abrir 📸</b><i class="vl-seta">›</i></button>
+       <p class="vl-dica">✨ Toque em qualquer barra ou ponto dos gráficos para abrir o detalhe.</p>
      </div></section>`:""}
   ${gestor?`<div class="vel-filtros"><h3>Equipe</h3>
     ${chip("todos","Todos",lista.length-(eu?1:0))}${chip("acel","Aceleraram",conta("acel")-(eu&&(eu.v.st==="acel"||eu.v.st==="volta")?1:0))}${chip("manteve","Mantiveram",conta("manteve")-(eu&&eu.v.st==="manteve"?1:0))}${chip("desac","Desaceleraram",conta("desac")-(eu&&eu.v.st==="desac"?1:0))}</div>
@@ -3614,11 +3634,24 @@ function renderVelocity(c){
   c.querySelectorAll("[data-vf]").forEach(b=>b.onclick=()=>{S.velFiltro=b.dataset.vf;renderVelocity(c);});
   c.querySelectorAll("[data-vq]").forEach(b=>b.onclick=()=>{S.velQuem=b.dataset.vq;const y=scrollY;renderVelocity(c);scrollTo(0,y);});
   c.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>abrirSemana(b.dataset.abrir));
+  const alvo=gestor?sel:meuId;
+  c.querySelectorAll(".vel-equipe [data-dia]").forEach(g=>g.onclick=()=>abrirDia(alvo,+g.dataset.dia));
+  c.querySelectorAll(".vel-equipe [data-semana]").forEach(g=>g.onclick=()=>abrirSemana(alvo,+g.dataset.semana));
+  c.querySelectorAll("[data-ler]").forEach(b=>b.onclick=()=>{const e=S.consultores.find(x=>x.id===meuId); if(!e?.dias) return; const k=b.dataset.ler;
+    if(k==="semana"){const sm=e.sem.slice(0,wiUlt+1);abrirSemana(meuId,sm.indexOf(Math.max(...sm)));}
+    else if(k==="dia"){const m=Math.max(...e.dias); if(m) abrirDia(meuId,e.dias.indexOf(m));}
+    else if(k==="curso") abrirCursos(meuId);
+    else abrirSemana(meuId);});
   ligarReacao(c);
 }
 /* ---------- card premium da semana (consultor: só o próprio; gestor: qualquer um) ---------- */
+function velEquipeObj(){const b=S.consultores.filter(x=>x.dias); if(!b.length) return null; const n=b[0].dias.length;
+  return {id:"equipe",nome:"Equipe Hunter",foto:IMG_MUSEU,dias:[...Array(n)].map((_,i)=>b.reduce((t,x)=>t+(x.dias[i]||0),0)),
+    cursos:Object.entries(b.reduce((m,x)=>{(x.cursos||[]).forEach(([k,q])=>m[k]=(m[k]||0)+q);return m;},{})).sort((a,b)=>b[1]-a[1]),
+    pres:b.reduce((t,x)=>t+(x.pres||0),0),semi:b.reduce((t,x)=>t+(x.semi||0),0),eadp:b.reduce((t,x)=>t+(x.eadp||0),0)};}
+function velAlvo(cid){ if(cid==="equipe") return ehGestor()?velEquipeObj():null; if(!ehGestor()&&cid!==S.usuario.id) return null; return S.consultores.find(x=>x.id===cid&&x.dias)||null; }
 function abrirSemana(cid,wi){
-  const c=S.consultores.find(x=>x.id===cid); if(!c?.dias) return;
+  const c=velAlvo(cid); if(!c?.dias) return;
   if(!ehGestor()&&cid!==S.usuario.id) return;
   const P=periodosVel(), W=S.vel.semanas, ult=P?P.wi:W.length-1; wi=wi??ult;
   const comp=S.competencia, dia=d=>`${comp}-${String(d).padStart(2,"0")}`, ateD=P?.ateD||c.dias.length;
@@ -3651,6 +3684,61 @@ function abrirSemana(cid,wi){
     <p class="det-rodape">${eu?"Só você vê o seu Velocity individual.":"Visão do gestor."} EAD Extra não entra.</p></div>`;
   abrirVeu(veu);
   veu.querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{veu.remove();abrirSemana(cid,+b.dataset.sw);});
+  veu.querySelectorAll("[data-dia]").forEach(g=>g.onclick=()=>{veu.remove();abrirDia(cid,+g.dataset.dia);});
+}
+/* ---------- card premium do DIA (dados reais da DT MATRICULA) ---------- */
+function abrirDia(cid,i){
+  const c=velAlvo(cid); if(!c?.dias) return;
+  const P=periodosVel(), ate=P?.ateD||c.dias.length, comp=S.competencia, dia=d=>`${comp}-${String(d+1).padStart(2,"0")}`;
+  if(i<0||i>=ate) return;
+  const d=dia(i), q=c.dias[i], ativos=c.dias.slice(0,ate), total=ativos.reduce((t,x)=>t+x,0), media=total/ate;
+  const ord=[...new Set(ativos)].sort((a,b)=>b-a), rank=q>0?ord.indexOf(q)+1:null, melhor=Math.max(...ativos);
+  const ant=i>=7?c.dias[i-7]:null, dif=ant!=null?q-ant:null;
+  const eu=cid===S.usuario.id, L=(S.fonte?.linhas||[]).filter(l=>l.dt===d&&l.fmt!=="extra"&&(cid==="equipe"||l.cid===cid));
+  const porCurso=Object.entries(L.reduce((m,l)=>{const n=l.curso||"(curso em branco na planilha)";m[n]=(m[n]||0)+1;return m;},{})).sort((a,b)=>b[1]-a[1]);
+  const porFmt=["pres","semi","eadp"].map(k=>[FMT_ROT[k],L.filter(l=>l.fmt===k).length]).filter(x=>x[1]);
+  let msg,cls;
+  if(!q){msg=eu?"Dia sem matrícula. O próximo pode ser o seu melhor! 💪":"Dia sem matrícula.";cls="neutro";}
+  else if(q===melhor){msg=`👑 ${eu?"SEU MELHOR DIA DO MÊS!":"MELHOR DIA DO MÊS!"}`;cls="cima";}
+  else if(q>=media*1.3){msg=`🔥 Dia acima da média do mês (${media.toFixed(1).replace(".",",")} por dia).`;cls="cima";}
+  else if(q>=media*.7){msg="⚖️ Dia dentro da média do mês. Constância é performance!";cls="neutro";}
+  else {msg=`Dia abaixo da média do mês (${media.toFixed(1).replace(".",",")} por dia). Bora acelerar! 🚀`;cls="baixo";}
+  document.querySelector(".veu.semana")?.remove();
+  const veu=document.createElement("div"); veu.className="veu semana";
+  veu.innerHTML=`<div class="painel sem-card dia-card" role="dialog" aria-modal="true" aria-label="Detalhe do dia"><button class="fechar" aria-label="Fechar">${I.x}</button>
+    <div class="sc-topo"><span class="sc-foto"><img src="${c.foto}" alt=""></span><div><small>VELOCITY · ${eu?"MEU DIA":"DIA"} · ${esc(c.nome)}</small>
+      <h2 class="dc-data">${ddmm(d)} <em>${esc(dowDe(d))}</em></h2></div>
+      <div class="dc-nav"><button class="dc-seta" data-ir="${i-1}"${i<=0?" disabled":""} aria-label="Dia anterior">‹</button><button class="dc-seta" data-ir="${i+1}"${i+1>=ate?" disabled":""} aria-label="Próximo dia">›</button></div></div>
+    <div class="dc-hero ${cls}"><b class="num">${q}</b><span>${q===1?"matrícula":"matrículas"} neste dia</span></div>
+    <div class="sc-msg ${cls}">${esc(msg)}</div>
+    <div class="sc-nums">
+      <div><small>Média do mês</small><b class="num">${media.toFixed(1).replace(".",",")}</b><span>por dia até ${ddmm(dia(ate-1))}</span></div>
+      <div><small>Ranking do dia</small><b class="num">${rank?rank+"º":"—"}</b><span>${rank?"entre os dias do mês":"sem matrícula"}</span></div>
+      <div><small>Mesmo dia, semana anterior</small><b class="num ${dif>0?'cima':dif<0?'baixo':''}">${ant==null?"—":ant}</b><span>${ant==null?"sem semana anterior no mês":dif===0?"igual":(dif>0?"+":"")+dif+" vs "+ddmm(dia(i-7))}</span></div>
+    </div>
+    ${q?`<div class="dc-blocos">
+      ${porFmt.length?`<div><h4>Por modalidade</h4>${porFmt.map(([n,v])=>`<div class="dc-fmt"><span>${n}</span><i style="--w:${(v/q*100).toFixed(0)}%"></i><b class="num">${v}</b></div>`).join("")}</div>`:""}
+      ${porCurso.length?`<div><h4>Cursos do dia</h4>${listaCursos(porCurso,L.length)}</div>`:""}
+    </div>`:""}
+    <p class="det-rodape">${eu?"Só você vê o seu Velocity individual.":"Visão do gestor."} Pela DT MATRICULA · EAD Extra não entra.</p></div>`;
+  abrirVeu(veu); if(q===melhor&&q>0){SOM.premio(); confete(60,true,.2);}
+  veu.querySelectorAll("[data-ir]").forEach(b=>b.onclick=()=>{veu.remove();abrirDia(cid,+b.dataset.ir);});
+}
+/* ---------- card premium dos CURSOS ---------- */
+function abrirCursos(cid){
+  const c=velAlvo(cid); if(!c) return; const eu=cid===S.usuario.id, tot=(c.pres||0)+(c.semi||0)+(c.eadp||0);
+  const fm=[["Presencial",c.pres||0],["Semipresencial",c.semi||0],["EAD + Prática",c.eadp||0]].filter(x=>x[1]);
+  document.querySelector(".veu.semana")?.remove();
+  const veu=document.createElement("div"); veu.className="veu semana";
+  veu.innerHTML=`<div class="painel sem-card dia-card" role="dialog" aria-modal="true" aria-label="Cursos"><button class="fechar" aria-label="Fechar">${I.x}</button>
+    <div class="sc-topo"><span class="sc-foto"><img src="${c.foto}" alt=""></span><div><small>VELOCITY · ${eu?"MEUS CURSOS":"CURSOS"} · ${nomeMes(S.competencia).toUpperCase()}</small><h2>${esc(c.nome)}</h2></div></div>
+    ${c.cursos?.length?`<div class="dc-hero cima">${coroaSVG("ouro","","width:44px")}<span><b style="font-size:20px">${esc(c.cursos[0][0])}</b><br>curso campeão · ${c.cursos[0][1]} ${c.cursos[0][1]===1?"matrícula":"matrículas"}</span></div>`:""}
+    <div class="dc-blocos">
+      <div><h4>Por modalidade · ${tot} no mês</h4>${fm.map(([n,v])=>`<div class="dc-fmt"><span>${n}</span><i style="--w:${(v/Math.max(tot,1)*100).toFixed(0)}%"></i><b class="num">${v}</b></div>`).join("")||'<p class="vazio-txt">Sem matrículas.</p>'}</div>
+      <div><h4>Todos os cursos</h4>${c.cursos?.length?listaCursos(c.cursos,tot):'<p class="vazio-txt">Sem cursos.</p>'}</div>
+    </div>
+    <p class="det-rodape">EAD Extra não entra.</p></div>`;
+  abrirVeu(veu); SOM.premio();
 }
 
 /* ---------- RESUMO DO MÊS + METAS + CPFs ---------- */
@@ -4453,9 +4541,9 @@ function graficoSemanas(v,rots){
     ${[.25,.5,.75].map(t=>`<line x1="${pl}" x2="${W-pr}" y1="${pt+(H-pt-pb)*t}" y2="${pt+(H-pt-pb)*t}" stroke="#ece4f8"/>`).join("")}
     <path d="${linha} L${x(n-1)} ${H-pb} L${x(0)} ${H-pb} Z" fill="url(#g-area)"/>
     <path d="${linha}" fill="none" stroke="url(#g-roxo)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-    ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${i===melhor?8:6}" fill="${i===melhor?'#f4c552':'#fff'}" stroke="${i===melhor?'#a8761b':'#7b3fe4'}" stroke-width="3"/>
+    ${pts.map((p,i)=>`<g class="gs-pt" data-semana="${i}" tabindex="0" role="button"><rect x="${(p[0]-26).toFixed(1)}" y="0" width="52" height="${H}" fill="transparent"/><circle cx="${p[0]}" cy="${p[1]}" r="${i===melhor?8:6}" fill="${i===melhor?'#f4c552':'#fff'}" stroke="${i===melhor?'#a8761b':'#7b3fe4'}" stroke-width="3"/>
       <text x="${p[0]}" y="${p[1]-14}" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="14" fill="${i===melhor?'#8a5e00':'#26133f'}">${v[i]}</text>
-      <text x="${p[0]}" y="${H-6}" text-anchor="middle" font-size="${rots?10.5:12}" font-weight="600" fill="#7a6a93">${rots?rots[i]:"Sem "+(i+1)}</text>`).join("")}</svg></div>`;
+      <text x="${p[0]}" y="${H-6}" text-anchor="middle" font-size="${rots?10.5:12}" font-weight="600" fill="#7a6a93">${rots?rots[i]:"Sem "+(i+1)}</text></g>`).join("")}</svg></div>`;
 }
 function listaCursos(c,total){const max=c[0][1],dem=total-c.reduce((s,x)=>s+x[1],0);
   return c.map(([n,q],i)=>`<div class="curso${i===0?' campeao':''}"><span class="nome">${i===0?coroaSVG("ouro","","width:18px;vertical-align:-3px;margin-right:4px"):""}${esc(n)}</span><span class="barra"><i class="${i===0?'cheia':''}" style="--w:${(q/max*100).toFixed(0)}%"></i></span><span class="q num">${q}</span></div>`).join("")
