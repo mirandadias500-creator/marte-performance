@@ -1041,6 +1041,20 @@ body.colab #ctl-logs,body.colab #ctl-pins{display:none}body.colab section:has(#c
 .gm-dest{display:inline-block;margin-left:10px;font-size:12px;font-weight:700;color:#d9c8ff}.gm-box:not(.gm-unid) .gm-dest{color:#6b5a8a}
 @keyframes metaFlash{0%,100%{box-shadow:0 0 0 3px rgba(244,197,82,.12),0 0 40px -12px rgba(244,197,82,.65)}40%{box-shadow:0 0 0 6px rgba(244,197,82,.85),0 0 60px rgba(244,197,82,.9)}}
 .pace.meta-flash{animation:metaFlash 1s ease-in-out 2}
+/* v5 · pódio claro (lavanda + dourado) */
+.podio-dia{background:radial-gradient(120% 100% at 50% 0%,#ffffff 0%,#f6f0ff 45%,#ece2ff 100%)!important;border:1px solid #e3c873!important;color:#2b0e57;box-shadow:0 0 0 3px rgba(244,197,82,.15),0 14px 30px -18px rgba(91,33,182,.45)!important}
+.podio-dia:before{background:conic-gradient(from 180deg at 50% 0%,transparent 0 42%,rgba(244,197,82,.16) 47%,transparent 52% 100%)}
+.podio-dia .pdd-ey{color:#7c3aed}.podio-dia .pdd-cab h2{color:#2b0e57}.podio-dia .pdd-cab h2 em{color:#a8761b}.podio-dia .pdd-reg{color:#6b5a8a}.podio-dia .pdd-reg b{color:#a8761b}
+.podio-dia .pdd-vazio{color:#5b4a7a}.podio-dia .pdd-nome{color:#2b0e57}.podio-dia .pdd-prod{color:#5b4a7a}.podio-dia .pdd-prod b{color:#2b0e57}
+.podio-dia .pdd-pct{background:linear-gradient(180deg,#d9a21b,#a8761b 70%,#7a5200);-webkit-background-clip:text;background-clip:text}
+.podio-dia .pdd-prata .pdd-pct{background:linear-gradient(180deg,#9aa3b5,#6b7385);-webkit-background-clip:text;background-clip:text}
+.podio-dia .pdd-bronze .pdd-pct{background:linear-gradient(180deg,#c9773a,#8a4b1f);-webkit-background-clip:text;background-clip:text}
+.podio-dia .pdd-ouro .pdd-foto,.podio-dia .pdd-prata .pdd-foto,.podio-dia .pdd-bronze .pdd-foto{box-shadow:0 0 0 3px #fff,0 8px 20px -8px rgba(91,33,182,.5)}
+.podio-dia .pdd-ouro .pdd-foto{box-shadow:0 0 0 3px #fff,0 0 26px rgba(244,197,82,.65)}
+.tag-prod{font-style:normal;font:800 9.5px "Manrope",sans-serif;letter-spacing:.06em;background:#ede4ff;color:#6d28d9;border:1px solid #c9b8f3;border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:2px}
+.btn-min{position:fixed;top:12px;right:16px;z-index:200;font:800 13px "Sora",ui-sans-serif,sans-serif;letter-spacing:.05em;color:#2b0e57;background:linear-gradient(180deg,#ffe58f,#e0a92e);border:1px solid #ffe08a;border-radius:999px;padding:10px 18px;cursor:pointer;box-shadow:0 4px 0 #a8761b,0 8px 20px -8px rgba(0,0,0,.4)}
+.btn-min:active{transform:translateY(3px);box-shadow:0 1px 0 #a8761b}
+body.pmax .h-bar{display:none}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -1262,10 +1276,11 @@ function render0(){
     h+='<section class="card pad" id="share"><div class="sec-h"><h2 class="rtitle">'+vt('c')+(STATE.rk==="google"?"Avaliações Google":STATE.rk==="pend"?"Pendências":STATE.rk==="metas"?"Metas · semana e mês":perLbl)+' <span class="scope">'+(STATE.rk==="metas"?'referência '+ddmm(D)+(f.prod?' · '+esc(f.prod):'')+(f.cons?' · '+esc(f.cons):''):STATE.rk==="pend"?'todas as datas · sem Pós-graduação':rgTxt+(noPace?'':' · '+PKN[PK]))+'</span></h2>'+
     '<div class="rk-tabs"><div class="seg">'+[["geral","GERAL"],["hunter","HUNTER"],["midia","MÍDIA"],["google","GOOGLE"],["pend","PENDÊNCIAS"],["metas","METAS"]].map(function(t){return '<button type="button" data-rk="'+t[0]+'" class="'+(STATE.rk===t[0]?"on":"")+'">'+t[1]+'</button>'}).join("")+'</div><button class="btn" id="btn-copy" type="button">Copiar para o grupo</button><button class="btn btn-cap" id="btn-cap" type="button">📸 CAPTURAR RANKING</button><button class="btn primary nomax" id="btn-max" type="button">⛶ Maximizar PACE</button></div></div>';
   var isList=STATE.rk==="google"||STATE.rk==="pend"||STATE.rk==="metas";
-  var PDZ=null;EXT.skipC=null;if(!f.cons&&!isList&&!noPace&&pode("pace")){PDZ=podioCalc(X,PC,PK);EXT.skipC=PDZ.top.map(function(x){return x.c});h+=podioHTMLInt(PDZ)}
-  h+=noPace&&!isList?'<div class="empty">Sem PACE definido para '+esc(f.prod)+'.</div>':rankTable(X,PC,PK);
+  var PCr=(!f.prod&&!f.cons&&PK==="grad")?{rows:PC.rows.concat(X.pp.rows.map(function(x){return Object.assign({},x,{_pk:"pos"})}),X.pf.rows.map(function(x){return Object.assign({},x,{_pk:"prof"})})),sum:PC.sum,hasMidia:PC.hasMidia}:PC;
+  var PDZ=null;EXT.skipC=null;if(!f.cons&&!isList&&!noPace&&pode("pace")){PDZ=podioCalc(X,PCr,PK);EXT.skipC=PDZ.top.map(function(x){return x.c});h+=podioHTMLInt(PDZ)}
+  h+=noPace&&!isList?'<div class="empty">Sem PACE definido para '+esc(f.prod)+'.</div>':rankTable(X,PCr,PK);
   if(!isList)h+='<div class="rule"><span class="chip g">≥ 100% do PACE</span><span class="chip y">70% a 99%</span><span class="chip r">abaixo de 70%</span><span>· 1º e 2º em verde · Ordem automática: maior % do PACE; empate: mais matrículas válidas, depois mais matrículas lançadas, depois menor gap, depois nome. Sem meta vai para o fim · Total PACE = matrículas lançadas elegíveis com status <b>Cursando</b>. Produção total, modalidades e situação consideram todas as Hunter + Mídia do período, inclusive as fora do PACE.</span></div>';
-  if(!usePos&&!f.prod&&!f.cons&&!isList){[["pp","PÓS-GRADUAÇÃO","pos"],["pf","PROFISSIONALIZANTE","prof"]].forEach(function(z){var q=X[z[0]].rows;if(q.length)h+='<div class="sub-pace posbox"><div class="pt">PACE '+z[1]+' · Hunter EAD<span>'+(STATE.period==="dia"?ddmm(D):ddmm(X.Rg[0])+" a "+ddmm(X.Rg[1]))+'</span></div>'+q.map(function(x){var b=band(x.ph);return '<div class="pr">'+av(x.c,44,b)+'<span class="pn">'+esc(x.c)+'</span><div class="rm2"><b class="'+nc(b)+'">'+x.h+'</b><span class="mt">'+(x.mInf?'Meta <em>'+x.mh+'</em>':'Meta não informada')+'</span></div><span class="fl">'+(x.mh>0&&x.h>x.mh?'<b class="c-g">+'+(x.h-x.mh)+' acima da meta</b>':'faltam '+FAL(x.gh))+'</span><div class="pw" style="min-width:160px"><span class="pc '+nc(b)+'">'+pct(x.ph)+'</span>'+bar(x.ph,b)+'</div><span class="chip '+b+'">'+bandLbl(x.ph)+'</span></div>'}).join("")+'</div>'})}
+  if(false&&!usePos&&!f.prod&&!f.cons&&!isList){[["pp","PÓS-GRADUAÇÃO","pos"],["pf","PROFISSIONALIZANTE","prof"]].forEach(function(z){var q=X[z[0]].rows;if(q.length)h+='<div class="sub-pace posbox"><div class="pt">PACE '+z[1]+' · Hunter EAD<span>'+(STATE.period==="dia"?ddmm(D):ddmm(X.Rg[0])+" a "+ddmm(X.Rg[1]))+'</span></div>'+q.map(function(x){var b=band(x.ph);return '<div class="pr">'+av(x.c,44,b)+'<span class="pn">'+esc(x.c)+'</span><div class="rm2"><b class="'+nc(b)+'">'+x.h+'</b><span class="mt">'+(x.mInf?'Meta <em>'+x.mh+'</em>':'Meta não informada')+'</span></div><span class="fl">'+(x.mh>0&&x.h>x.mh?'<b class="c-g">+'+(x.h-x.mh)+' acima da meta</b>':'faltam '+FAL(x.gh))+'</span><div class="pw" style="min-width:160px"><span class="pc '+nc(b)+'">'+pct(x.ph)+'</span>'+bar(x.ph,b)+'</div><span class="chip '+b+'">'+bandLbl(x.ph)+'</span></div>'}).join("")+'</div>'})}
   h+='</section>';
 
   /* GOOGLE + PENDÊNCIAS */
@@ -1315,7 +1330,7 @@ function rankTable(X,PC,usePos){
     var mods=MODS.filter(function(q){return x.mods[q[0]]}).map(function(q){return '<span class="md '+q[2]+'"><b>'+x.mods[q[0]]+'</b> '+q[1]+'</span>'}).join("");
     Object.keys(x.mods).forEach(function(k){if(!MODS.some(function(q){return q[0]===k}))mods+='<span class="md"><b>'+x.mods[k]+'</b> '+esc(k)+'</span>'});
     var st=(x.st.ok?'<span class="ok">✓ <b>'+x.st.ok+'</b> OK</span>':'')+(x.st.ac?'<span class="ac">⏳ <b>'+x.st.ac+'</b> aceite</span>':'')+(x.st.ot?'<span class="ot"><b>'+x.st.ot+'</b> outras pend.</span>':'');
-    s+='<tr class="'+(top?"top2":"")+'"><td class="pos">'+(i+1+OFF)+'º'+(i+OFF===0&&x[tk]>0?'<span class="cr">👑</span>':'')+'</td><td><div class="who">'+av(x.c,48,top?"g":"")+'<span class="nm">'+esc(x.c)+'</span></div></td>'+DAYS.map(function(d){return dayCell(x.c,d)}).join("")+
+    s+='<tr class="'+(top?"top2":"")+'"><td class="pos">'+(i+1+OFF)+'º'+(i+OFF===0&&x[tk]>0?'<span class="cr">👑</span>':'')+'</td><td><div class="who">'+av(x.c,48,top?"g":"")+'<span class="nm">'+esc(x.c)+(x._pk&&x._pk!=="grad"?'<em class="tag-prod">'+(x._pk==="pos"?"PÓS":"PROF")+'</em>':'')+'</span></div></td>'+DAYS.map(function(d){return dayCell(x.c,d)}).join("")+
       '<td class="r"'+O({k:"pace",pk:PKr,canal:"Hunter",c:x.c,lbl:"Hunter · "+x.c})+'>'+cell(x.h,x.mh,x.gh,x.ph)+'</td>'+(showM?'<td class="r"'+O({k:"pace",pk:PKr,canal:"Mídia",c:x.c,lbl:"Mídia · "+x.c})+'>'+cell(x.m,x.mm,x.gm,x.pm)+'</td>':'')+'<td class="r"'+O({k:"pace",pk:PKr,c:x.c,lbl:"Total PACE · "+x.c})+'>'+cell(x.t,x.mt,x.gt,x.pt)+'</td><td class="r"><b>'+x.prodT+'</b>'+(x.fo?'<div><span class="fora">'+x.fo+' fora do PACE</span></div>':'')+'</td>'+
       '<td><div class="pw"><span class="pc '+nc(b)+'">'+pct(p)+'</span><div style="flex:1;min-width:0">'+bar2(p,b,(mode==="geral"&&x.mt)?x.prodT/x.mt:null)+((mode==="geral"&&x.mt&&x.prodT>x.t)?'<div class="lzt">'+x.prodT+' lançada(s) · '+pct(x.prodT/x.mt)+' com as pendentes</div>':'')+'</div></div></td><td class="xo"><div class="mods">'+(mods||'<span class="c-n">—</span>')+'</div></td><td class="xo"><div class="sts">'+(st||'<span class="ot">—</span>')+'</div></td><td><span class="chip '+b+'">'+bandLbl(p)+'</span></td></tr>'});
   var S=PC.sum;
@@ -2536,6 +2551,7 @@ function render(){
   document.body.classList.toggle("tabctl",STATE.tab==="ctl"||STATE.tab==="metas");
   if(!pode(STATE.tab||"pace")){document.getElementById("app").innerHTML=telaBloqueio(STATE.tab||"pace");wireTabs();var lo=byId2("lock-outro");if(lo)lo.onclick=function(){var b=byId2("h-sair");if(b)b.click()};return}
   render0();
+  document.getElementById("btn-min")?.remove();if(STATE.max){var bm=document.createElement("button");bm.id="btn-min";bm.type="button";bm.className="btn-min";bm.innerHTML="⤡ MINIMIZAR";bm.onclick=function(){STATE.max=false;save();render()};document.body.appendChild(bm)}
   document.querySelectorAll(".ptabs [data-tab]").forEach(function(b){var t=b.getAttribute("data-tab");if(!pode(t)&&b.textContent.indexOf("🔒")<0)b.textContent="🔒 "+b.textContent});
   try{wireExtras()}catch(e){console.error(e)}
   if(STATE.tab==="metas"&&window.PACE_HOST){var el=byId2("gm-acessos");if(el)PACE_HOST.acessos(el)}
@@ -2583,8 +2599,8 @@ var _ctlGrid0=ctlGrid;ctlGrid=function(fim){_ctlGrid0(fim);ligarSelecao()};
 /* ---- pódio compacto em todas as visões (acompanha período e Geral/Hunter/Mídia) ---- */
 function podioCalc(X,PC,PK){
   var rk=STATE.rk==="hunter"?"h":STATE.rk==="midia"?"m":"t",canais=rk==="h"?["Hunter"]:rk==="m"?["Mídia"]:["Hunter","Mídia"],L=[];
-  (PC&&PC.rows||[]).forEach(function(x){var V=X.P.filter(function(r){return r.c===x.c&&r.prod===PKN[PK]&&r.elig&&!merged(r)&&r.dup!=="confirmada"&&canais.indexOf(r.canal)>=0}),n=V.length;
-    var mt=rk==="h"?x.mh:rk==="m"?x.mm:x.mt;if(mt>0)L.push({c:x.c,t:n,h:V.filter(function(r){return r.canal==="Hunter"}).length,m:V.filter(function(r){return r.canal==="Mídia"}).length,mt:mt,pt:n/mt,pk:PK})});
+  (PC&&PC.rows||[]).forEach(function(x){var V=X.P.filter(function(r){return r.c===x.c&&r.prod===PKN[x._pk||PK]&&r.elig&&!merged(r)&&r.dup!=="confirmada"&&canais.indexOf(r.canal)>=0}),n=V.length;
+    var mt=rk==="h"?x.mh:rk==="m"?x.mm:x.mt;if(mt>0)L.push({c:x.c,t:n,h:V.filter(function(r){return r.canal==="Hunter"}).length,m:V.filter(function(r){return r.canal==="Mídia"}).length,mt:mt,pt:n/mt,pk:x._pk||PK})});
   L.sort(function(a,b){return (b.pt-a.pt)||(b.t-a.t)||String(a.c).localeCompare(b.c,"pt-BR")});
   return {D:X.D,biz:X.biz>0,top:L.filter(function(x){return x.t>0}).slice(0,3),todos:L}}
 function podioHTMLInt(P){var MET=["ouro","prata","bronze"],PO=["1º","2º","3º"],per={dia:"PACE DIA",semana:"PACE SEMANA",mes:"PACE MÊS",ciclo:"PACE CICLO"}[STATE.period],vis={geral:"GERAL",hunter:"HUNTER",midia:"MÍDIA"}[STATE.rk]||"GERAL";
