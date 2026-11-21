@@ -51,6 +51,8 @@ img{max-width:100%;display:block}
 .login-arte .marca{position:absolute;left:44px;bottom:40px;z-index:2;color:#fff;flex-direction:column;align-items:flex-start;text-align:left}
 .login-lado{display:grid;place-items:center;padding:32px 20px;color:#fff;background:radial-gradient(600px 400px at 70% 20%,rgba(123,63,228,.35),transparent 70%)}
 .login-box{width:min(460px,100%)}
+.btn-voltar-portal{display:inline-flex;align-items:center;gap:6px;margin:0 0 18px;padding:9px 16px;border-radius:999px;border:1px solid rgba(244,197,82,.55);background:rgba(244,197,82,.08);color:#f4c552;font:700 13px/1 inherit;letter-spacing:.02em;cursor:pointer;transition:.2s}
+.btn-voltar-portal:hover{background:rgba(244,197,82,.2);transform:translateX(-2px)}
 .login-box h2{font-family:var(--font-display);font-size:26px;margin:0 0 4px}
 .login-box p.sub{margin:0 0 22px;color:#cbb8f0;font-size:14px}
 .quem{display:grid;grid-template-columns:repeat(3,104px);gap:14px;justify-content:center}
@@ -2238,6 +2240,7 @@ async function telaLogin(msg=""){
       <div class="marca"><h1 style="font-size:clamp(26px,3.2vw,44px)">MARTE <b>PERFORMANCE</b></h1><small style="justify-content:flex-start">Gestão de Acompanhamento Hunter</small></div>
     </section>
     <section class="login-lado"><div class="login-box">
+      <button class="btn-voltar-portal" id="voltar-portal" type="button" aria-label="Retornar ao portal">← Retornar ao portal</button>
       ${MODO==="demo"?'<span class="badge-demo" style="margin-bottom:14px">DEMO <span>números fictícios</span></span>':''}
       <h2>Quem é você?</h2>
       <p class="sub">Toque na sua foto para entrar · Faculdade Anhanguera · Campus Marte</p>
@@ -2252,6 +2255,7 @@ async function telaLogin(msg=""){
       </form>
     </div></section>
   </main>`;
+  $("#voltar-portal").onclick=()=>telaPortal();
   $("#abrir-gestor").onclick=()=>{$("#form-gestor").classList.toggle("hidden");$("#in-senha").focus();};
   $("#form-gestor").addEventListener("submit",async e=>{e.preventDefault();
     try{await entrarGestor($("#in-login").value.trim(),$("#in-senha").value);}catch(err){$("#form-gestor .erro").textContent=err.message;}});
