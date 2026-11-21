@@ -2345,15 +2345,15 @@ function faixaKpis(comFiltro=true){
      kpi("var(--roxo-500)",I.alvo,"Meta Pós da Unidade",U.pMeta?`<div class="val num">${fmtN(U.pMeta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
     +kpi("var(--roxo-500)",I.barras,"Realizado Pós",`<div class="val num">${U.pReal!=null?fmtN(U.pReal):"—"}</div>`)
     +kpi("var(--ouro-esc)",I.trofeu,"Atingimento Pós",pctV(U.pPct))
-    +kpi("var(--roxo-500)",I.casa,"Graduação da Unidade",pctV(U.gPct))
+    +kpi("var(--roxo-500)",I.casa,"Meta Hunter da Unidade",pctV(U.gPct))
     :ehGestor()||!eu?
-     kpi("var(--roxo-500)",I.alvo,"Meta Graduação (oficial)",U.gMeta?`<div class="val num" data-conta="${U.gMeta}">${fmtN(U.gMeta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
-    +kpi("var(--roxo-500)",I.barras,"Realizado Graduação",`<div class="val num" data-conta="${U.gReal}">${fmtN(U.gReal)}</div>`)
-    +kpi("var(--ouro-esc)",I.trofeu,"Atingimento Graduação",pctV(U.gPct))
+     kpi("var(--roxo-500)",I.alvo,"Meta Hunter (oficial)",U.gMeta?`<div class="val num" data-conta="${U.gMeta}">${fmtN(U.gMeta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
+    +kpi("var(--roxo-500)",I.barras,"Realizado Hunter",`<div class="val num" data-conta="${U.gReal}">${fmtN(U.gReal)}</div>`)
+    +kpi("var(--ouro-esc)",I.trofeu,"Atingimento Hunter",pctV(U.gPct))
     +kpi("var(--roxo-500)",I.estrela,"Pós-Graduação",U.pPct!=null?`<div class="val num" style="color:${corPct(U.pPct)}">${fmtPct(U.pPct)}<small class="de-n"> ${fmtN(U.pReal)}/${fmtN(U.pMeta)}</small></div>`:`<div class="val sem-meta">${U.pMeta?"Sem resultado":"Sem meta"}</div>`)
-    : kpi("var(--roxo-500)",I.alvo,"Minha Meta",eu.meta!=null?`<div class="val num" data-conta="${eu.meta}">${fmtN(eu.meta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
-    +kpi("var(--roxo-500)",I.barras,"Meu Realizado",`<div class="val num" data-conta="${eu.valido}">${fmtN(eu.valido)}</div>`)
-    +kpi("var(--ouro-esc)",I.trofeu,"Meu Atingimento",eu.pct!=null?`<div class="val num" style="color:${corPct(eu.pct)}" data-conta="${eu.pct}" data-fmt="pct">${fmtPct(eu.pct)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
+    : kpi("var(--roxo-500)",I.alvo,"Minha Meta Hunter",eu.meta!=null?`<div class="val num" data-conta="${eu.meta}">${fmtN(eu.meta)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
+    +kpi("var(--roxo-500)",I.barras,"Meu Realizado Hunter",`<div class="val num" data-conta="${eu.valido}">${fmtN(eu.valido)}</div>`)
+    +kpi("var(--ouro-esc)",I.trofeu,"Meu Atingimento Hunter",eu.pct!=null?`<div class="val num" style="color:${corPct(eu.pct)}" data-conta="${eu.pct}" data-fmt="pct">${fmtPct(eu.pct)}</div>`:`<div class="val sem-meta">Sem meta</div>`)
     +kpi("var(--roxo-500)",I.coroa||I.equipe,"Minha Posição",`<div class="val num">${euPos?euPos+"º":"—"}<small class="de-n"> de ${cs.length}</small></div>`);
   return `<div class="faixa">
     <div class="kpis card reage">${kpis}</div>
@@ -2740,7 +2740,7 @@ function cartaMuseu(){
       <div class="mini-avas">${b.map(c=>`<img src="${c.foto}" alt="${esc(c.nome)}" title="${esc(c.nome)}">`).join("")}</div>
       <span class="acao">${I.chave}Entrar no Museu</span>`;
   } else if(bateu){
-    texto=`<span class="titulo-ouro">Meta batida!</span><span class="sub-carta">O Museu de Troféus está aberto para você.</span><span class="acao">${I.chave}Entrar no Museu</span>`;
+    texto=`<span class="titulo-ouro">Meta Hunter batida!</span><span class="sub-carta">O Museu de Troféus está aberto para você.</span><span class="acao">${I.chave}Entrar no Museu</span>`;
   } else {
     const f=eu&&eu.restante!=null?eu.restante:null, p=eu?.pct??0;
     texto=`${f!=null&&f<=2?`<span class="reta-final">${retaFinal(f)}</span>`:""}
@@ -3050,7 +3050,7 @@ function abrirCupom(revelando=false){
         <span class="cupom-vale">RECOMPENSA EXCLUSIVA</span>
         <span class="cupom-titulo">${pr.titulo}</span><span class="cupom-premium">${pr.sub}</span>
         <span class="cupom-nome">${esc(eu.nome)}</span>
-        <span class="cupom-info">Meta batida em ${nomeMes(S.competencia)} · ${fmtPct(eu.pct)}</span>
+        <span class="cupom-info">Meta Hunter batida em ${nomeMes(S.competencia)} · ${fmtPct(eu.pct)}</span>
         <span class="cupom-codigo num">${codigoCupom()}-${pr.id.toUpperCase()}</span>
       </div>
     </div>
@@ -3075,7 +3075,7 @@ function abrirConquista(id){
       <h3 id="c-nome">${esc(c.nome)}</h3><div class="posicao">${q.length} ${q.length===1?"troféu":"troféus"} · nível ${ROT_NIVEL[nv]}</div></div>
     <div class="painel-dir">
       <h3 style="margin:0 0 12px;font-family:var(--font-display);color:var(--roxo-900)">Parabéns pela conquista!</h3>
-      ${q.slice().reverse().map(x=>`<div class="conq"><span class="nivel ${x.nivel}">${ROT_NIVEL[x.nivel]}</span><div><b>${nomeMes(x.comp)}</b> <small>${x.atual?"· aguardando confirmação do gestor":""}</small><br><small>Meta ${x.meta} · Realizado ${x.real}</small></div><b class="num" style="color:var(--verde)">${fmtPct(x.real/x.meta*100)}</b></div>`).join("")}
+      ${q.slice().reverse().map(x=>`<div class="conq"><span class="nivel ${x.nivel}">${ROT_NIVEL[x.nivel]}</span><div><b>${nomeMes(x.comp)}</b> <small>${x.atual?"· aguardando confirmação do gestor":""}</small><br><small>Meta Hunter ${x.meta} · Realizado ${x.real}</small></div><b class="num" style="color:var(--verde)">${fmtPct(x.real/x.meta*100)}</b></div>`).join("")}
       <p style="font-size:12.5px;color:var(--muted);margin:12px 0 0">Bronze: 1 mês · Prata: 2 meses seguidos · Rei: 3 meses seguidos. Troféus anteriores nunca são apagados.</p>
     </div></div>`;
   abrirVeu(veu);
@@ -3261,7 +3261,7 @@ async function renderGaleria(c){
   const reis=S.consultores.filter(x=>nivelAtual(x.id)==="rei").length;
   const campeoes=new Set(todos.map(t=>t.c.id)).size;
   c.innerHTML=museuConquistasHTML()+`
-  <div class="museu-topo" style="margin-top:22px"><div><h2>Metas e troféus individuais</h2><p>Meta oficial de Graduação da unidade e os troféus de cada consultor, mês a mês.</p></div>
+  <div class="museu-topo" style="margin-top:22px"><div><h2>Metas e troféus individuais</h2><p>Meta Hunter oficial da unidade e os troféus de cada consultor, mês a mês.</p></div>
     <div class="selos">
       <div class="selo card">${I.trofeu}<div><b class="num" data-conta="${unidTrofeus}">${unidTrofeus}</b><br><span>troféus da unidade</span></div></div>
       <div class="selo card">${I.estrela.replace('<svg','<svg style="color:var(--roxo-500)"')}<div><b class="num" data-conta="${todos.length}">${todos.length}</b><br><span>troféus da equipe</span></div></div>
@@ -3270,14 +3270,14 @@ async function renderGaleria(c){
       <button class="selo relevo" id="ir-museu">${I.museu.replace('<svg','<svg style="color:var(--roxo-700)"')}<div style="text-align:left"><b style="font-size:15px">Museu</b><br><span>ver o salão</span></div></button>
     </div></div>
   <section class="tu-vitrine">
-    <h3>Meta oficial de Graduação <small>troféu quando a unidade bate a meta oficial do mês</small></h3>
+    <h3>Meta Hunter da unidade <small>troféu quando a unidade bate a Meta Hunter oficial do mês</small></h3>
     <div class="tu-linha">${hist.map((h,i)=>{const p=h.meta?h.real/h.meta*100:null,atual=h.comp===S.competencia,ganhou=!atual&&p>=100;
       return `<div class="tu-card ${ganhou?'ganhou':atual?'atual':'nao'} entra" style="--d:${i*70}ms">
         <div class="tu-luz"></div>${trofeuSVG(ganhou)}
         <span class="tu-mes">${MESES_LONGOS[+h.comp.slice(5)-1]} ${h.comp.slice(0,4)}</span>
         <b class="num" style="color:${ganhou?'var(--ouro)':corPct(p)}">${fmtPct(p)}</b>
-        <small>Meta ${fmtN(h.meta)} · Realizado ${fmtN(h.real)}</small>
-        <span class="tu-tag">${ganhou?"Troféu conquistado":atual?"Em andamento":"Meta não batida"}</span>
+        <small>Meta Hunter ${fmtN(h.meta)} · Realizado ${fmtN(h.real)}</small>
+        <span class="tu-tag">${ganhou?"Troféu conquistado":atual?"Em andamento":"Meta Hunter não batida"}</span>
         ${atual?`<span class="barra"><i class="${p>=100?'cheia':''}" style="--w:${Math.min(p??0,100)}%"></i></span>`:""}
       </div>`;}).join("")}</div>
   </section>
@@ -3357,7 +3357,7 @@ function painelMeta(titulo,meta,real,ic){
   return `<div class="meta-painel card">
     <div class="mp-cab">${ic}<span>${titulo}</span></div>
     <div class="mp-pct num" style="color:${corPct(p)}" ${p!=null?`data-conta="${p}" data-fmt="pct"`:""}>${fmtPct(p)}</div>
-    <div class="mp-nums"><div><small>Meta</small><b class="num">${meta??"—"}</b></div><div><small>Realizado</small><b class="num">${real}</b></div>
+    <div class="mp-nums"><div><small>Meta Hunter</small><b class="num">${meta??"—"}</b></div><div><small>Realizado</small><b class="num">${real}</b></div>
       <div><small>${falta===0?"Acima da meta":"Faltam"}</small><b class="num" style="color:${falta===0?"var(--verde)":"var(--roxo-900)"}">${falta===0?"+"+(real-meta):falta??"—"}</b></div></div>
     <div class="mp-barra"><i class="${p>=100?'cheia':''}" style="--w:${Math.min(p??0,100).toFixed(1)}%"></i><span style="left:100%"></span></div>
   </div>`;
@@ -3399,8 +3399,8 @@ async function renderMetas(c){
   <div class="museu-topo"><div><h2>Metas · ${nomeMes(S.competencia)}</h2><p>${ehGestor()?"Escolha um consultor para ver as metas dele.":"Seus resultados do mês, sem enrolação."}</p></div>
     ${ehGestor()?`<div class="seletor" id="sel-cons"><button class="seletor-btn relevo" aria-haspopup="listbox"><img src="${x.foto}" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 38%"><span>${esc(x.nome)}</span>${I.chev}</button></div>`:""}</div>
   <section class="metas-grade">
-    ${painelMeta("Meta Presencial",x.meta_pres,x.pres,I.casa)}
-    ${painelMeta("Meta EAD",metaEad,realEad,I.barras)}
+    ${painelMeta("Meta Hunter Presencial",x.meta_pres,x.pres,I.casa)}
+    ${painelMeta("Meta Hunter EAD",metaEad,realEad,I.barras)}
     ${jornada(x,hist)}
     <div class="historico">
       <h3>Histórico de metas</h3>
@@ -3588,7 +3588,7 @@ function maioresAtualizacoesHTML(){
 function blocosResumo(){
   const U=unidadeInd(), E=evolucaoAtualizacoes();
   const bloco=(tit,ic,meta,real,pct,extra)=>`<div class="rmc"><h4>${ic}${tit}</h4><div class="rmc-n">
-      <div><small>Meta</small>${meta?`<b class="num">${fmtN(meta)}</b>`:`<b class="rm-sem">Sem meta</b>`}</div>
+      <div><small>Meta Hunter</small>${meta?`<b class="num">${fmtN(meta)}</b>`:`<b class="rm-sem">Sem meta</b>`}</div>
       <div><small>Realizado</small><b class="num">${real!=null?fmtN(real):"—"}</b></div>
       <div class="destaque"><small>Atingimento</small>${pct!=null?`<b class="num" style="color:${pct>=100?'#5df59a':pct>=70?'#ffd970':'#ff8fa0'}">${fmtPct(pct)}</b>`:`<b class="rm-sem">${meta?"Sem resultado":"Sem meta"}</b>`}</div></div>
       ${pct!=null?`<span class="rmc-barra"><i style="width:${Math.min(pct,100).toFixed(1)}%"></i></span>`:""}${extra||""}</div>`;
@@ -3596,7 +3596,7 @@ function blocosResumo(){
     <div class="resumo-mes reage clicavel" data-det="mes" role="button" tabindex="0">
       <h3>${I.cal}Resumo do Mês · ${nomeMes(S.competencia)} · Unidade BeMarte</h3>
       <div class="rm-col">
-        ${bloco("Graduação · Carreiras",I.casa,U.gMeta,U.gReal,U.gPct,'<em class="rmc-nota">Meta oficial da unidade</em>')}
+        ${bloco("Meta Hunter · Carreiras",I.casa,U.gMeta,U.gReal,U.gPct,'<em class="rmc-nota">Meta Hunter oficial da unidade</em>')}
         ${bloco("Pós-Graduação",I.estrela,U.pMeta,U.pReal,U.pPct,'<em class="rmc-nota">Indicador coletivo próprio</em>')}
         <div class="rmc rm-evo" data-det="evolucao"><h4>${I.sobe}Maior evolução entre atualizações</h4>${!E?`<span class="rm-evo-v">Após 2 importações do mês</span>`:E.max>0?`<span class="rm-evo-v">${E.top.map(x=>`<img src="${x.c.foto}" alt="">`).join("")}<b>${E.top.map(x=>esc(primeiroNome(x.c.nome))).join(" · ")}</b><strong class="num">+${E.max}</strong></span>`:`<span class="rm-evo-v">Sem crescimento</span>`}</div>
       </div></div>`;
@@ -3966,7 +3966,7 @@ function tabelaCompHTML(L,antes,modo){
   const tot={pres:0,semi:0,eadp:0,extra:0,antes:0,depois:0};
   AUTORIZADOS.forEach(a=>{const p=porC[a.login],b=antes[a.login]||{};["pres","semi","eadp","extra"].forEach(k=>tot[k]+=p[k]);tot.antes+=(b.pres||0)+(b.semi||0)+(b.eadp||0);tot.depois+=depois(a.login);});
   const dif=(x,y)=>{const d=y-x;return `<span class="dif ${d>0?'cima':d<0?'baixo':''}">${x} → ${y}${d?` <b>(${d>0?"+":""}${d})</b>`:""}</span>`;};
-  return `<div class="card tabela-wrap"><table class="conf-tab"><thead><tr><th>Consultor</th><th>Presencial</th><th>Semipresencial</th><th>EAD + Prática</th><th>Total para Meta</th><th>EAD Extra</th><th>Aprovado hoje → depois</th></tr></thead>
+  return `<div class="card tabela-wrap"><table class="conf-tab"><thead><tr><th>Consultor</th><th>Presencial</th><th>Semipresencial</th><th>EAD + Prática</th><th>Total para Meta Hunter</th><th>EAD Extra</th><th>Aprovado hoje → depois</th></tr></thead>
     <tbody>${AUTORIZADOS.map(a=>{const p=porC[a.login],b=antes[a.login]||{};const at=(b.pres||0)+(b.semi||0)+(b.eadp||0);return `<tr><td><span class="pessoa"><img src="${FOTOS[a.login]}" alt="">${esc(a.completo)}</span></td><td>${p.pres}</td><td>${p.semi}</td><td>${p.eadp}</td><td><b>${p.pres+p.semi+p.eadp}</b></td><td style="color:var(--muted)">${p.extra}</td><td>${dif(at,depois(a.login))}</td></tr>`;}).join("")}</tbody>
     <tfoot><tr><td>Total</td><td>${tot.pres}</td><td>${tot.semi}</td><td>${tot.eadp}</td><td><b>${tot.pres+tot.semi+tot.eadp}</b></td><td>${tot.extra}</td><td>${dif(tot.antes,tot.depois)}</td></tr></tfoot></table></div>`;
 }
@@ -4133,15 +4133,15 @@ async function renderMetasGestor(c){
   <div class="conf-topo card"><div><small>Competência</small><input type="month" id="mg-comp" value="${comp}"></div>
     ${temAnt?`<button class="btn-sec" id="mg-copiar">Copiar metas de ${nomeMes(compAnt)}</button>`:""}
     ${MODO==="demo"&&!modoCalculado()?`<p class="nota-teste">Modo de teste: as metas aparecem no ranking depois que uma planilha for importada.</p>`:""}</div>
-  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Consultor</th><th>Meta Presencial</th><th>Meta EAD</th><th>Meta total</th><th>Situação</th></tr></thead>
+  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Consultor</th><th>Meta Hunter Presencial</th><th>Meta Hunter EAD</th><th>Meta Hunter total</th><th>Situação</th></tr></thead>
     <tbody>${cons.map(x=>{const m=atual[x.id]||{};return `<tr data-cid="${x.id}"><td><span class="pessoa"><img src="${fotoDe(x)}" alt="">${esc(x.nome)}</span></td>
-      <td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" data-k="pres" value="${m.pres??""}" aria-label="Meta Presencial de ${esc(x.nome)}"></td>
-      <td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" data-k="ead" value="${m.ead??""}" aria-label="Meta EAD de ${esc(x.nome)}"></td>
+      <td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" data-k="pres" value="${m.pres??""}" aria-label="Meta Hunter Presencial de ${esc(x.nome)}"></td>
+      <td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" data-k="ead" value="${m.ead??""}" aria-label="Meta Hunter EAD de ${esc(x.nome)}"></td>
       <td class="num mg-tot">${m.pres!=null||m.ead!=null?(m.pres||0)+(m.ead||0):"—"}</td><td class="mg-st">${m.pres!=null||m.ead!=null?'<span class="sit ok">Cadastrada</span>':'<span class="sit pend">Sem meta</span>'}</td></tr>`;}).join("")}</tbody></table></div>
   <div class="conf-botoes"><p class="erro" id="mg-erro" role="alert"></p><button class="btn-ouro" id="mg-salvar" disabled>SALVAR METAS DE ${nomeMes(comp).toUpperCase()}</button></div>
-  <h3 class="mg-pos-tit">Metas oficiais da unidade · ${nomeMes(comp)}</h3><p class="mg-pos-sub">A meta oficial não é a soma das metas individuais. Só você edita; todos veem o resultado e o atingimento.</p>
-  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Indicador</th><th>Meta oficial</th><th>Realizado</th><th>Atingimento</th></tr></thead><tbody>
-    <tr><td><b>Graduação · Carreiras</b><br><small style="color:var(--muted)">realizado = produção válida dos 9 consultores</small></td><td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" id="mu-grad" value="${MU.grad??""}" aria-label="Meta oficial de Graduação"></td><td class="num">${fmtN(UI.gReal)}</td><td class="num">${UI.gPct!=null?fmtPct(UI.gPct):"Sem meta"}</td></tr>
+  <h3 class="mg-pos-tit">Metas oficiais da unidade · ${nomeMes(comp)}</h3><p class="mg-pos-sub">A Meta Hunter oficial não é a soma das metas individuais. Só você edita; todos veem o resultado e o atingimento.</p>
+  <div class="card tabela-wrap"><table class="metas-tab"><thead><tr><th>Indicador</th><th>Meta Hunter oficial</th><th>Realizado</th><th>Atingimento</th></tr></thead><tbody>
+    <tr><td><b>Meta Hunter · Carreiras</b><br><small style="color:var(--muted)">realizado = produção válida dos 9 consultores</small></td><td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" id="mu-grad" value="${MU.grad??""}" aria-label="Meta Hunter oficial"></td><td class="num">${fmtN(UI.gReal)}</td><td class="num">${UI.gPct!=null?fmtPct(UI.gPct):"Sem meta"}</td></tr>
     <tr><td><b>Pós-Graduação</b> <em class="tag-pos">PÓS</em><br><small style="color:var(--muted)">realizado lançado abaixo</small></td><td><input type="number" min="1" step="1" inputmode="numeric" class="mg-in" id="mu-pos" value="${MU.pos??""}" aria-label="Meta oficial de Pós"></td><td class="num">${UI.pReal!=null?fmtN(UI.pReal):"—"}</td><td class="num">${UI.pPct!=null?fmtPct(UI.pPct):"—"}</td></tr>
   </tbody></table></div>
   ${consPos.length?`<p class="mg-pos-sub" style="margin-top:12px">Realizado de Pós-Graduação (lançamento manual)</p>
@@ -4152,7 +4152,7 @@ async function renderMetasGestor(c){
   $("#mp-salvar")?.addEventListener("click",async e=>{
     const b=e.currentTarget, er=$("#mp-erro"); er.textContent=""; const val=(v,z)=>v===""?null:(/^\d+$/.test(v)&&(z?+v>=0:+v>0)?+v:NaN);
     const mg=val($("#mu-grad").value.trim()), mpz=val($("#mu-pos").value.trim()), itens=[];
-    if(Number.isNaN(mg)||Number.isNaN(mpz)){er.textContent="Metas oficiais: use números inteiros maiores que zero, ou deixe em branco.";return;}
+    if(Number.isNaN(mg)||Number.isNaN(mpz)){er.textContent="Meta Hunter e Meta Pós: use números inteiros maiores que zero, ou deixe em branco.";return;}
     for(const tr of c.querySelectorAll("tr[data-pid]")){const rp=val(tr.querySelector('[data-k="real"]').value.trim(),true);
       if(Number.isNaN(rp)){er.textContent="Realizado Pós: use número inteiro (zero ou mais), ou deixe em branco.";return;} itens.push({cid:tr.dataset.pid,real:rp});}
     b.disabled=true; b.textContent="Salvando…";
@@ -4251,7 +4251,7 @@ function abrirDetalhe(tipo){
     corpo=`<div class="det-mes"><div class="cal">${sem.map(x=>`<span class="cal-cab">${x}</span>`).join("")}${"<span></span>".repeat(ini)}
       ${[...Array(d.total)].map((_,i)=>{const n=i+1,st=n<d.dia?"passou":n===d.dia&&d.atual?"hoje":"futuro";return `<span class="cal-dia ${st}${new Date(d.a,d.m-1,n).getDay()===0?' dom':''}">${n}</span>`;}).join("")}</div>
       <div class="det-nums">
-        <div><small>Meta</small><b class="num">${meta}</b></div><div><small>Realizado</small><b class="num">${real}</b></div>
+        <div><small>Meta Hunter</small><b class="num">${meta}</b></div><div><small>Realizado</small><b class="num">${real}</b></div>
         <div><small>Atingimento</small><b class="num" style="color:${corPct(meta?real/meta*100:null)}">${fmtPct(meta?real/meta*100:null)}</b></div>
         <div><small>${falta?"Faltam":"Acima da meta"}</small><b class="num" style="color:${falta?'var(--roxo-900)':'var(--verde)'}">${falta||"+"+(real-meta)}</b></div>
         <div><small>Dias restantes</small><b class="num">${restam}</b></div>
@@ -4263,9 +4263,9 @@ function abrirDetalhe(tipo){
     const ehP=tipo==="pres";
     const lin=base.map(c=>{const m=ehP?c.meta_pres:metaEadDe(c),r=ehP?(c.pres||0):(c.semi||0)+(c.eadp||0);return {c,m,r,p:m?r/m*100:null};}).sort((a,b)=>(b.p??-1)-(a.p??-1));
     const M=lin.reduce((t,x)=>t+(x.m||0),0),R=lin.reduce((t,x)=>t+x.r,0),P=M?R/M*100:null,F=Math.max(M-R,0);
-    titulo=ehP?"Meta Presencial":"Meta EAD";
+    titulo=ehP?"Meta Hunter Presencial":"Meta Hunter EAD";
     corpo=`<div class="det-nums">
-        <div><small>Meta</small><b class="num">${M||"—"}</b></div><div><small>Realizado</small><b class="num">${R}</b></div>
+        <div><small>Meta Hunter</small><b class="num">${M||"—"}</b></div><div><small>Realizado</small><b class="num">${R}</b></div>
         <div><small>Atingimento</small><b class="num" style="color:${corPct(P)}">${fmtPct(P)}</b></div>
         <div><small>${F?"Faltam":"Acima da meta"}</small><b class="num" style="color:${F?'var(--roxo-900)':'var(--verde)'}">${F||"+"+(R-M)}</b></div></div>
       ${!ehP?`<div class="det-lista" style="margin-top:14px">${[["Semipresencial",soma("semi")],["EAD + Prática",soma("eadp")],["EAD Extra (não conta)",soma("extra")]].map(([n,q],i)=>`<div class="det-linha"><span class="dl-rot"${i===2?' style="color:var(--muted)"':''}>${n}</span><span class="barra"><i style="--w:${(q/Math.max(1,R)*100).toFixed(0)}%${i===2?';background:#d8cbee':''}"></i></span><b class="num">${q}</b><span></span></div>`).join("")}</div>`:""}
@@ -4372,7 +4372,7 @@ function donut(p,rot){const r=52,C=2*Math.PI*r,f=Math.min(p??0,100)/100;
     <div class="centro"><div><b class="num" style="color:${corPct(p)}">${fmtPct(p)}</b><small>${rot}</small></div></div></div>`;}
 
 /* ---------- VISÃO GERAL (GESTOR) ---------- */
-const COLS=[{k:"nome",t:"Consultor"},{k:"pos",t:"Pos."},{k:"meta",t:"Meta"},{k:"pres",t:"Presencial"},{k:"semi",t:"Semi"},{k:"eadp",t:"EAD + Prática"},{k:"valido",t:"Válido"},{k:"pct",t:"Atingimento"},{k:"restante",t:"Faltam"},{k:"extra",t:"EAD Extra"},{k:"evo",t:"Últ. atualização"}];
+const COLS=[{k:"nome",t:"Consultor"},{k:"pos",t:"Pos."},{k:"meta",t:"Meta Hunter"},{k:"pres",t:"Presencial"},{k:"semi",t:"Semi"},{k:"eadp",t:"EAD + Prática"},{k:"valido",t:"Válido"},{k:"pct",t:"Atingimento"},{k:"restante",t:"Faltam"},{k:"extra",t:"EAD Extra"},{k:"evo",t:"Últ. atualização"}];
 function renderGeral(c){
   const pos={};ranquear(S.consultores,"total").linhas.forEach(l=>pos[l.c.id]=l.pos);
   const E=evolucaoAtualizacoes(),ev={};(E?.lista||[]).forEach(x=>ev[x.c.id]=x.d);
@@ -4386,7 +4386,7 @@ function renderGeral(c){
     <thead><tr>${COLS.map(k=>`<th scope="col"><button data-ord="${k.k}" ${col===k.k?`aria-sort="${dir>0?'ascending':'descending'}"`:''}>${k.t}${col===k.k?(dir>0?" ↑":" ↓"):""}</button></th>`).join("")}</tr></thead>
     <tbody>${rows.map(r=>`<tr data-abrir="${r.id}" tabindex="0"><td><span class="pessoa"><img src="${r.foto}" alt="">${esc(r.nome)}</span></td><td>${r.pos}º</td>
       <td>${fmtN(r.meta)}</td><td>${fmtN(r.pres)}</td><td>${fmtN(r.semi)}</td><td>${fmtN(r.eadp)}</td><td><b>${fmtN(r.valido)}</b></td>
-      <td><span class="semaf ${semaforo(r.pct)}">${fmtPct(r.pct)}</span></td><td>${r.restante===0?'<b class="cima">Meta ✓</b>':fmtN(r.restante)}</td>
+      <td><span class="semaf ${semaforo(r.pct)}">${fmtPct(r.pct)}</span></td><td>${r.restante===0?'<b class="cima">Meta Hunter ✓</b>':fmtN(r.restante)}</td>
       <td style="color:var(--muted)">${fmtN(r.extra)}</td><td>${r.evo==null?"—":(r.evo>0?`<b class="cima">+${r.evo}</b>`:r.evo<0?`<b class="baixo">${r.evo}</b>`:"0")}</td></tr>`).join("")}</tbody></table></div>`;
   ligarSeletores();
   c.querySelectorAll("[data-ord]").forEach(b=>b.onclick=()=>{const k=b.dataset.ord;S.ordem=S.ordem.col===k?{col:k,dir:-S.ordem.dir}:{col:k,dir:k==="nome"?1:-1};renderGeral(c);});
@@ -4399,7 +4399,7 @@ function abrirPainel(id){
   const c=S.consultores.find(x=>x.id===id); if(!c) return;
   const {linhas,f}=ranquear(S.consultores,S.filtro),l=linhas.find(x=>x.c.id===id),geral=ranquear(S.consultores,"total").linhas.find(x=>x.c.id===id);
   const podio=l.pos<=3,metal=["ouro","prata","bronze"][l.pos-1];
-  const mod=(n,v)=>`<div class="mod"><span>${n}</span><b class="num">${fmtN(v)}</b><em>${n==="Presencial"?"Meta Presencial":"Meta EAD"}</em></div>`;
+  const mod=(n,v)=>`<div class="mod"><span>${n}</span><b class="num">${fmtN(v)}</b><em>${n==="Presencial"?"Meta Hunter Presencial":"Meta Hunter EAD"}</em></div>`;
   const veu=document.createElement("div");veu.className="veu";
   veu.innerHTML=`<div class="painel" role="dialog" aria-modal="true" aria-labelledby="p-nome">
     <button class="fechar" aria-label="Fechar">${I.x}</button>
@@ -4411,14 +4411,14 @@ function abrirPainel(id){
     <div class="painel-dir">
       <div class="tot-mat"><b class="num">${fmtN(c.valido)}</b><span>${c.valido===1?"matrícula":"matrículas"} que contam para a meta · ${geral.pos}º no ranking geral</span></div>
       <div class="tres-metas${c.pos?' so-pos':''}">${(c.pos?[["EAD — PÓS-GRADUAÇÃO",c.meta,c.valido]]:[["META PRESENCIAL",c.meta_pres,c.pres||0],["META EAD",metaEadDe(c),(c.semi||0)+(c.eadp||0)],["META TOTAL",c.meta,c.valido]]).map(([t,m,r],i)=>{const p=m?r/m*100:null;
-        return `<div class="tm${i===2?' total':''}"><small>${t}</small><div class="tm-nums"><span><em>Meta</em><b class="num">${m!=null?fmtN(m):"—"}</b></span><span><em>Realizado</em><b class="num">${fmtN(r)}</b></span></div>
+        return `<div class="tm${i===2?' total':''}"><small>${t}</small><div class="tm-nums"><span><em>${c.pos?"Meta Pós":"Meta Hunter"}</em><b class="num">${m!=null?fmtN(m):"—"}</b></span><span><em>Realizado</em><b class="num">${fmtN(r)}</b></span></div>
           <span class="barra"><i class="${p>=100?'cheia':''}" style="--w:0%" data-w="${Math.min(p??0,100)}"></i></span><strong class="num" style="color:${p==null?'var(--muted)':corPct(p)}">${p==null?"Sem meta":fmtPct(p)}</strong></div>`;}).join("")}</div>
       ${c.pos?(()=>{const ant=(S.fonte?.posReal||[]).filter(r=>r.cid===c.id&&r.comp<S.competencia).sort((a,b)=>b.comp.localeCompare(a.comp))[0];
         return `<div class="pos-evo"><small>EVOLUÇÃO DA PRODUÇÃO</small>${ant?`<b class="num">${nomeMes(ant.comp)}: ${ant.real} → ${nomeMes(S.competencia)}: ${c.valido}</b><span class="${c.valido>=ant.real?'cima':'baixo'}">${c.valido-ant.real>=0?"+":""}${c.valido-ant.real}</span>`:`<b>Primeiro mês com resultado lançado</b>`}</div>
-        <p class="det-rodape">Pós-Graduação · resultado oficial lançado pelo gestor${c.pos_lancado?"":" (ainda não lançado neste mês)"}. Não entra no realizado de Graduação da unidade.</p>`;})():""}
+        <p class="det-rodape">Pós-Graduação · resultado oficial lançado pelo gestor${c.pos_lancado?"":" (ainda não lançado neste mês)"}. Não entra no realizado Hunter da unidade.</p>`;})():""}
 ${c.pos?'':`      <div class="modal-lista">${mod("Presencial",c.pres,null)}${mod("Semipresencial",c.semi,null)}${mod("EAD + Prática",c.eadp,null)}
         <div class="mod extra"><span>EAD Extra</span><b class="num">${fmtN(c.extra)}</b><em>Informativo · não conta para a meta</em></div></div>`}
-      ${c.meta!=null?`<div class="falta ${c.restante===0?'ok':'nao'}">${c.restante===0?`Meta batida!${c.valido-c.meta>0?` +${c.valido-c.meta} acima da meta.`:""}`:`Faltam ${c.restante} matrículas para bater a meta.`}</div>`:`<div class="falta nao">Meta de ${nomeMes(S.competencia)} ainda não cadastrada.</div>`}
+      ${c.meta!=null?`<div class="falta ${c.restante===0?'ok':'nao'}">${c.restante===0?`Meta Hunter batida!${c.valido-c.meta>0?` +${c.valido-c.meta} acima da meta.`:""}`:`Faltam ${c.restante} matrículas para bater a meta.`}</div>`:`<div class="falta nao">Meta Hunter de ${nomeMes(S.competencia)} ainda não cadastrada.</div>`}
     </div></div>`;
   abrirVeu(veu);
   requestAnimationFrame(()=>requestAnimationFrame(()=>veu.querySelectorAll(".tm .barra i").forEach(i=>i.style.setProperty("--w",i.dataset.w+"%"))));
@@ -4457,7 +4457,7 @@ function fogos(cv){
 const OFENSIVO=/(^|[^a-z])(porra|caralho|merda|buceta|puta|puto|fdp|vagabund|arrombad|otari|idiota|imbecil|retardad|lixo humano|vou te matar|te matar|desgracad|viad|macac|cuzao|cu )/;
 const semAcento=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const REACOES=["🔥","👑","🏆","👏","🚀","💜"];
-const RAPIDAS=["🔥 Estou chegando!","👑 Quero esse primeiro lugar!","🚀 Hoje vou subir no ranking!","🏆 Mais uma conquista!","⚡ A disputa começou!","🎯 Meta na mira!"];
+const RAPIDAS=["🔥 Estou chegando!","👑 Quero esse primeiro lugar!","🚀 Hoje vou subir no ranking!","🏆 Mais uma conquista!","⚡ A disputa começou!","🎯 Meta Hunter na mira!"];
 const tokSalvo=()=>lerLS("mp_tok",null);
 const demoDB=()=>lerLS("mp_arena_demo",{seq:0,msgs:[]});
 const errMsg=e=>e?.message||String(e);
@@ -4814,7 +4814,7 @@ Object.assign(API.arena,{
     const {error}=await S.sb.rpc("mp_arena_fixar",{p_msg:id,p_fixar:f}); if(error) throw new Error(error.message);
   }
 });
-const CATS={graduacao:"Graduação",pos:"Pós-Graduação",volume:"Volume da Unidade",campanha:"Campanha Comercial",recorde:"Recorde",especial:"Conquista Especial",outros:"Outros"};
+const CATS={graduacao:"Meta Hunter",pos:"Pós-Graduação",volume:"Volume da Unidade",campanha:"Campanha Comercial",recorde:"Recorde",especial:"Conquista Especial",outros:"Outros"};
 const TROFEUS={ouro:"Ouro",prata:"Prata",bronze:"Bronze",especial:"Especial"};
 API.unid={
   async salvar(x){
@@ -4921,7 +4921,7 @@ function ligarMuseuConquistas(c){
 }
 function formConquista(x){
   const ed=!!x; x=x||{nome:"",comp:S.competencia,categoria:"graduacao",trofeu:"ouro",descricao:""};
-  const sug=["Meta de Volume da Unidade Entregue","Meta de Pós-Graduação Entregue","Meta de Graduação Batida","Recorde de Matrículas","Campanha Comercial Concluída","Conquista Especial da Unidade"];
+  const sug=["Meta de Volume da Unidade Entregue","Meta de Pós-Graduação Entregue","Meta Hunter Batida","Recorde de Matrículas","Campanha Comercial Concluída","Conquista Especial da Unidade"];
   const veu=document.createElement("div"); veu.className="veu";
   veu.innerHTML=`<div class="painel envio-box mc-form" role="dialog" aria-modal="true" aria-label="${ed?"Editar":"Nova"} conquista"><button class="fechar" aria-label="Fechar">${I.x}</button>
     <h2 class="det-titulo">${ed?"Editar conquista":"🏆 Nova conquista da unidade"}<small>não altera resultados nem atingimentos do Hunter</small></h2>
@@ -5053,12 +5053,12 @@ function boasVindas(){
     <p>Sua jornada começa agora. Cada matrícula te leva mais perto do topo.</p>
     <div class="bv-cards">
       <div style="--d:700ms"><em>🏆</em><b>Ranking Hunter</b><span>Pódio, posição e atingimento da sua meta.</span></div>
-      <div style="--d:900ms"><em>🗝️</em><b>Museu de Troféus</b><span>${bateu?"Você bateu a meta: sua chave está esperando no Museu!":"Bata 100% da meta para receber a chave e abrir o Museu."}</span></div>
+      <div style="--d:900ms"><em>🗝️</em><b>Museu de Troféus</b><span>${bateu?"Algo especial te espera no Museu… procure o cadeado ao lado do ranking. 🔒":"Bata 100% da Meta Hunter para receber a chave e abrir o Museu."}</span></div>
       <div style="--d:1100ms"><em>⚔️</em><b>Arena Hunter</b><span>Desafios, reações e conquistas com a equipe.</span></div>
     </div>
-    <button class="btn-ouro bv-ok" id="bv-ok">${bateu?"🗝️ RECEBER MINHA CHAVE":"COMEÇAR MINHA JORNADA"}</button></div>`;
+    <button class="btn-ouro bv-ok" id="bv-ok">COMEÇAR MINHA JORNADA</button></div>`;
   document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on")); setTimeout(()=>confete(120,true,.2),600);
-  v.querySelector("#bv-ok").onclick=()=>{gravarLS("mp_bv_"+id,true);v.classList.add("sai");setTimeout(()=>{v.remove();if(bateu)irPara("museu");},350);};
+  v.querySelector("#bv-ok").onclick=()=>{gravarLS("mp_bv_"+id,true);v.classList.add("sai");setTimeout(()=>v.remove(),350);};
 }
 
 /* ---------- MICROINTERAÇÕES ---------- */
