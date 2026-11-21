@@ -2277,7 +2277,7 @@ function montarApp(){
       ${MODO==="demo"?(modoCalculado()?'<span class="badge-demo teste">TESTE <span>planilha importada só neste navegador</span></span>':'<span class="badge-demo">DEMO <span>números fictícios</span></span>'):'<span></span>'}
       <div class="marca">${I.louro}<div><h1>MARTE <b>PERFORMANCE</b></h1><small>Gestão de Acompanhamento Hunter</small></div>${I.louro.replace('class="louro"','class="louro" style="transform:scaleX(-1)"')}</div>
       <div class="topo-dir">
-        <span class="db-chip" title="Último dia contemplado pelo relatório do Power BI na última importação aprovada">${I.cal}<span>Data Base<b class="num">${S.dataBase?dataBR(S.dataBase):"—"}</b></span></span>
+        <span class="db-chip" title="Última DT MATRICULA importada">${I.cal}<span>Data Base<b class="num">${S.dataBase?dataBR(S.dataBase):"—"}</b></span></span>
         <button class="perfil-btn" id="btn-perfil" aria-haspopup="true" aria-expanded="false">${avatar}<span class="nm">${esc(primeiroNome(u.nome))}<em>${u.perfil==="gestor"?"Gestor":"Consultor"}</em></span></button>
         <div class="menu-perfil hidden" id="menu-perfil" role="menu">${ehGestor()?"":`<button class="efeitos-btn" id="btn-meuperfil" role="menuitem">Meu Perfil · alterar foto</button>`}<p>Deseja sair?</p><button class="sair-btn" id="btn-sair" role="menuitem">Sim, sair</button><button class="efeitos-btn" id="btn-portal" role="menuitem">Voltar ao Portal Comercial</button><button class="efeitos-btn" id="btn-efeitos" role="menuitem">${EFEITOS_REDUZIDOS?"Ativar efeitos completos":"Reduzir efeitos visuais"}</button></div>
       </div>
@@ -2606,7 +2606,7 @@ function abrirVitoria(){
   cards.push(["📈","MATRÍCULAS NO MÊS",`${fmtN(c.valido)} para a meta`]);
   if(q.length) cards.push(["🏆",`${q.length} ${q.length===1?"TROFÉU":"TROFÉUS"}`,"desbloqueados no Museu"]);
   if(seq>=2) cards.push(["🔥",`${seq} MESES SEGUIDOS`,"entregando a meta"]);
-  if(rei) cards.push(["👑","GALERIA DOS REIS","membro do BeMarte"]);
+  if(rei) cards.push(["👑","GALERIA DOS REIS","membro do Marte"]);
   if(nivel) cards.push(["⭐",`NÍVEL ${ROT_NIVEL[nivel]}`,"conquista especial"]);
   const v=document.createElement("div"); v.className="vitoria-veu "+metal;
   v.innerHTML=`<div class="vitoria" role="dialog" aria-modal="true" aria-label="Minha vitória">
@@ -3122,7 +3122,7 @@ function trofeuRei(foto,nome){
     <path d="M186 340h28v30h-28z" fill="url(#ouro-a)"/>
     <rect x="100" y="370" width="200" height="26" rx="8" fill="url(#ouro-a)" stroke="#8e5f10"/>
     <rect x="70" y="396" width="260" height="130" rx="16" fill="#1a0838" stroke="url(#ouro-a)" stroke-width="5"/>
-    <text x="200" y="444" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="25" fill="#ffe08a" letter-spacing="1">REI DO BEMARTE</text>
+    <text x="200" y="444" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="25" fill="#ffe08a" letter-spacing="1">REI DO MARTE</text>
     <text x="200" y="482" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="20" fill="#fff">${esc(nome)}</text>
     <text x="200" y="510" text-anchor="middle" font-family="Plus Jakarta Sans, Segoe UI, sans-serif" font-weight="700" font-size="13" fill="#cbb8f0">3 meses seguidos entregando a meta</text>
     ${[[330,40,1.4,0],[60,140,1,.7],[300,230,1.1,1.4],[120,300,.9,2],[350,330,1,1]].map(([x,y,k,d])=>`<path class="faisca-t" style="animation-delay:${d}s" transform="translate(${x} ${y}) scale(${k})" d="M0-12L2.4-2.4 12 0 2.4 2.4 0 12-2.4 2.4-12 0-2.4-2.4Z" fill="#fff"/>`).join("")}
@@ -3154,9 +3154,9 @@ function abrirVoucherRei(eu,r){
     <button class="fechar" aria-label="Fechar">${I.x}</button>
     <p class="cupom-parabens">Majestade, ${esc(primeiroNome(eu.nome))}! Sua surpresa:</p>
     <div class="cupom revela rei-cupom">
-      <div class="cupom-canhoto">${coroaSVG("ouro","","width:64px")}<b>REI</b><span>DO BEMARTE</span></div>
+      <div class="cupom-canhoto">${coroaSVG("ouro","","width:64px")}<b>REI</b><span>DO MARTE</span></div>
       <div class="cupom-corpo"><div class="cupom-brilho"></div>
-        <span class="cupom-vale">GALERIA DOS REIS DO BEMARTE</span>
+        <span class="cupom-vale">GALERIA DOS REIS DO MARTE</span>
         <span class="cupom-titulo" style="font-size:clamp(26px,3.4vw,40px)">SURPRESA ESPECIAL</span><span class="cupom-premium">3 MESES SEGUIDOS</span>
         <span class="cupom-nome">${esc(eu.nome)}</span>
         <span class="cupom-info">${r.slice(-3).map(q=>nomeMes(q.comp)).join(" · ")}</span>
@@ -3200,7 +3200,7 @@ function renderReis(c){
       <div class="rf-box">${coroaSVG("ouro","coroa rf-coroa")}
         <span class="carta-selo" style="position:static;transform:none;display:inline-block">GALERIA DOS REIS</span>
         <span class="titulo-ouro">Bata a meta 3 meses seguidos</span>
-        <span class="sub-carta">E conquiste sua coroa na Galeria dos Reis do BeMarte!</span>
+        <span class="sub-carta">E conquiste sua coroa na Galeria dos Reis do Marte!</span>
         ${presente3D()}
         <span class="sub-carta rf-surpresa">🎁 <b>Uma surpresa especial espera por você.</b></span>
         <div class="rf-passos">${[0,1,2].map(i=>`<span class="${i<n?'ok':''}"><b>${i+1}</b>${["Bronze","Prata","Rei"][i]}</span>`).join('<i></i>')}</div>
@@ -3594,7 +3594,7 @@ function blocosResumo(){
       ${pct!=null?`<span class="rmc-barra"><i style="width:${Math.min(pct,100).toFixed(1)}%"></i></span>`:""}${extra||""}</div>`;
   return `
     <div class="resumo-mes reage clicavel" data-det="mes" role="button" tabindex="0">
-      <h3>${I.cal}Resumo do Mês · ${nomeMes(S.competencia)} · Unidade BeMarte</h3>
+      <h3>${I.cal}Resumo do Mês · ${nomeMes(S.competencia)} · Unidade Marte</h3>
       <div class="rm-col">
         ${bloco("Meta Hunter · Carreiras",I.casa,U.gMeta,U.gReal,U.gPct,'<em class="rmc-nota">Meta Hunter oficial da unidade</em>')}
         ${bloco("Pós-Graduação",I.estrela,U.pMeta,U.pReal,U.pPct,'<em class="rmc-nota">Indicador coletivo próprio</em>')}
@@ -3698,7 +3698,7 @@ function calcular(F){
     const comDt=L.filter(l=>l.dt&&l.dt.slice(0,7)===comp), semDt=L.filter(l=>!l.dt&&(!F.soCid||l.cid===F.soCid)).length;
     const db=(F.imps||[]).filter(i=>i.comp===comp&&i.status==="confirmada"&&i.dataBase).map(i=>i.dataBase).sort().at(-1)||null;
     const maxDt=comDt.map(l=>l.dt).sort().at(-1)||null;
-    const ate=(db&&db.slice(0,7)===comp)?db:(db&&db>comp+"-31"?`${comp}-${String(nDias).padStart(2,"0")}`:maxDt);
+    const ate=(!F.soCid&&maxDt)?maxDt:(db&&db.slice(0,7)===comp)?db:(db&&db>comp+"-31"?`${comp}-${String(nDias).padStart(2,"0")}`:maxDt);
     const tl=linhaDoTempo(F.imps||[],comp);
     const lista=F.cons.map(c=>{
       if(c.pos){const m=metaDe[c.id+"|"+comp]||{},r=realPos[c.id+"|"+comp], mu=(F.metasUnid||{})[comp]||{};
@@ -3732,7 +3732,8 @@ async function carregarCalculado(Fx){
   S.posLista=P?preparar(P.lista.filter(c=>c.pos)):[];
   S.vel=P?{semanas:P.semanas,ate:P.ate,semDt:P.semDt,tl:P.tl}:null;
   const ultImp=(F.imps||[]).filter(i=>i.status==="confirmada").sort((a,b)=>String(a.em).localeCompare(String(b.em))).at(-1);
-  S.dataBase=ultImp?.dataBase||null;
+  const maxTodas=F.soCid?null:(F.linhas||[]).map(l=>l.dt).filter(Boolean).sort().at(-1); /* gestor vê todas as datas */
+  S.dataBase=maxTodas||(F.imps||[]).filter(i=>i.status==="confirmada"&&i.dataBase).map(i=>i.dataBase).sort().at(-1)||null;
   S.conquistas=[];
   Object.entries(C.porComp).forEach(([comp,p])=>{if(comp===S.competencia) return;
     p.lista.forEach(c=>{const v=c.pos?c.pos_real:c.pres+c.semi+c.eadp; if(c.meta&&v>=c.meta) S.conquistas.push({id:c.id,comp,meta:c.meta,real:v});});});
@@ -3923,6 +3924,7 @@ async function reanalisar(){
     }
   }
   I2.analise=A;
+  I2.dataBase=(A.registros||[]).filter(x=>x.dt&&!x.problema).map(x=>x.dt).sort().at(-1)||null; /* Data Base = última DT MATRICULA do arquivo */
 }
 async function receberArquivo(file){
   const st=$("#imp-status"); if(st) st.textContent="Lendo "+file.name+"…";
@@ -3975,7 +3977,7 @@ function conferenciaHTML(I2){
   const topo=`<div class="conf-topo card">
     <div><small>Arquivo</small><b>${esc(I2.arquivo)}</b></div>
     ${abas.length>1?`<div><small>Aba</small><select id="cf-aba">${abas.map(a=>`<option${a===I2.aba?" selected":""}>${esc(a)}</option>`).join("")}</select></div>`:""}
-    <div><small>Data Base do Power BI (último dia do relatório)</small><input type="date" id="cf-db" value="${I2.dataBase||""}"></div>
+    <div><small>Data Base (última DT MATRICULA do arquivo)</small><input type="date" id="cf-db" value="${I2.dataBase||""}" readonly></div>
     <div><small>Competência</small><b>Pela DT MATRICULA de cada linha</b></div>
     <button class="btn-sec" id="cf-trocar">Escolher outro arquivo</button></div>`;
   if(A.erro) return `<section class="conferencia"><h2 class="conf-titulo">CONFERÊNCIA DE IMPORTAÇÃO</h2>${topo}
@@ -4801,7 +4803,7 @@ async function renderEquipe(c){
 }
 
 /* =====================================================================
-   COMUNICADOS DO GESTOR · NOTIFICAÇÕES · GALERIA DE CONQUISTAS BEMARTE
+   COMUNICADOS DO GESTOR · NOTIFICAÇÕES · GALERIA DE CONQUISTAS MARTE
    ===================================================================== */
 Object.assign(API.arena,{
   async comunicar(txt){
@@ -4878,7 +4880,7 @@ const avisoKey=()=>"mp_aviso_visto_"+(S.usuario?.id||"");
 function avisoCartao(m,prev){
   if(m.tipo==="trofeu"){const p=m.payload||{};return `<div class="aviso-card trofeu">
     <div class="av-cab"><span class="av-foto"><img src="${FOTO_GESTOR}" alt=""></span><div><b>🏆 ${esc(primeiroNome(m.autor_nome||"Bruno")).toUpperCase()} LIBEROU UMA NOVA CONQUISTA DA UNIDADE!</b><small>Gestor · Galeria da Unidade</small></div></div>
-    <div class="av-trofeu">${trofeuUnidSVG(p.trofeu,"av"+(m.id||0),90)}<div><strong>${esc(p.nome||m.texto)}!</strong><span>${p.comp?nomeMes(p.comp):""}</span><em>A equipe BeMarte acaba de conquistar mais um troféu!</em></div></div></div>`;}
+    <div class="av-trofeu">${trofeuUnidSVG(p.trofeu,"av"+(m.id||0),90)}<div><strong>${esc(p.nome||m.texto)}!</strong><span>${p.comp?nomeMes(p.comp):""}</span><em>A equipe Marte acaba de conquistar mais um troféu!</em></div></div></div>`;}
   return `<div class="aviso-card"><div class="av-cab"><span class="av-foto"><img src="${FOTO_GESTOR}" alt=""></span><div><b>👑 ${esc(primeiroNome(m.autor_nome||"Bruno")).toUpperCase()} ENVIOU UMA MENSAGEM!</b><small>Gestor · Arena Hunter</small></div><span class="av-pulso">${I.chat}</span></div>
     <p class="av-txt">"${esc(m.texto)}"</p></div>`;
 }
@@ -4898,13 +4900,13 @@ async function verificarAvisos(){
   v.querySelector("#av-abrir").onclick=()=>{marcar(); if(m.tipo==="trofeu"){S.galAbrir=m.payload?.id;irPara("galeria");} else {S.arenaDestaque=m.id;irPara("arena");}};
 }
 
-/* ---------- GALERIA DA UNIDADE · MUSEU DE CONQUISTAS BEMARTE ---------- */
+/* ---------- GALERIA DA UNIDADE · MUSEU DE CONQUISTAS MARTE ---------- */
 const slug=t=>semAcento(t).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40);
 function museuConquistasHTML(){
   const L=(S.fonte?.unidConq||[]).slice().sort((a,b)=>b.comp.localeCompare(a.comp)||String(b.em||"").localeCompare(String(a.em||""))), g=ehGestor();
   const meses=[...new Set(L.map(x=>x.comp))];
   return `<section class="mc-museu">
-    <div class="mc-cab">${coroaSVG("ouro","","width:58px")}<div><small>GALERIA DA UNIDADE</small><h2>Museu de Conquistas BeMarte</h2><p>Os troféus coletivos da unidade, mês a mês. Conquistas cadastradas pelo gestor, inclusive resultados fora do Hunter.</p></div>
+    <div class="mc-cab">${coroaSVG("ouro","","width:58px")}<div><small>GALERIA DA UNIDADE</small><h2>Museu de Conquistas Marte</h2><p>Os troféus coletivos da unidade, mês a mês. Conquistas cadastradas pelo gestor, inclusive resultados fora do Hunter.</p></div>
       <div class="mc-acoes">${g?`<button class="btn-ouro" id="mc-nova">+ NOVA CONQUISTA</button>${L.length?`<button class="btn-roxo" id="mc-foto">📸 FOTO OFICIAL DA GALERIA</button>`:""}`:""}</div></div>
     ${L.length?meses.map(m=>`<div class="mc-mes"><h4><span>${MESES_LONGOS[+m.slice(5)-1]} ${m.slice(0,4)}</span></h4><div class="mc-vitrine">
       ${L.filter(x=>x.comp===m).map((x,i)=>`<button class="mc-t ${x.trofeu} entra" style="--d:${i*80}ms" data-uc="${x.id}" aria-label="Ver ${esc(x.nome)}">
@@ -4950,7 +4952,7 @@ function formConquista(x){
 function revelarTrofeu(x,aoFim){
   const v=document.createElement("div"); v.className="revela-veu";
   v.innerHTML=`<div class="rv-raios"></div><div class="rv-palco"><div class="rv-trofeu">${trofeuUnidSVG(x.trofeu,"rv",230)}</div><div class="rv-pedestal"></div></div>
-    <div class="rv-txt"><small>🏆 NOVA CONQUISTA DA UNIDADE BEMARTE</small><h2>${esc(x.nome)}</h2><span>${nomeMes(x.comp)} · ${esc(CATS[x.categoria]||"")}</span>${x.descricao?`<em>${esc(x.descricao)}</em>`:""}
+    <div class="rv-txt"><small>🏆 NOVA CONQUISTA DA UNIDADE MARTE</small><h2>${esc(x.nome)}</h2><span>${nomeMes(x.comp)} · ${esc(CATS[x.categoria]||"")}</span>${x.descricao?`<em>${esc(x.descricao)}</em>`:""}
       <button class="btn-ouro" id="rv-ok">Ver na galeria</button></div>`;
   document.body.appendChild(v); requestAnimationFrame(()=>v.classList.add("on"));
   setTimeout(()=>confete(220,true,.35),900);
@@ -4996,7 +4998,7 @@ function fundoArte(){
     ${[...Array(16)].map((_,i)=>`<polygon points="540,430 ${540+Math.cos(i/16*6.283)*900},${430+Math.sin(i/16*6.283)*900} ${540+Math.cos((i+.35)/16*6.283)*900},${430+Math.sin((i+.35)/16*6.283)*900}" fill="#ffe08a" opacity=".05"/>`).join("")}
     <rect x="30" y="30" width="1020" height="1290" rx="40" fill="none" stroke="url(#oro)" stroke-width="6"/><rect x="48" y="48" width="984" height="1254" rx="30" fill="none" stroke="#c58d22" stroke-opacity=".5" stroke-width="2"/>
     <text x="540" y="140" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="34" letter-spacing="10" fill="url(#oro)">MUSEU DE CONQUISTAS</text>
-    <text x="540" y="200" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="58" letter-spacing="4" fill="#fff">BeMarte</text>`;
+    <text x="540" y="200" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="58" letter-spacing="4" fill="#fff">Marte</text>`;
 }
 function exportarConquista(x){
   const linhas=quebra(x.nome.toUpperCase(),22);
@@ -5006,7 +5008,7 @@ function exportarConquista(x){
     <ellipse cx="540" cy="820" rx="250" ry="34" fill="#000" opacity=".35"/>
     ${linhas.map((l,i)=>`<text x="540" y="${900+i*72}" text-anchor="middle" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="900" font-size="60" fill="url(#oro)">${xe(l)}</text>`).join("")}
     <text x="540" y="${900+linhas.length*72+30}" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="36" fill="#e2d3ff">${xe(nomeMes(x.comp))} · ${xe(CATS[x.categoria]||"")}</text>
-    <text x="540" y="1200" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#fff">${xe(x.descricao||"A equipe BeMarte conquistou mais um troféu!")}</text>
+    <text x="540" y="1200" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#fff">${xe(x.descricao||"A equipe Marte conquistou mais um troféu!")}</text>
     <text x="540" y="1270" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" letter-spacing="4" fill="#cbb8f0">FACULDADE ANHANGUERA · CAMPUS MARTE</text></svg>`;
   svgParaPng(svg,`conquista-${slug(x.nome)}-${x.comp}.png`);
 }
@@ -5048,7 +5050,7 @@ function boasVindas(){
   const v=document.createElement("div"); v.className="bv-veu";
   v.innerHTML=`<div class="bv" role="dialog" aria-modal="true" aria-label="Boas-vindas">
     <div class="bv-raios"></div>
-    <div class="bv-logo">${coroaSVG("ouro","","width:86px")}<h1>MARTE <span>PERFORMANCE</span></h1><small>HUNTER · BeMarte</small></div>
+    <div class="bv-logo">${coroaSVG("ouro","","width:86px")}<h1>MARTE <span>PERFORMANCE</span></h1><small>HUNTER · Marte</small></div>
     <h2>Bem-vindo(a), ${esc(primeiroNome(S.usuario.nome))}!</h2>
     <p>Sua jornada começa agora. Cada matrícula te leva mais perto do topo.</p>
     <div class="bv-cards">
