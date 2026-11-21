@@ -1981,6 +1981,7 @@ tr.alterada{background:#fff8e1!important}
 .bs2-d.fora{opacity:.3}.bs2-d.fut .bs2-db{background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px)}.bs2-d.fut .bs2-dq{color:#8f7fb0}
 .rk-evo{border-radius:var(--raio);box-shadow:0 0 0 2px #c58d22,0 0 0 4px rgba(34,10,69,.9),0 0 0 5.5px #e6b23f,0 0 30px rgba(244,197,82,.25),0 24px 44px -20px rgba(0,0,0,.7)}
 .bs2-col.top.andamento .bs2-bar{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.25) 0 6px,transparent 6px 12px),linear-gradient(180deg,#fff4c4,#f1c24f 45%,#b07a16)}
+.som-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,226,140,.45);background:rgba(255,255,255,.06);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .15s}.som-btn:hover{background:rgba(255,226,140,.16)}.som-btn:active{transform:scale(.92)}
 </style>
 </head>
 <body>
@@ -2230,14 +2231,14 @@ async function entrarGestor(login,senha){
   if(MODO==="demo"){
     if(login.toLowerCase()!=="gestor"||senha!=="demo") throw new Error("Login ou senha incorretos. DEMO: gestor / demo");
     S.usuario={id:"gestor",nome:"Bruno Dias",perfil:"gestor",foto:FOTO_GESTOR};
-    await carregarDados(); S.pagina="ranking"; montarApp(); ligarTempoReal(); return;
+    await carregarDados(); S.pagina="ranking"; montarApp(); SOM.vinheta(); ligarTempoReal(); return;
   }
   const {data,error}=await S.sb.auth.signInWithPassword({email:login,password:senha});
   if(error) throw new Error("Senha incorreta. Use a mesma senha do CRM.");
   const {data:perfil}=await S.sb.from("mp_consultores").select("id,nome,nome_exibicao,perfil,ativo").eq("auth_user_id",data.user.id).maybeSingle();
   if(!perfil||!perfil.ativo||perfil.perfil!=="gestor"){await S.sb.auth.signOut();throw new Error("Este usuário não tem acesso de gestor.");}
   S.usuario={id:perfil.id,nome:perfil.nome_exibicao||perfil.nome,perfil:"gestor",foto:FOTO_GESTOR};
-  await carregarDados(); S.pagina="ranking"; montarApp(); ligarTempoReal();
+  await carregarDados(); S.pagina="ranking"; montarApp(); SOM.vinheta(); ligarTempoReal();
 }
 async function carregarDados(){
   if(modoCalculado()) return carregarCalculado();
@@ -2277,6 +2278,7 @@ function montarApp(){
       ${MODO==="demo"?(modoCalculado()?'<span class="badge-demo teste">TESTE <span>planilha importada só neste navegador</span></span>':'<span class="badge-demo">DEMO <span>números fictícios</span></span>'):'<span></span>'}
       <div class="marca">${I.louro}<div><h1>MARTE <b>PERFORMANCE</b></h1><small>Gestão de Acompanhamento Hunter</small></div>${I.louro.replace('class="louro"','class="louro" style="transform:scaleX(-1)"')}</div>
       <div class="topo-dir">
+        <button class="som-btn" id="btn-som" aria-label="${SOM.ligado?"Desligar som":"Ligar som"}" title="${SOM.ligado?"Som ligado · toque para desligar":"Som desligado · toque para ligar"}">${SOM.ligado?"🔊":"🔇"}</button>
         <span class="db-chip" title="Última DT MATRICULA importada">${I.cal}<span>Data Base<b class="num">${S.dataBase?dataBR(S.dataBase):"—"}</b></span></span>
         <button class="perfil-btn" id="btn-perfil" aria-haspopup="true" aria-expanded="false">${avatar}<span class="nm">${esc(primeiroNome(u.nome))}<em>${u.perfil==="gestor"?"Gestor":"Consultor"}</em></span></button>
         <div class="menu-perfil hidden" id="menu-perfil" role="menu">${ehGestor()?"":`<button class="efeitos-btn" id="btn-meuperfil" role="menuitem">Meu Perfil · alterar foto</button>`}<p>Deseja sair?</p><button class="sair-btn" id="btn-sair" role="menuitem">Sim, sair</button><button class="efeitos-btn" id="btn-portal" role="menuitem">Voltar ao Portal Comercial</button><button class="efeitos-btn" id="btn-efeitos" role="menuitem">${EFEITOS_REDUZIDOS?"Ativar efeitos completos":"Reduzir efeitos visuais"}</button></div>
@@ -2289,7 +2291,8 @@ function montarApp(){
   </div>`;
   raiz.querySelectorAll("[data-pag]").forEach(b=>b.addEventListener("click",()=>irPara(b.dataset.pag)));
   arenaBadge();
-  const bp=$("#btn-perfil"),mp=$("#menu-perfil");
+  const bp=$("#btn-som")&&($("#btn-som").onclick=e=>{const on=SOM.alternar();const b=e.currentTarget;b.textContent=on?"🔊":"🔇";b.title=on?"Som ligado · toque para desligar":"Som desligado · toque para ligar";b.setAttribute("aria-label",on?"Desligar som":"Ligar som");});
+  $("#btn-perfil"),mp=$("#menu-perfil");
   mp.addEventListener("click",e=>e.stopPropagation());
   bp.addEventListener("click",e=>{e.stopPropagation();mp.classList.toggle("hidden");bp.setAttribute("aria-expanded",!mp.classList.contains("hidden"));
     if(!mp.classList.contains("hidden"))setTimeout(()=>document.addEventListener("click",()=>{mp.classList.add("hidden");bp.setAttribute("aria-expanded","false");},{once:true}));});
@@ -2598,7 +2601,7 @@ function abrirRankingExpandido(){
 /* ---------- VITÓRIA: checkpoint expandido em tela cheia ---------- */
 function abrirVitoria(){
   if(document.querySelector(".vitoria-veu")) return;
-  const rk=ranquear(S.consultores,"total").linhas, eu=rk.find(l=>l.c.id===S.usuario.id); if(!eu||eu.pos>3) return;
+  const rk=ranquear(S.consultores,"total").linhas, eu=rk.find(l=>l.c.id===S.usuario.id); if(!eu||eu.pos>3) return; SOM.fanfarra();
   const c=eu.c, metal=["ouro","prata","bronze"][eu.pos-1], emo=["👑","🥈","🥉"][eu.pos-1];
   const q=conquistasDe(c.id), seq=sequenciaAtual(c.id), rei=reinados(c.id).length>0, nivel=q.length?q.at(-1).nivel:null;
   const cards=[];
@@ -2867,10 +2870,10 @@ function abrirPorta(c){
   $("#pular").onclick=()=>{pulou=true;fim();};
   chave.onclick=()=>{
     if(reduzMov()) return fim();
-    chave.disabled=true; cena.classList.add("girando");
+    chave.disabled=true; cena.classList.add("girando"); SOM.chave();
     const at=(ms,fn)=>tempos.push(setTimeout(()=>{if(!pulou)fn();},ms));
-    at(900,()=>cena.classList.add("destrava"));
-    at(1600,()=>cena.classList.add("abrindo"));
+    at(900,()=>{cena.classList.add("destrava");SOM.destrava();});
+    at(1600,()=>{cena.classList.add("abrindo");SOM.porta();});
     at(3600,()=>cena.classList.add("entrando"));
     at(5000,fim);
   };
@@ -2967,6 +2970,65 @@ function faixaConquista(){
   setTimeout(()=>{f.classList.add("sai");setTimeout(()=>f.remove(),600);},3800);
   setTimeout(()=>$("#misterio")?.classList.remove("espera"),2200);
 }
+/* ---------- SOM · vinheta de entrada e efeitos (gerados no código, sem arquivo, sem direitos autorais) ---------- */
+const SOM=(()=>{
+  let ctx=null, mestre=null, eco=null;
+  let ligado=(()=>{try{return localStorage.getItem("mp_som")!=="off";}catch(e){return true;}})();
+  function abrir(){ if(ctx) return ctx; const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return null;
+    ctx=new AC(); mestre=ctx.createGain(); mestre.gain.value=.55; mestre.connect(ctx.destination);
+    const d=ctx.createDelay(); d.delayTime.value=.23; const fb=ctx.createGain(); fb.gain.value=.32; const lp=ctx.createBiquadFilter(); lp.frequency.value=2400;
+    eco=ctx.createGain(); eco.gain.value=.28; eco.connect(d); d.connect(lp); lp.connect(fb); fb.connect(d); lp.connect(mestre); return ctx; }
+  function pronto(){ if(!ligado) return null; const c=abrir(); if(!c) return null; if(c.state==="suspended") c.resume(); return c; }
+  /* destrava o áudio no primeiro toque (exigência do celular) */
+  ["pointerdown","keydown","touchstart"].forEach(ev=>addEventListener(ev,()=>{ if(ligado){abrir(); ctx&&ctx.state==="suspended"&&ctx.resume();} },{once:true,passive:true}));
+  function nota(f,t,dur,{tipo="triangle",vol=.2,ataque=.02,corte=null,glide=null,comEco=true}={}){
+    const c=ctx, o=c.createOscillator(), g=c.createGain(); o.type=tipo; o.frequency.setValueAtTime(f,t); if(glide) o.frequency.exponentialRampToValueAtTime(glide,t+dur);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+ataque); g.gain.exponentialRampToValueAtTime(.0008,t+dur);
+    let n=o; if(corte){const f2=c.createBiquadFilter(); f2.type="lowpass"; f2.frequency.setValueAtTime(corte,t); f2.Q.value=1.2; o.connect(f2); n=f2;} else n=o;
+    n.connect(g); g.connect(mestre); if(comEco) g.connect(eco); o.start(t); o.stop(t+dur+.05); }
+  function ruido(t,dur,{vol=.2,freq=3000,q=1,tipo="bandpass"}={}){
+    const c=ctx, b=c.createBuffer(1,Math.ceil(c.sampleRate*dur),c.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+    const src=c.createBufferSource(); src.buffer=b; const f=c.createBiquadFilter(); f.type=tipo; f.frequency.value=freq; f.Q.value=q; const g=c.createGain();
+    g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0008,t+dur); src.connect(f); f.connect(g); g.connect(mestre); src.start(t); }
+  const metal=(fs,t,dur,vol=.12)=>fs.forEach(f=>{nota(f,t,dur,{tipo:"sawtooth",vol:vol/fs.length*2.2,ataque:.06,corte:f*3.2});nota(f*1.003,t,dur,{tipo:"sawtooth",vol:vol/fs.length*1.4,ataque:.08,corte:f*2.5,comEco:false});});
+  const tambor=(t,vol=.5,f=110)=>{nota(f,t,.6,{tipo:"sine",vol,ataque:.005,glide:f*.45,comEco:false});ruido(t,.25,{vol:vol*.35,freq:180,tipo:"lowpass"});};
+  const brilho=(t,base=1046.5,n=6,passo=.07,vol=.07)=>[0,4,7,12,16,19,24].slice(0,n).forEach((st,i)=>nota(base*Math.pow(2,st/12),t+i*passo,.9,{tipo:"sine",vol}));
+  const H=x=>261.63*Math.pow(2,x/12); /* semitons a partir do Dó */
+  const api={
+    get ligado(){return ligado;},
+    alternar(){ ligado=!ligado; try{localStorage.setItem("mp_som",ligado?"on":"off");}catch(e){} if(ligado){abrir(); ctx.resume(); api.tick();} else if(ctx) ctx.suspend(); return ligado; },
+    vinheta(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime+.05;
+      tambor(t,.45,98); tambor(t+.18,.3,98);
+      metal([H(-12),H(-5),H(0),H(4)],t+.05,1.1,.16);        /* Dó */
+      metal([H(-7),H(0),H(5),H(9)],t+.95,.9,.16);           /* Fá */
+      metal([H(-5),H(2),H(7),H(11)],t+1.7,.7,.17);          /* Sol */
+      tambor(t+1.7,.35,110); tambor(t+2.3,.35,110); tambor(t+2.45,.45,110);
+      metal([H(-12),H(0),H(4),H(7),H(12)],t+2.55,2.6,.22);  /* Dó final, aberto */
+      nota(H(-24),t+2.55,2.6,{tipo:"sine",vol:.25,ataque:.04});
+      brilho(t+2.6,H(24),7,.08,.05); ruido(t+2.55,1.8,{vol:.05,freq:9000,tipo:"highpass"}); },
+    tick(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; nota(1500,t,.05,{tipo:"square",vol:.04,ataque:.002,comEco:false}); },
+    toque(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; nota(880,t,.08,{tipo:"triangle",vol:.06,ataque:.003,comEco:false}); },
+    chave(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime;
+      ruido(t,.08,{vol:.25,freq:4200,q:6}); nota(2637,t,.5,{tipo:"triangle",vol:.06}); nota(3520,t+.05,.5,{tipo:"triangle",vol:.04});
+      ruido(t+.35,.06,{vol:.2,freq:3000,q:8}); ruido(t+.55,.06,{vol:.2,freq:2600,q:8}); },
+    destrava(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; ruido(t,.12,{vol:.4,freq:1500,q:3}); tambor(t,.4,70); },
+    porta(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; ruido(t,1.6,{vol:.08,freq:400,q:.7}); brilho(t+.3,H(12),7,.1,.06);
+      metal([H(-12),H(-5),H(0),H(4),H(7)],t+.6,2.4,.18); nota(H(-24),t+.6,2.4,{tipo:"sine",vol:.2}); },
+    ganhou(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; brilho(t,H(12),5,.06,.08); },
+    revelar(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; tambor(t,.4,98);
+      metal([H(-5),H(0),H(4),H(7)],t,.25,.15); metal([H(0),H(4),H(7),H(12)],t+.25,1.8,.2); brilho(t+.25,H(24),7,.06,.05); },
+    fanfarra(){ const c=ctx&&ctx.startRendering?ctx:pronto(); if(!c) return; const t=c.currentTime; tambor(t,.4,98); tambor(t+.12,.3,98);
+      [0,4,7].forEach((x,i)=>metal([H(x),H(x-12)],t+i*.16,.22,.14)); metal([H(-12),H(0),H(4),H(7),H(12)],t+.5,2.2,.22);
+      nota(H(-24),t+.5,2.2,{tipo:"sine",vol:.22}); brilho(t+.55,H(24),7,.07,.05); }
+  };
+  /* uso interno: gera o áudio offline (prévia) */
+  api._gravar=async(nome,seg)=>{const salvo=[ctx,mestre,eco,ligado]; const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+    ctx=new OAC(2,Math.ceil(44100*seg),44100); mestre=ctx.createGain(); mestre.gain.value=.55; mestre.connect(ctx.destination);
+    const d=ctx.createDelay(); d.delayTime.value=.23; const fb=ctx.createGain(); fb.gain.value=.32; const lp=ctx.createBiquadFilter(); lp.frequency.value=2400;
+    eco=ctx.createGain(); eco.gain.value=.28; eco.connect(d); d.connect(lp); lp.connect(fb); fb.connect(d); lp.connect(mestre); ligado=true;
+    const _p=pronto; api[nome](); const buf=await ctx.startRendering(); [ctx,mestre,eco,ligado]=salvo; return [...buf.getChannelData(0)].map(x=>Math.round(Math.max(-1,Math.min(1,x))*32767));};
+  return api;
+})();
 function confete(qtd=140,soOuro=false,oy=.35){
   if(reduzMov()) return;
   const cv=document.createElement("canvas"); cv.className="confete"; document.body.appendChild(cv);
@@ -3020,16 +3082,16 @@ function roleta(premio,aoTerminar){
   document.body.appendChild(v);
   const item=v.querySelector("#rol-item"), marcas=[...v.querySelectorAll("[data-p]")], R0=v.querySelector(".roleta");
   const passos=reduzMov()?3:40, alvo=PREMIOS.indexOf(premio); let i=0, k=(alvo-passos%PREMIOS.length+PREMIOS.length*20)%PREMIOS.length;
-  const mostrar=idx=>{const p=PREMIOS[idx];item.textContent=mascara(p);marcas.forEach((m,j)=>m.classList.toggle("on",j===idx));
+  const mostrar=idx=>{const p=PREMIOS[idx];item.textContent=mascara(p);SOM.tick();marcas.forEach((m,j)=>m.classList.toggle("on",j===idx));
     item.animate([{transform:"translateY(-60%)",opacity:.2},{transform:"none",opacity:1}],{duration:110,easing:"ease-out"});};
   (function gira(){
     i++; k=(k+1)%PREMIOS.length; mostrar(k);
     if(i<passos){ const t=i/passos; setTimeout(gira, 50+Math.pow(t,3.5)*520+(i>passos-4?300:0)); }
     else {
       item.classList.add("ganhou"); R0.classList.add("fim"); v.querySelector(".rol-dica").textContent="Sua recompensa foi sorteada!";
-      const b=v.querySelector("#rol-revelar"); b.classList.remove("hidden"); confete(70,true,.2);
+      const b=v.querySelector("#rol-revelar"); b.classList.remove("hidden"); confete(70,true,.2); SOM.ganhou();
       b.onclick=()=>{b.disabled=true; item.animate([{transform:"rotateX(0)"},{transform:"rotateX(90deg)"}],{duration:260,easing:"ease-in",fill:"forwards"}).onfinish=()=>{
-        item.textContent=premio.titulo; item.animate([{transform:"rotateX(-90deg)"},{transform:"none"}],{duration:320,easing:"cubic-bezier(.2,.9,.25,1.3)",fill:"forwards"});
+        SOM.revelar(); item.textContent=premio.titulo; item.animate([{transform:"rotateX(-90deg)"},{transform:"none"}],{duration:320,easing:"cubic-bezier(.2,.9,.25,1.3)",fill:"forwards"});
         confete(220,true); setTimeout(()=>{v.classList.add("sai");setTimeout(()=>{v.remove();aoTerminar();},350);},1600);};};
     }
   })();
@@ -3129,7 +3191,7 @@ function trofeuRei(foto,nome){
   </svg>`;
 }
 const chaveRei=(id,r)=>id+"|rei|"+r[0].comp;
-function cerimoniaRei(eu,r,aoFim){
+function cerimoniaRei(eu,r,aoFim){ SOM.fanfarra();
   const v=document.createElement("div"); v.className="rei-cena";
   v.innerHTML=`<div class="rc-raios"></div><div class="rc-luz esq"></div><div class="rc-luz dir"></div>
     <div class="rc-palco"><div class="rc-coroa">${coroaSVG("ouro","")}</div><div class="rc-trofeu">${trofeuRei(eu.foto,eu.nome)}</div></div>
@@ -4547,7 +4609,7 @@ async function entrarConsultor(p){
 async function concluirEntradaConsultor(p){
   S.usuario={id:p.id,login:p.login,nome:p.nome,perfil:"consultor",foto:p.foto,pos:!!p.pos};
   try{localStorage.setItem("mp_ultimo",p.id);}catch(e){}
-  await carregarDados(); S.pagina="ranking"; montarApp(); ligarTempoReal(); setTimeout(verificarExperiencia,250);
+  await carregarDados(); S.pagina="ranking"; montarApp(); SOM.vinheta(); ligarTempoReal(); setTimeout(verificarExperiencia,250);
 }
 function pedirPin(p){
   const veu=document.createElement("div"); veu.className="veu";
@@ -4950,6 +5012,7 @@ function formConquista(x){
     catch(err){q(".erro").textContent=errMsg(err);b.disabled=false;}};
 }
 function revelarTrofeu(x,aoFim){
+  SOM.fanfarra();
   const v=document.createElement("div"); v.className="revela-veu";
   v.innerHTML=`<div class="rv-raios"></div><div class="rv-palco"><div class="rv-trofeu">${trofeuUnidSVG(x.trofeu,"rv",230)}</div><div class="rv-pedestal"></div></div>
     <div class="rv-txt"><small>🏆 NOVA CONQUISTA DA UNIDADE MARTE</small><h2>${esc(x.nome)}</h2><span>${nomeMes(x.comp)} · ${esc(CATS[x.categoria]||"")}</span>${x.descricao?`<em>${esc(x.descricao)}</em>`:""}
