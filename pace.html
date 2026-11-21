@@ -1118,6 +1118,14 @@ table.xl tbody tr.ativa td{background:#e7dcff!important;box-shadow:inset 0 2px 0
 .lg-t{font-size:14px;color:#2b0e57}.lg-m{margin-left:auto;font-size:12px;color:#6b5a8a;font-weight:700}.lg-r{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .lg-ch{font-size:12px;background:#f3eeff;border:1px solid #e3d8fb;border-radius:999px;padding:2px 10px;color:#3b1477}.lg-ch i{font-style:normal;font-weight:800;color:#7c3aed}
 .lg2 table{margin-top:8px}.lg-mais{margin-top:4px}
+/* v8 · seleção de linhas + copiar lista */
+#cx-body tr.rsel td{background:#ede4ff!important;box-shadow:inset 0 1px 0 #b79cf5,inset 0 -1px 0 #b79cf5}
+#cx-body tr.rsel td:first-child{box-shadow:inset 3px 0 0 #6d3fd6,inset 0 1px 0 #b79cf5,inset 0 -1px 0 #b79cf5}
+body.rs-arr,body.rs-arr *{user-select:none!important;cursor:row-resize}
+.rsel-bar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:#2a1a55;color:#fff;border-radius:14px;padding:10px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 12px 30px rgba(40,20,90,.35);font-size:13px}
+.rsel-bar b{color:#f5c84b;font-size:15px}.rsel-bar kbd{background:#fff2;border-radius:4px;padding:1px 5px;font-size:11px}
+.rsel-bar .btn{background:#fff;color:#2a1a55;border:0}
+.b3d.b3d-cp{background:linear-gradient(180deg,#f7d774,#e0b33a);color:#3a2a00}
 </style></head><body class="h-boot">
 <div id="boot"></div><div id="app" class="wrap"></div>
 <input type="file" id="file-in" accept=".xlsx,.xls,.xlsm,.csv,.pdf,.ppt,.pptx,.png,.jpg,.jpeg,.webp" multiple hidden>
@@ -2819,6 +2827,58 @@ function confirmarExclusao(R,depois){document.querySelector(".ex-modal")?.remove
 var _vc0=valorCol;valorCol=function(k,r){return k==="anexoSt"?anexoDe(r._raw):_vc0(k,r)};
 
 var _ak0=atualizarKpis;atualizarKpis=function(){_ak0();var e=document.querySelector("[data-kexc] b");if(e)e.textContent=STATE.rows.filter(function(r){return r.del}).length};
+/* ================= v8 · COPIAR LISTA (por consultor) + seleção de várias linhas com Ctrl+C ================= */
+EXT.rsel=EXT.rsel||[];
+function rowDeIdx(i){var raw=STATE.rows[i];return (EXT.ultL||[]).filter(function(r){return r._raw===raw})[0]||null}
+function pendDe(r){var R=r._raw,p=[];if(/pend/i.test(R.pag||""))p.push("Pagamento");if(/pend/i.test(R.vest||""))p.push("Vestibular");if(/pend/i.test(R.contr||""))p.push("Contratos");
+  var a=anexoDe(R);if(a==="Sem anexo"||a==="Anexo pendente"||a==="Rejeitado")p.push("Anexo ("+a.toLowerCase()+")");return p}
+function linhaLista(r,n){var R=r._raw,nome=R.nome||R.nomeA||"(aluno sem nome)",p=pendDe(r);
+  var dt=R.t?String(fmtDT(R.t)).slice(0,5):"";return n+". "+(dt?dt+" · ":"")+nome+" — "+(R.curso||"curso não informado")+(R.mod?" ("+R.mod+")":"")+" — Status: "+(R.st||"—")+(p.length?" — Falta: "+p.join(", "):"")}
+function textoPorConsultor(L){var G={},ord=[];L.forEach(function(r){var c=r._raw.c||"Sem consultor";if(!G[c]){G[c]=[];ord.push(c)}G[c].push(r)});
+  ord.sort(function(a,b){return a.localeCompare(b,"pt-BR")});
+  var cab="📋 CONTROLE DE MATRÍCULAS"+(chipsTxt()?" · "+chipsTxt():"")+" · "+L.length+" matrícula(s)";
+  return cab+"\n\n"+ord.map(function(c){return "*"+c.toUpperCase()+"* ("+G[c].length+")\n"+G[c].map(function(r,i){return linhaLista(r,i+1)}).join("\n")}).join("\n\n")}
+function chipsTxt(){var t=[].slice.call(document.querySelectorAll("#cx-chips .chip-f")).map(function(b){return b.textContent.replace(/\s*×\s*$/,"").trim()});return t.join(" · ")}
+function copiarLista(){var sel=EXT.rsel.map(rowDeIdx).filter(Boolean),L=sel.length?sel:(EXT.ultL||[]);
+  if(!L.length){toast("Nenhuma matrícula para copiar com esses filtros.");return}
+  var t=textoPorConsultor(L),nc={};L.forEach(function(r){nc[r._raw.c||"-"]=1});
+  var msg="✓ Lista copiada: "+L.length+" matrícula(s) de "+Object.keys(nc).length+" consultor(es)"+(sel.length?" (linhas selecionadas)":"");
+  try{navigator.clipboard.writeText(t).then(function(){toast(msg)},function(){fallbackCopy(t,msg)})}catch(e){fallbackCopy(t,msg)}}
+/* linhas selecionadas → texto em colunas (cola certinho no Excel) */
+function textoLinhas(idx){var trs=idx.map(function(i){return document.querySelector('#cx-body tr[data-row="'+i+'"]')}).filter(Boolean);
+  var cab=COLS.map(function(c){return c[1]}).join("\t");
+  var linhas=trs.map(function(tr){return [].slice.call(tr.children).map(function(td){var s=td.querySelector("select");if(s)return s.value;var v=td.querySelector(".cp-v");return (v?v.textContent:td.textContent).replace(/[⧉📄]/g,"").replace(/\s+/g," ").trim()}).join("\t")});
+  return cab+"\n"+linhas.join("\n")}
+function pintarRsel(){var S=EXT.rsel;document.querySelectorAll("#cx-body tr[data-row]").forEach(function(tr){tr.classList.toggle("rsel",S.indexOf(+tr.getAttribute("data-row"))>=0)});
+  var b=byId2("rsel-bar");if(!S.length){if(b)b.remove();return}
+  if(!b){b=document.createElement("div");b.id="rsel-bar";b.className="rsel-bar";document.body.appendChild(b)}
+  b.innerHTML='<b>'+S.length+'</b> linha(s) selecionada(s) · <kbd>Ctrl</kbd>+<kbd>C</kbd> copia as linhas <button type="button" class="btn mini" id="rs-cp">⧉ Copiar linhas</button><button type="button" class="btn mini" id="rs-ls">📋 Copiar como lista</button><button type="button" class="btn mini" id="rs-x">✕ Limpar</button>';
+  byId2("rs-cp").onclick=copiarLinhasSel;byId2("rs-ls").onclick=copiarLista;byId2("rs-x").onclick=function(){EXT.rsel=[];pintarRsel()}}
+function copiarLinhasSel(){var S=EXT.rsel.slice();if(!S.length)return;var t=textoLinhas(S),msg="✓ "+S.length+" linha(s) copiada(s) — cole no Excel ou no WhatsApp";
+  try{navigator.clipboard.writeText(t).then(function(){toast(msg)},function(){fallbackCopy(t,msg)})}catch(e){fallbackCopy(t,msg)}}
+function idxVisiveis(){return [].slice.call(document.querySelectorAll("#cx-body tr[data-row]")).map(function(tr){return +tr.getAttribute("data-row")})}
+function ligarRsel(){var body=byId2("cx-body");if(!body||body._rs)return;body._rs=1;
+  body.addEventListener("mousedown",function(e){if(e.button!==0)return;var tr=e.target.closest&&e.target.closest("tr[data-row]");if(!tr)return;
+    if(e.target.closest("select,button,input,a,.cp-b"))return;
+    var V=idxVisiveis(),i=+tr.getAttribute("data-row");
+    if(e.shiftKey&&EXT.rAnc!=null){e.preventDefault();var a=V.indexOf(EXT.rAnc),b=V.indexOf(i);if(a>=0&&b>=0)EXT.rsel=V.slice(Math.min(a,b),Math.max(a,b)+1);EXT.rSup=1;pintarRsel();return}
+    if(e.ctrlKey||e.metaKey){e.preventDefault();var p=EXT.rsel.indexOf(i);if(p>=0)EXT.rsel.splice(p,1);else EXT.rsel.push(i);EXT.rAnc=i;EXT.rSup=1;pintarRsel();return}
+    EXT.rAnc=i;var ini=V.indexOf(i),mexeu=false;
+    var mv=function(ev){var el=document.elementFromPoint(ev.clientX,ev.clientY),t2=el&&el.closest&&el.closest("#cx-body tr[data-row]");if(!t2)return;var j=V.indexOf(+t2.getAttribute("data-row"));if(j<0)return;
+      if(j!==ini||mexeu){if(!mexeu){mexeu=true;SEL.col=null;SEL.a=null;if(window.getSelection)getSelection().removeAllRanges()}EXT.rsel=V.slice(Math.min(ini,j),Math.max(ini,j)+1);pintarRsel()}};
+    var up=function(){document.removeEventListener("mousemove",mv);document.removeEventListener("mouseup",up);document.body.classList.remove("rs-arr");if(mexeu)EXT.rSup=1;else if(EXT.rsel.length){EXT.rsel=[];pintarRsel()}};
+    document.body.classList.add("rs-arr");document.addEventListener("mousemove",mv);document.addEventListener("mouseup",up)});
+  /* depois de arrastar/shift/ctrl, o clique não abre o painel da matrícula */
+  body.addEventListener("click",function(e){if(EXT.rSup){EXT.rSup=0;e.stopPropagation();e.preventDefault()}},true)}
+document.addEventListener("keydown",function(e){if(STATE.tab!=="ctl"||!EXT.rsel.length)return;var k=e.key.toLowerCase(),ctl=e.ctrlKey||e.metaKey;
+  var ae=document.activeElement;if(ae&&(ae.tagName==="INPUT"||ae.tagName==="TEXTAREA"))return;if(document.querySelector(".cx-drawer"))return;
+  if(ctl&&k==="c"){e.preventDefault();e.stopImmediatePropagation();copiarLinhasSel()}
+  else if(ctl&&k==="a"){e.preventDefault();EXT.rsel=idxVisiveis();pintarRsel()}
+  else if(k==="escape"){EXT.rsel=[];pintarRsel()}},true);
+var _ctab5=controleTab;controleTab=function(X){var h=_ctab5(X);
+  return h.replace('<button class="b3d" id="cx-limpar2"','<button class="b3d b3d-cp" id="cx-lista" type="button" title="Copia todas as matrículas do filtro atual, agrupadas por consultor">📋 COPIAR LISTA</button><button class="b3d" id="cx-limpar2"')};
+var _wc5=wireCtl;wireCtl=function(){_wc5();var b=byId2("cx-lista");if(b)b.onclick=copiarLista;ligarRsel();pintarRsel()};
+var _grid5=ctlGrid;ctlGrid=function(fim){_grid5(fim);var V=idxVisiveis();EXT.rsel=EXT.rsel.filter(function(i){return V.indexOf(i)>=0});ligarRsel();pintarRsel()};
 
 render();
 };
