@@ -1951,6 +1951,36 @@ tr.alterada{background:#fff8e1!important}
 @media(max-width:760px){.rk-cab,.rk-l{grid-template-columns:22px 28px minmax(0,1fr) 34px 26px 58px!important;gap:4px!important}.rk-pct{min-width:0;padding:3px 5px;font-size:11.5px}.rk-lista{padding:10px 8px}}
 .rk-lista,.carta{overflow:hidden}.palco{overflow-x:clip}
 @media(max-width:760px){.rk-cab,.rk-l{grid-template-columns:22px 28px minmax(0,1fr) 30px 26px 54px!important}}
+/* evolução semanal premium + dias */
+.rk-evo{background:radial-gradient(420px 160px at 50% 0%,rgba(168,116,255,.25),transparent 70%),linear-gradient(170deg,#2c0f5c,#140630)!important;color:#fff}
+.rk-evo h3{color:#ffe08a!important}.rk-evo h3 small{color:#cbb8f0!important}
+.bs2{position:relative}
+.bs2-grade{position:absolute;inset:0 0 auto 0;height:180px;pointer-events:none}
+.bs2-grade i{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,255,255,.12)}.bs2-grade span{position:absolute;right:0;top:-14px;font-size:9.5px;color:rgba(255,255,255,.4);font-weight:700}
+.bs2-cols{position:relative;display:flex;align-items:flex-end;gap:10px;height:180px;padding-top:6px}
+.bs2-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;border-radius:12px;padding:0 2px 2px;transition:background .2s}
+.bs2-col:hover{background:rgba(255,255,255,.05)}.bs2-col.sel{background:rgba(244,197,82,.1);box-shadow:inset 0 0 0 1px rgba(244,197,82,.45)}
+.bs2-val{display:flex;align-items:baseline;gap:4px;font-family:var(--font-display);font-weight:900;font-size:20px;color:#fff;text-shadow:0 2px 10px rgba(168,116,255,.6)}
+.bs2-val em{font-style:normal;font-size:10px;font-weight:900}.bs2-val em.cima{color:#5df59a}.bs2-val em.baixo{color:#ff8fa0}
+.bs2-bar{position:relative;width:70%;height:calc(var(--h) * 1.15 - 6px);max-height:118px;min-height:4px;margin-top:4px;border-radius:10px 10px 4px 4px;overflow:hidden;
+  background:linear-gradient(180deg,#c39bff,#7b3fe4 55%,#4b1c8f);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 0 18px rgba(168,116,255,.45),0 10px 16px -8px #000;transform-origin:bottom;animation:cresce .9s cubic-bezier(.2,.8,.2,1) both}
+.bs2-bar i{position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);animation:cpBrilho 3.5s ease-in-out infinite}
+.bs2-col.top .bs2-bar{background:linear-gradient(180deg,#fff4c4,#f1c24f 45%,#b07a16);box-shadow:inset 0 2px 0 rgba(255,255,255,.7),0 0 24px rgba(244,197,82,.65),0 10px 16px -8px #000}
+.bs2-col.top .bs2-val{color:#ffe08a;text-shadow:0 0 12px rgba(244,197,82,.7)}
+.bs2-col.andamento .bs2-bar{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.14) 0 6px,transparent 6px 12px),linear-gradient(180deg,#c39bff,#7b3fe4 55%,#4b1c8f)}
+.bs2-col small{margin-top:5px;font-size:11.5px;font-weight:900;color:#fff}.bs2-per{font-style:normal;font-size:10px;color:#cbb8f0;font-weight:600}
+.bs2-dias{margin-top:12px;padding:10px;border-radius:14px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(244,197,82,.3);transition:opacity .16s}.bs2-dias.troca{opacity:0;transition:none}
+.bs2-dcab{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}.bs2-dcab>b{font-size:12.5px;color:#ffe08a}.bs2-dcab span{font-size:11.5px;color:#cbb8f0}.bs2-dcab span b{color:#fff;font-size:14px}
+.bs2-drow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.bs2-d{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;border-radius:10px}
+.bs2-dq{font-family:var(--font-display);font-weight:900;font-size:15px;color:#fff}
+.bs2-db{position:relative;width:60%;height:46px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
+.bs2-db i{position:absolute;left:0;right:0;bottom:0;height:var(--h);border-radius:6px 6px 0 0;background:linear-gradient(180deg,#c39bff,#7b3fe4);box-shadow:0 0 10px rgba(168,116,255,.6);animation:cresce .6s cubic-bezier(.2,.8,.2,1) both}
+.bs2-d.best .bs2-db i{background:linear-gradient(180deg,#fff4c4,#f1c24f);box-shadow:0 0 12px rgba(244,197,82,.8)}.bs2-d.best .bs2-dq{color:#ffe08a}
+.bs2-d small{font-size:10px;font-weight:900;letter-spacing:.5px;color:#efe4ff}.bs2-d em{font-style:normal;font-size:9px;color:#cbb8f0}
+.bs2-d.fora{opacity:.3}.bs2-d.fut .bs2-db{background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px)}.bs2-d.fut .bs2-dq{color:#8f7fb0}
+.rk-evo{border-radius:var(--raio);box-shadow:0 0 0 2px #c58d22,0 0 0 4px rgba(34,10,69,.9),0 0 0 5.5px #e6b23f,0 0 30px rgba(244,197,82,.25),0 24px 44px -20px rgba(0,0,0,.7)}
+.bs2-col.top.andamento .bs2-bar{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.25) 0 6px,transparent 6px 12px),linear-gradient(180deg,#fff4c4,#f1c24f 45%,#b07a16)}
 </style>
 </head>
 <body>
@@ -2424,6 +2454,10 @@ function renderRanking(c){
   c.querySelectorAll("[data-det]").forEach(el=>{el.onclick=()=>abrirDetalhe(el.dataset.det);el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();abrirDetalhe(el.dataset.det);}};});
   ligarArenaMini(c); ligarGloria();
   ligarChipsCursos(c);
+  c.querySelectorAll(".bs2-col").forEach(b=>b.onclick=e=>{e.stopPropagation();const box=b.closest(".bs2");S.evoSem=+b.dataset.sem;
+    box.querySelectorAll(".bs2-col").forEach(x=>x.classList.toggle("sel",x===b));
+    const sw=S.vel.semanas, el=box.querySelector("#bs2-dias"); el.classList.add("troca");
+    requestAnimationFrame(()=>{el.innerHTML=diasSemanaHTML(sw[S.evoSem],JSON.parse(box.dataset.dias),+box.dataset.ate,S.evoSem);requestAnimationFrame(()=>el.classList.remove("troca"));});});
   $("#rk-expandir")?.addEventListener("click",abrirRankingExpandido);
 
   avisoMeta();
@@ -4256,8 +4290,8 @@ function blocosInferiores(){
   if(base.length&&base.every(c=>Array.isArray(c.cursos))){const C=cursosDe(base);cursos=C.lista.slice(0,3);totalVal=C.tot;}
   const sw=S.vel?.semanas||[];
   return `
-    <div class="card bloco reage entra fio clicavel rk-evo" data-det="semanas" role="button" tabindex="0" style="--d:80ms"><h3>${gestor?"Evolução semanal da equipe":"Minha evolução semanal"}<small>matrículas por semana</small></h3>
-      ${semanas&&semanas.length?barrasSemanas(semanas,sw):eu?.pos?`<p class="vazio-txt" style="padding:20px">Pós-Graduação: resultado lançado pelo gestor, sem evolução por data.</p>`:`<p class="vazio-txt" style="padding:20px">Disponível após a primeira importação aprovada com DT MATRICULA.</p>`}</div>
+    <div class="bloco reage entra clicavel rk-evo" data-det="semanas" role="button" tabindex="0" style="--d:80ms"><h3>${gestor?"Evolução semanal da equipe":"Minha evolução semanal"}<small>matrículas por semana</small></h3>
+      ${semanas&&semanas.length?barrasSemanas(semanas,sw,base):eu?.pos?`<p class="vazio-txt" style="padding:20px">Pós-Graduação: resultado lançado pelo gestor, sem evolução por data.</p>`:`<p class="vazio-txt" style="padding:20px">Disponível após a primeira importação aprovada com DT MATRICULA.</p>`}</div>
     ${arenaMiniHTML()}
     <div class="card bloco reage entra fio clicavel rk-cursos" data-det="cursos" role="button" tabindex="0" style="--d:200ms"><h3>${gestor?"Cursos com mais matrículas":"Meus cursos campeões"}<small>top 3</small></h3>${base.every(c=>Array.isArray(c.cursos))?chipsCursos():""}
       <div class="rkc-corpo">${cursos&&cursos.length?listaCursos(cursos,totalVal)+`<span class="ver-todos">Ver todos os cursos ›</span>`:`<p class="vazio-txt" style="padding:20px">${eu?.pos?"Pós-Graduação: cursos não vêm da planilha.":(S.cursoFmt&&S.cursoFmt!=="todos")?"Sem matrículas nesta modalidade no mês.":"Sem matrículas que contam para a meta neste mês."}</p>`}</div></div>`;
@@ -4284,11 +4318,31 @@ function ligarChipsCursos(c){
       requestAnimationFrame(()=>corpo.classList.remove("troca"));});
   });
 }
-function barrasSemanas(v,sw){
-  const max=Math.max(1,...v), melhor=v.indexOf(Math.max(...v));
-  return `<div class="bs">${v.map((q,i)=>`<div class="bs-col${i===melhor&&q>0?' top':''}" title="${sw[i]?ddmm(sw[i].ini)+" a "+ddmm(sw[i].fim):""}: ${q} ${q===1?"matrícula":"matrículas"}">
-    <b class="num">${q}</b><span class="bs-bar" style="--h:${(q/max*100).toFixed(0)}%"></span><small>Sem ${i+1}</small><em>${sw[i]?`${sw[i].ini.slice(8)} a ${sw[i].fim.slice(8)}`:""}</em></div>`).join("")}</div>`;
+function barrasSemanas(v,sw,base){
+  const max=Math.max(1,...v), melhor=v.indexOf(Math.max(...v)), P=periodosVel(), atual=P?P.wi:v.length-1;
+  const nD=(base||[]).find(c=>c.dias)?.dias.length||0, dias=[...Array(nD)].map((_,i)=>(base||[]).reduce((t,c)=>t+(c.dias?.[i]||0),0));
+  S.evoSem=S.evoSem!=null&&S.evoSem<v.length?S.evoSem:atual;
+  return `<div class="bs2" data-dias='${JSON.stringify(dias)}' data-ate="${P?.ateD||nD}">
+    <div class="bs2-grade">${[1,.5].map(f=>`<i style="bottom:calc(${f*100}% * .78 + 34px)"><span>${Math.round(max*f)}</span></i>`).join("")}</div>
+    <div class="bs2-cols">${v.map((q,i)=>{const d=i>0?q-v[i-1]:null;return `<button class="bs2-col${i===melhor&&q>0?' top':''}${i===S.evoSem?' sel':''}${i===atual&&P&&!P.inteira?' andamento':''}" data-sem="${i}" title="${sw[i]?ddmm(sw[i].ini)+" a "+ddmm(sw[i].fim):""}: ${q} ${q===1?"matrícula":"matrículas"}">
+      <span class="bs2-val num">${q}${d!=null&&d!==0?`<em class="${d>0?'cima':'baixo'}">${d>0?"▲":"▼"}${Math.abs(d)}</em>`:""}</span>
+      <span class="bs2-bar" style="--h:${Math.max(3,(q/max*100)).toFixed(0)}%"><i></i></span>
+      <small>Sem ${i+1}</small><em class="bs2-per">${sw[i]?`${sw[i].ini.slice(8)} a ${sw[i].fim.slice(8)}`:""}</em></button>`;}).join("")}</div>
+    <div class="bs2-dias" id="bs2-dias">${diasSemanaHTML(sw[S.evoSem],dias,P?.ateD||nD,S.evoSem)}</div>
+  </div>`;
 }
+const DOW_CURTO=["DOM","SEG","TER","QUA","QUI","SEX","SÁB"];
+function diasSemanaHTML(w,dias,ate,wi){
+  if(!w) return "";
+  const comp=w.ini.slice(0,7), seg=new Date(w.ini+"T12:00:00"); seg.setDate(seg.getDate()-((seg.getDay()+6)%7));
+  const cel=[...Array(7)].map((_,k)=>{const d=new Date(seg);d.setDate(seg.getDate()+k);const iso=isoDia(d),dentro=iso.slice(0,7)===comp,n=+iso.slice(8),fut=dentro&&n>ate;
+    return {iso,dentro,fut,q:dentro&&!fut?dias[n-1]||0:null,dow:DOW_CURTO[d.getDay()]};});
+  const mx=Math.max(1,...cel.map(c=>c.q||0)), tot=cel.reduce((t,c)=>t+(c.q||0),0), best=cel.reduce((b,c,i)=>(c.q||0)>(cel[b].q||0)?i:b,0);
+  return `<div class="bs2-dcab"><b>Semana ${wi+1} por dia</b><span>${ddmm(w.ini)} a ${ddmm(w.fim)} · <b class="num">${tot}</b> ${tot===1?"matrícula":"matrículas"}</span></div>
+    <div class="bs2-drow">${cel.map((c,i)=>`<div class="bs2-d${!c.dentro?' fora':''}${c.fut?' fut':''}${i===best&&c.q>0?' best':''}" title="${c.dow} ${ddmm(c.iso)}: ${c.q==null?(c.fut?"ainda não contemplado":"fora do mês"):c.q+" "+(c.q===1?"matrícula":"matrículas")}">
+      <span class="bs2-dq num">${c.q==null?"–":c.q}</span><span class="bs2-db"><i style="--h:${c.q?Math.max(8,c.q/mx*100).toFixed(0):0}%"></i></span><small>${c.dow}</small><em>${ddmm(c.iso)}</em></div>`).join("")}</div>`;
+}
+
 function evolucaoAtualizacoes(){
   const tl=S.vel?.tl; if(!tl||tl.length<2) return null;
   const A=tl.at(-2), B=tl.at(-1);
