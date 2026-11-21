@@ -2320,7 +2320,7 @@ window.PACE_API={get state(){return STATE},get cfg(){return CFG},get imp(){retur
 CFG.metasOf=CFG.metasOf||[];
 function metaNova(esc,cons,pk,tp,ref){var L=CFG.metasOf.filter(function(m){return m.esc===esc&&(m.cons||"")===(cons||"")&&m.prod===pk&&m.tp===tp&&m.ref===ref});return L.length?L[L.length-1].meta:undefined}
 function refPer(per,D){return per==="dia"?dkey(D).slice(0,7):per==="semana"?dkey(range("semana",D)[0]):per==="mes"?dkey(D).slice(0,7):"ciclo"}
-function metaPer(esc,cons,pk,per,D){if(per==="dia"&&!isBiz(D))return undefined;var v=metaNova(esc,cons,pk,per,refPer(per,D));return v==null?undefined:v}
+function metaPer(esc,cons,pk,per,D){var v=metaNova(esc,cons,pk,per,refPer(per,D));return v==null?undefined:v}
 function aplicarMetaInd(x,pk,D){var v=metaPer("cons",x.c,pk,STATE.period,D);if(v===undefined)return;x.mt=v;x.pt=v?x.t/v:null;x.gt=Math.max(0,v-x.t);x.mInf=true;x.mInd=true}
 function aplicarMetaUnid(sum,rows,pk,D,f){
   if(f.cons){var r=rows[0];if(r){sum.mt=r.mt;sum.pt=r.pt;sum.gt=r.gt}return}
@@ -2547,7 +2547,7 @@ function wireCtl(){
 
 /* ---------- METAS: Hunter / Mídia / Total, por período e competência ---------- */
 function metaNova(esc,cons,pk,tp,ref,cat){var L=CFG.metasOf.filter(function(m){return m.esc===esc&&(m.cons||"")===(cons||"")&&m.prod===pk&&m.tp===tp&&m.ref===ref&&(m.cat||"total")===(cat||"total")});return L.length?L[L.length-1].meta:undefined}
-function metaPer(esc,cons,pk,per,D,cat){if(per==="dia"&&!isBiz(D))return undefined;var v=metaNova(esc,cons,pk,per,refPer(per,D),cat);return v==null?undefined:+v}
+function metaPer(esc,cons,pk,per,D,cat){var v=metaNova(esc,cons,pk,per,refPer(per,D),cat);return v==null?undefined:+v}
 function aplicarMetaInd(x,pk,D){var P=STATE.period,h=metaPer("cons",x.c,pk,P,D,"hunter"),m=pk==="grad"?metaPer("cons",x.c,pk,P,D,"midia"):undefined,t=metaPer("cons",x.c,pk,P,D,"total");
   if(h===undefined&&m===undefined&&t===undefined)return;
   if(h!==undefined||m!==undefined){if(h!==undefined)x.mh=h;if(m!==undefined)x.mm=m;if(pk!=="grad")x.mm=0;x.mt=(x.mh||0)+(x.mm||0)}else{x.mt=t}
@@ -2562,7 +2562,7 @@ var GM={pk:"grad",per:"dia",mes:null,sem:null,aba:"unid"};
 function gestaoMetas(X){
   var D=X.D;GM.mes=GM.mes||dkey(D).slice(0,7);var sems=weeksOf(GM.mes);if(!GM.sem||sems.indexOf(GM.sem)<0)GM.sem=sems.indexOf(dkey(range("semana",D)[0]))>=0?dkey(range("semana",D)[0]):sems[0];
   var pk=GM.pk,per=GM.per,ref=per==="semana"?GM.sem:per==="ciclo"?"ciclo":GM.mes,grad=pk==="grad";
-  var PERN={dia:"Diária (vale para cada dia útil do mês)",semana:"Semanal",mes:"Mensal",ciclo:"Ciclo"};
+  var PERN={dia:"Diária (vale para cada dia do mês, inclusive sábado)",semana:"Semanal",mes:"Mensal",ciclo:"Ciclo"};
   var vv=function(esc,c,cat){var v=metaNova(esc,c,pk,per,ref,cat);return v==null?"":v};
   var s='<section class="card pad gm"><div class="sec-h"><h2>🎯 GESTÃO DE METAS</h2><span class="scope">META DA UNIDADE e METAS DOS CONSULTORES são independentes · nenhuma é calculada a partir da outra</span></div>'+
     '<div class="gm-abas"><button type="button" data-gmaba="unid" class="'+(GM.aba==="unid"?"on":"")+'">🏢 META DA UNIDADE</button><button type="button" data-gmaba="cons" class="'+(GM.aba==="cons"?"on":"")+'">👤 META DOS CONSULTORES</button></div>'+
