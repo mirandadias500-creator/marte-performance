@@ -2199,12 +2199,12 @@ async function formInicio(){
   try{var t=JSON.parse(localStorage.getItem("pace_form_tok")||"null");
     if(DEMO){var c=window.PACE_DEMO_SEED.config.consultores;FS.lista=c.grad.map(function(n){return {nome:n,prod:"grad",login:n.toLowerCase(),tem_pin:true}}).concat(c.pos.map(function(n){return {nome:n,prod:"pos",login:n.toLowerCase(),tem_pin:true}}),c.prof.map(function(n){return {nome:n,prod:"prof",login:null,tem_pin:true}}))}
     else{var q=await sb.rpc("pace_lista_form");if(q.error)throw q.error;FS.lista=q.data}
-    if(t&&t.tok&&FS.lista.some(function(p){return p.nome===t.nome})){FS.quem=FS.lista.filter(function(p){return p.nome===t.nome})[0];FS.tok=t.tok;return formTela()}
+    var ult=localStorage.getItem("pace_form_quem");if(ult&&FS.lista.some(function(p){return p.nome===ult})){FS.quem=FS.lista.filter(function(p){return p.nome===ult})[0];return formTela()}
     formQuem()}catch(e){boot.innerHTML='<main class="bt-tela"><div class="bt-card">'+crown()+'<h1>Formulário <b>PACE</b></h1><p class="bt-err">'+esc(errMsg(e))+'</p></div></main>'}}
 function formQuem(msg){
-  boot.innerHTML='<main class="fm-tela"><header class="fm-cab">'+crown()+'<div><span class="bt-ey">PACE UNIDADE · CAMPUS MARTE</span><h1>Registrar <b>matrícula</b></h1><p>Toque na sua foto e digite seu PIN</p></div></header>'+(msg?'<p class="bt-err">'+esc(msg)+'</p>':'')+
+  boot.innerHTML='<main class="fm-tela"><header class="fm-cab">'+crown()+'<div><span class="bt-ey">PACE UNIDADE · CAMPUS MARTE</span><h1>Registrar <b>matrícula</b></h1><p>Toque na sua foto para registrar</p></div></header>'+(msg?'<p class="bt-err">'+esc(msg)+'</p>':'')+
     '<div class="fm-fotos">'+FS.lista.map(function(p,i){var f=fotoDe(p.nome);return '<button class="fm-p" data-i="'+i+'" type="button"><span class="fm-fo">'+(f?'<img src="'+f+'" alt="">':'<b>'+esc(p.nome[0])+'</b>')+'</span><b>'+esc(p.nome)+'</b><small>'+PROD[p.prod]+'</small></button>'}).join("")+'</div></main>';
-  boot.querySelectorAll("[data-i]").forEach(function(b){b.onclick=function(){formPin(FS.lista[+b.getAttribute("data-i")])}})}
+  boot.querySelectorAll("[data-i]").forEach(function(b){b.onclick=function(){var p=FS.lista[+b.getAttribute("data-i")];FS.quem=p;FS.tok=null;try{localStorage.setItem("pace_form_quem",p.nome)}catch(e){}formTela()}})}
 function formPin(p){
   var v="",veu=document.createElement("div");veu.className="fm-veu";
   veu.innerHTML='<div class="fm-pin" role="dialog" aria-modal="true"><button class="fm-x" type="button" aria-label="Fechar">✕</button><span class="fm-fo g">'+(fotoDe(p.nome)?'<img src="'+fotoDe(p.nome)+'" alt="">':'')+'</span><h2>'+esc(p.nome)+'</h2><p>'+(p.login?'Mesmo PIN do Performance Hunter':'Seu PIN do PACE')+(DEMO?' · DEMO: 1234':'')+'</p>'+
@@ -2222,7 +2222,7 @@ function formPin(p){
 function hojeSP(){var d=new Date(new Date().toLocaleString("en-US",{timeZone:"America/Sao_Paulo"}));return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
 async function formTela(){
   var p=FS.quem,pos=p.prod!=="grad";FS.chave=FS.chave||uuid();
-  try{if(!DEMO){var q=await sb.rpc("pace_opcoes",{p_token:FS.tok});if(q.error)throw q.error;FS.op=q.data||FS.op}
+  try{if(!DEMO){var q=await sb.rpc("pace_opcoes_livre");if(q.error)throw q.error;FS.op=q.data||FS.op}
     else{var R=window.PACE_DEMO_SEED.rows;FS.op={cursos:Array.from(new Set(R.map(function(r){return r.curso}))).sort(),bases:Array.from(new Set(R.map(function(r){return r.base}).filter(Boolean))).sort()}}}
   catch(e){if(/PIN|Sessão/i.test(errMsg(e))){localStorage.removeItem("pace_form_tok");return formQuem("Sua sessão expirou. Entre de novo com seu PIN.")}}
   var opt=function(vals,sel){return vals.map(function(v){return '<option'+(v===sel?" selected":"")+'>'+esc(v)+'</option>'}).join("")};
@@ -2241,7 +2241,7 @@ async function formTela(){
    '<div class="fm-l fm-c">Pediu avaliação no Google?'+rad("g",["Sim","Não","Ainda não, vou pedir a avaliação"],"")+'</div></fieldset>'+
    '<p class="bt-err" id="fm-err" role="alert"></p><button class="bt-btn fm-env" type="submit">ENVIAR MATRÍCULA</button></form></main>';
   var F=document.getElementById("fm");
-  document.getElementById("fm-sair").onclick=function(){localStorage.removeItem("pace_form_tok");FS.quem=null;FS.tok=null;formQuem()};
+  document.getElementById("fm-sair").onclick=function(){localStorage.removeItem("pace_form_quem");FS.quem=null;FS.tok=null;formQuem()};
   F.cpf.oninput=function(){var d=F.cpf.value.replace(/\D/g,"").slice(0,11),o=d;if(d.length>9)o=d.slice(0,3)+"."+d.slice(3,6)+"."+d.slice(6,9)+"-"+d.slice(9);else if(d.length>6)o=d.slice(0,3)+"."+d.slice(3,6)+"."+d.slice(6);else if(d.length>3)o=d.slice(0,3)+"."+d.slice(3);F.cpf.value=o};
   F.prod.onchange=function(){if(F.prod.value!=="Graduação"){F.mod.value="EAD";F.canal.value="Hunter"}};
   F.querySelectorAll('[name="bop"]').forEach(function(e){e.onchange=function(){F.querySelector(".fm-pct").hidden=F.bop.value!=="Sim"}});
@@ -2258,7 +2258,7 @@ async function formTela(){
         var n=new Date(),t=hojeSP()+"T"+("0"+n.getHours()).slice(-2)+":"+("0"+n.getMinutes()).slice(-2)+":"+("0"+n.getSeconds()).slice(-2);
         var dd=Object.assign({t:t,c:p.nome,st:"Pendente",stHist:[],cpfM:"***."+d.cpf.slice(3,6)+"."+d.cpf.slice(6,9)+"-**",nomeA:d.nome.split(/\s+/)[0]+" "+d.nome.split(/\s+/).pop()[0].toUpperCase()+".",src:{a:"Formulário PACE",s:"Formulário",em:t,por:p.nome,id:"form"}},d);
         dd.bopPct=dd.bopPct?+dd.bopPct:null;db.rows.push({id:uuid(),dados:dd,origem:"formulario"});localStorage.setItem("pace_demo_db",JSON.stringify(db));localStorage.setItem("pace_demo_marca",String(Date.now()));res={ok:true,em:t}}
-      else{var r=await sb.rpc("pace_enviar",{p_token:FS.tok,p_dados:d,p_chave:FS.chave});if(r.error)throw r.error;res=r.data}
+      else{var r=await sb.rpc("pace_enviar_livre",{p_nome:p.nome,p_dados:d,p_chave:FS.chave});if(r.error)throw r.error;res=r.data}
       FS.chave=null;avisar();formOk(d,res)}
     catch(err){var m=errMsg(err);er.textContent=m;b.disabled=false;b.textContent="ENVIAR MATRÍCULA";if(/Sessão expirada/i.test(m)){localStorage.removeItem("pace_form_tok");setTimeout(function(){formQuem(m)},1200)}}}}
 function formOk(d,res){
