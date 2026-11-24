@@ -1270,7 +1270,7 @@ function compute(){
   Object.keys(GR).forEach(function(k){var g=GR[k];if(g.length<2)return;g.sort(function(a,b){return a.t-b.t});var rep=g[0],same=[rep];rep.dupN=g.length;
     g.slice(1).forEach(function(n){var d=DEC(n.key);n.dupOf=rep;n.same=low(n.curso)===low(rep.curso)&&n.prod===rep.prod;n.dup=d==="dist"?"distinta":d==="dup"?"confirmada":(n.same?"possivel":"curso_dif");if(n.dup==="possivel")rep.risco=1;if(n.dup!=="distinta"&&n.same)same.push(n)});
     var last=same[same.length-1];if(last!==rep){rep.st=last.st;rep.stk=last.stk;rep.etapa=last.etapa}});
-  R.forEach(function(n){var f=[];if(n.mEad)f.push("Mídia EAD");if(n.wb1)f.push("Winback -1 ano");if(n.dup==="confirmada")f.push("Duplicata");if(n.dup==="possivel")f.push("Possível duplicata");n.fora=f;n.elig=!f.length;n.valid=n.elig&&n.stk!=="cancel"&&!/winback/.test(low(n.st||""))&&(STATE.period==="dia"||n.stk==="cursando")});
+  R.forEach(function(n){var f=[];if(n.mEad)f.push("Mídia EAD");if(n.wb1)f.push("Winback -1 ano");if(n.dup==="confirmada")f.push("Duplicata");if(n.dup==="possivel")f.push("Possível duplicata");n.fora=f;n.elig=!f.length;n.valid=n.elig&&n.stk!=="cancel"&&!/winback/.test(low(n.st||""))&&(STATE.period==="dia"||STATE.period==="semana"||n.stk==="cursando")});
   var D=pd(STATE.date)||TODAY,f=STATE.f;
   CIC0=new Date(PCUT0);CIC0=day0(CIC0);R.forEach(function(r){if(r.pay){var x=day0(r.pay);if(x<CIC0)CIC0=x}});
   var F=R.filter(function(r){return (!f.cons||r.c===f.cons)&&(!f.prod||r.prod===f.prod)&&(!f.mod||r.mod===f.mod)&&(!f.curso||r.curso===f.curso)&&(!f.canal||r.canal===f.canal)&&(!f.origem||r.origem===f.origem)});
