@@ -3062,16 +3062,22 @@ function expDash(X){
   /* ranking completo (mesma ordenação do ranking atual) */
   var rows=PC.rows.slice().sort(function(a,b){var x=a[key],y=b[key],gk=tk==="h"?"gh":tk==="m"?"gm":"gt",ea=(a[tk]||0)>0?1:0,eb=(b[tk]||0)>0?1:0;if(ea!==eb)return eb-ea;if(x==null&&y!=null)return 1;if(y==null&&x!=null)return -1;return (y||0)-(x||0)||b[tk]-a[tk]||((b.prodT||0)-(a.prodT||0))||(a[gk]-b[gk])||a.c.localeCompare(b.c)});
   rows=rows.filter(function(x){return skip.indexOf(x.c)<0});var OFF=skip.length,showM=PC.hasMidia;
+  /* semana: uma coluna por dia (seg a sáb) com as matrículas lançadas no dia; dia sem matrícula = 0 */
+  var DS=[],DN=["DOM","SEG","TER","QUA","QUI","SEX","SÁB"],prodN=PKN[PK],can=mode==="hunter"?["Hunter"]:mode==="midia"?["Mídia"]:["Hunter","Mídia"];
+  if(STATE.period==="semana"){for(var dd=new Date(X.Rg[0]);DS.length<6;dd=addD(dd,1))DS.push(new Date(dd))}
+  var dCnt=function(c,d){return X.P.filter(function(r){return (c==null||r.c===c)&&r.prod===prodN&&can.indexOf(r.canal)>=0&&r.elig&&r.pay&&dkey(r.pay)===dkey(d)}).length};
+  var dCel=function(c,d){if(day0(d)>day0(TODAY))return '<td class="xd-d"><span class="xd-df">—</span></td>';var n=dCnt(c,d);return '<td class="xd-d"><b class="'+(n?"xd-dn":"xd-dz")+'">'+n+'</b></td>'};
+  var dHead=DS.map(function(d){return '<th class="xd-dh">'+DN[d.getDay()]+'<small>'+ddmm(d)+'</small></th>'}).join("");
   var md=function(M){var pr=M["Presencial"]||0,se=(M["Semipresencial"]||0)+(M["EAD + Prática"]||0);return '<div class="xd-md"><span>Pres: <b>'+pr+'</b></span><span>Semi: <b>'+se+'</b></span></div>'};
-  var tb='<div class="xd-tw"><table class="xd-t"><thead><tr><th>#</th><th class="l">Consultor</th><th>Hunter<small>Realizado / Meta</small></th>'+(showM?'<th>Mídia<small>Realizado / Meta</small></th>':'')+'<th>Total PACE<small>Realizado / Meta</small></th><th>Produção total<small>inclui fora do PACE</small></th><th class="l">% do PACE '+(mode==="hunter"?"Hunter":mode==="midia"?"Mídia":"Total")+'</th><th>Modalidade</th><th>Status</th></tr></thead><tbody>'+
+  var tb='<div class="xd-tw"><table class="xd-t"><thead><tr><th>#</th><th class="l">Consultor</th>'+dHead+'<th>Hunter<small>Realizado / Meta</small></th>'+(showM?'<th>Mídia<small>Realizado / Meta</small></th>':'')+'<th>Total PACE<small>Realizado / Meta</small></th><th>Produção total<small>inclui fora do PACE</small></th><th class="l">% do PACE '+(mode==="hunter"?"Hunter":mode==="midia"?"Mídia":"Total")+'</th><th>Modalidade</th><th>Status</th></tr></thead><tbody>'+
     (rows.length?rows.map(function(x,i){var p=x[key],b=band(p);
-      return '<tr class="'+((x.prodT||0)>0||(x[tk]||0)>0?"xd-com":"xd-sem")+'"><td class="xd-pos">'+(i+1+OFF)+'º</td><td class="l"><div class="xd-who">'+xdFoto(x.c,46,"")+'<b>'+esc(xdNome(x.c).toUpperCase())+'</b></div></td>'+
+      return '<tr class="'+((x.prodT||0)>0||(x[tk]||0)>0?"xd-com":"xd-sem")+'"><td class="xd-pos">'+(i+1+OFF)+'º</td><td class="l"><div class="xd-who">'+xdFoto(x.c,46,"")+'<b>'+esc(xdNome(x.c).toUpperCase())+'</b></div></td>'+DS.map(function(d){return dCel(x.c,d)}).join("")+
         '<td><div class="xd-box">'+xdNum(x.h,x.mh,x.ph)+'</div></td>'+(showM?'<td><div class="xd-box">'+xdNum(x.m,x.mm,x.pm)+'</div></td>':'')+'<td><div class="xd-box">'+xdNum(x.t,x.mt,x.pt)+'</div></td>'+
         '<td><b class="xd-prod">'+x.prodT+'</b>'+(x.fo?'<small class="xd-fo">'+x.fo+' fora do PACE</small>':'')+'</td>'+
         '<td class="l"><div class="xd-pw"><b class="b-'+b+'">'+pct(p)+'</b><div class="xd-bar"><i class="b-'+b+'" style="width:'+Math.min(100,Math.max(0,(p||0)*100))+'%"></i></div></div></td><td>'+md(x.mods)+'</td><td>'+xdChip(p)+'</td></tr>'}).join("")
-     :'<tr><td colspan="9" class="xd-vz">Todos os consultores estão no pódio.</td></tr>')+'</tbody>';
+     :'<tr><td colspan="'+(9+DS.length)+'" class="xd-vz">Todos os consultores estão no pódio.</td></tr>')+'</tbody>';
   var UM={};PC.rows.forEach(function(x){for(var k in x.mods)UM[k]=(UM[k]||0)+x.mods[k]});for(var k2 in (S.uMods||{}))UM[k2]=(UM[k2]||0)+S.uMods[k2];
-  tb+='<tfoot><tr><td></td><td class="l"><div class="xd-who">'+(CFG.logoUnidade?'<img class="xd-logo" src="'+CFG.logoUnidade+'" alt="">':'')+'<b class="xd-un">UNIDADE</b></div></td>'+
+  tb+='<tfoot><tr><td></td><td class="l"><div class="xd-who">'+(CFG.logoUnidade?'<img class="xd-logo" src="'+CFG.logoUnidade+'" alt="">':'')+'<b class="xd-un">UNIDADE</b></div></td>'+DS.map(function(d){return dCel(null,d)}).join("")+
     '<td><div class="xd-box u">'+xdNum(S.h,S.mh,S.ph)+'</div></td>'+(showM?'<td><div class="xd-box u">'+xdNum(S.m,S.mm,S.pm)+'</div></td>':'')+'<td><div class="xd-box u">'+xdNum(S.t,S.mt,S.pt)+'</div></td><td></td>'+
     '<td class="l"><div class="xd-pw u"><b class="b-'+ub+'">'+(up==null?'—':pct(up))+'</b><div class="xd-bar"><i class="b-'+ub+'" style="width:'+Math.min(100,Math.max(0,(up||0)*100))+'%"></i></div></div></td><td>'+md(UM)+'</td><td></td></tr></tfoot></table></div>';
   /* Pós-graduação (Millena) e Profissionalizante (Giulia): ficam visíveis mesmo com zero */
@@ -3160,6 +3166,7 @@ var _cap14=capturarRanking;capturarRanking=function(){var el=byId2("share");if(!
 '.xd-pos-u{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;background:#fff;border:1px solid #ece4fb;border-left:4px solid #c4b5fd;border-radius:14px;padding:10px 16px;box-shadow:0 8px 18px -16px rgba(59,20,119,.5)}.xd-pos-u.com{border-left-color:#34d399}.xd-pos-u.sem{border-left-color:#fda4af}',
 '.xd-pu-l small{display:block;font:900 14px "Manrope",sans-serif;color:#4c1d95;letter-spacing:.6px}.xd-pu-l span{font:600 11px "Manrope",sans-serif;color:#6b5a8a}.xd-pu-n b{font:900 30px/1 "Manrope",sans-serif;color:#1d0d40}.xd-pu-n i{font:800 17px "Manrope",sans-serif;font-style:normal;color:#4b3a6e;margin-left:4px}',
 '.xd-pu-r{text-align:right}.xd-pu-r{display:flex;align-items:baseline;gap:6px}.xd-pu-r b{font:900 18px "Manrope",sans-serif}.xd-pu-r small{font:700 13px "Manrope",sans-serif;color:#4b3a6e}',
+'.xd-dh{min-width:46px}.xd-dh small{display:block;font:600 10.5px "Manrope",sans-serif;color:#6b5a8a;text-transform:none}.xd-d{padding:5px 3px!important}.xd-d b{display:inline-grid;place-items:center;min-width:32px;height:30px;border-radius:9px;font:900 16px "Manrope",sans-serif}.xd-d b.xd-dn{background:#d1fae5;color:#047857;border:0}.xd-d b.xd-dz{background:#ffe4e8;color:#e11d48;border:0}.xd-t td.l{min-width:190px}.xd-df{color:#b9a7e3;font-weight:700}',
 'body.xd-capt .xd-tw{overflow:visible}body.xd-capt .xd-t{min-width:0}'
 ].join("\n");document.head.appendChild(st)})();
 
