@@ -3549,7 +3549,11 @@ async function formTela(){
         dd.bopPct=dd.bopPct?+dd.bopPct:null;db.rows.push({id:uuid(),dados:dd,origem:"formulario"});localStorage.setItem("pace_demo_db",JSON.stringify(db));localStorage.setItem("pace_demo_marca",String(Date.now()));res={ok:true,em:t}}
       else{d.termos=[];if(d.bop==="Sim"){for(var pi=0;pi<PDFS.length;pi++){var fx=PDFS[pi],nm=FS.chave+"/"+pi+"-"+fx.name.normalize("NFD").replace(/[^\w.-]+/g,"_").slice(-80);if(!/\.pdf$/i.test(nm))nm+=".pdf";
           b.textContent="ENVIANDO TERMO "+(pi+1)+" DE "+PDFS.length+"…";var up=await sb.storage.from("pace-termos").upload(nm,fx,{contentType:"application/pdf",upsert:false});if(up.error&&!/exists|Duplicate/i.test(up.error.message))throw new Error("Não consegui enviar o PDF "+fx.name+": "+up.error.message);d.termos.push(nm)}}
-        var r=await sb.rpc("pace_enviar_livre",{p_nome:p.nome,p_dados:d,p_chave:FS.chave});if(r.error)throw r.error;res=r.data}
+        var r;if(/^unidade$/i.test(p.nome)){var et2=d.etapa;
+          /* Unidade: grava direto no Controle, sem consultor (soma só no total da unidade) */
+          r=await sb.rpc("pace_enviar_unidade",{p_dados:Object.assign({},d,{st:"Pendente",pag:/Pendente de pag/.test(et2)?"Pendente":"Realizado",vest:/Pendente de (vest|reda)/.test(et2)?"Pendente":"Aprovado",contr:/Pendente de aceite/.test(et2)?"Pendente":"Aceito",stHist:[],
+            cpfM:"***."+d.cpf.slice(3,6)+"."+d.cpf.slice(6,9)+"-**",nomeA:d.nome.split(/\s+/)[0]+" "+d.nome.split(/\s+/).pop()[0].toUpperCase()+".",bopPct:d.bopPct?+d.bopPct:null})})}
+        else r=await sb.rpc("pace_enviar_livre",{p_nome:p.nome,p_dados:d,p_chave:FS.chave});if(r.error)throw r.error;res=r.data}
       FS.chave=null;avisar();formOk(d,res)}
     catch(err){var m=errMsg(err);er.textContent=m;b.disabled=false;b.textContent="ENVIAR MATRÍCULA";if(/Sessão expirada/i.test(m)){localStorage.removeItem("pace_form_tok");setTimeout(function(){formQuem(m)},1200)}}}}
 function formOk(d,res){
