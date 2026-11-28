@@ -2867,7 +2867,7 @@ function abrirDetalhe(i,editando){var R=STATE.rows[i];if(!R)return;var X=window.
   v.querySelectorAll("[data-dver]").forEach(function(b){b.onclick=function(){if(window.PACE_HOST)PACE_HOST.termos([R.termos[+b.getAttribute("data-dver")]])}});
   var ax=v.querySelector("#dr-anx");if(ax)ax.onclick=function(){escolherPdf(function(fs){PACE_HOST.anexar(R,fs,null,function(){abrirDetalhe(i,editando)})})};
   v.querySelectorAll("[data-dsub]").forEach(function(b){b.onclick=function(){var ix=+b.getAttribute("data-dsub");escolherPdf(function(fs){PACE_HOST.anexar(R,fs.slice(0,1),ix,function(){abrirDetalhe(i,editando)})},true)}})}
-function escolherPdf(cb,um){var inp=document.createElement("input");inp.type="file";inp.accept="application/pdf,.pdf";inp.multiple=!um;inp.onchange=function(){var fs=[].slice.call(inp.files).filter(function(f){return /\.pdf$/i.test(f.name)&&f.size<=10485760});if(fs.length!==inp.files.length)toast("Só PDF até 10 MB.");if(fs.length)cb(fs)};inp.click()}
+function escolherPdf(cb,um){var inp=document.createElement("input");inp.type="file";inp.accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png,.webp,.heic,.heif,.gif,.bmp,.tif,.tiff,.doc,.docx";inp.multiple=!um;inp.onchange=function(){var fs=[].slice.call(inp.files).filter(function(f){return /\.(pdf|jpe?g|png|webp|heic|heif|gif|bmp|tiff?|docx?)$/i.test(f.name)&&f.size<=10485760});if(fs.length!==inp.files.length)toast("Envie PDF, foto ou Word, até 10 MB.");if(fs.length)cb(fs)};inp.click()}
 function confirmarExclusao(R,depois){document.querySelector(".ex-modal")?.remove();var m=document.createElement("div");m.className="ex-modal";
   m.innerHTML='<div class="ex-box"><div class="ex-ic">🗑</div><h3>Deseja realmente excluir esta matrícula do Controle?</h3><div class="ex-d"><div><span>Aluno</span><b>'+esc(R.nome||R.nomeA||"—")+'</b></div>'+(tem("cpf")?'<div><span>CPF</span><b>'+esc(cpfDig(R.cpf)||R.cpfM||"—")+'</b></div>':'')+'<div><span>Consultor</span><b>'+esc(R.c)+'</b></div><div><span>Curso</span><b>'+esc(R.curso)+'</b></div></div>'+
    '<p class="sub2">Ela sai das listas e dos indicadores, mas fica guardada: o gestor pode restaurar em <b>🗑 Excluídas</b>.</p><div class="irow"><button class="b3d" id="ex-no" type="button">CANCELAR</button><button class="b3d b-del" id="ex-ok" type="button">CONFIRMAR EXCLUSÃO</button></div></div>';
@@ -3319,7 +3319,7 @@ var _amu18=aplicarMetaUnid;aplicarMetaUnid=function(sum,rows,pk,D,f){_amu18(sum,
   if(usou){sum.metaDias=dias.length;var d1=metaPer("unid","",pk,"dia",dias[dias.length-1],"total");if(d1===undefined){var a=metaPer("unid","",pk,"dia",dias[dias.length-1],"hunter"),b=pk==="grad"?metaPer("unid","",pk,"dia",dias[dias.length-1],"midia"):undefined;if(a!==undefined||b!==undefined)d1=(+a||0)+(+b||0)}sum.metaDia=d1}};
 
 /* v19 · ARENA COMERCIAL — Batalha de Matrículas (Alienígenas x Monstros) · só leitura dos dados do PACE */
-function arCfg(){var A=CFG.arena=CFG.arena||{};if(!A.inicio)A.inicio=dkey(TODAY);if(A.pace==null)A.pace=2;if(!A.canais)A.canais=["Hunter","Mídia"];if(!A.mods)A.mods=["Presencial","Semipresencial","EAD","EAD + Prática"];
+function arCfg(){var A=CFG.arena=CFG.arena||{};/* a batalha vale desde o dia em que foi criada: 26/11/2026 */if(!A.inicioFix){A.inicio="2026-11-26";A.inicioFix=1}if(!A.inicio)A.inicio="2026-11-26";if(A.pace==null)A.pace=2;if(!A.canais)A.canais=["Hunter","Mídia"];if(!A.mods)A.mods=["Presencial","Semipresencial","EAD","EAD + Prática"];
   var L=(CFG.consultores.grad||[]).slice(),acha=function(n){return L.filter(function(c){return low(String(c).split(/\s+/)[0])===low(n)})[0]};
   if(!A.azul)A.azul=["Ryan","Diego","Thiago","Maria","Vitor"].map(acha).filter(Boolean);
   if(!A.verm)A.verm=["Mateo","Gisele","Vitória","Arthur"].map(acha).filter(Boolean);
@@ -3708,7 +3708,7 @@ window.PACE_HOST={salvar:salvar,termos:verTermosHost,pode:function(tab){var a=AR
     catch(e){el.innerHTML='<div class="empty">'+esc(errMsg(e))+'</div>'}},
   anexar:async function(R,files,trocar,cb){try{var em=new Date().toISOString(),por=GESTOR,nomes=[];
       for(var i=0;i<files.length;i++){var f=files[i],nm="adm-"+String(R._id||uuid()).slice(0,8)+"/"+Date.now()+"-"+f.name.normalize("NFD").replace(/[^\w.-]+/g,"_").slice(-80);
-        if(!DEMO){var up=await sb.storage.from("pace-termos").upload(nm,f,{contentType:"application/pdf",upsert:false});if(up.error)throw up.error}
+        if(!DEMO){var up=await sb.storage.from("pace-termos").upload(nm,f,{contentType:(function(){var t=f.type;if(t)return t;var e=(f.name.split(".").pop()||"").toLowerCase();return {pdf:"application/pdf",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",heic:"image/heic",heif:"image/heif",gif:"image/gif",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"}[e]||"application/octet-stream"})(),upsert:false});if(up.error)throw up.error}
         R.termos=R.termos||[];R.termosHist=R.termosHist||[];
         if(trocar!=null&&R.termos[trocar]){R.termosHist.push({acao:"substituído",nome:String(R.termos[trocar]).split("/").pop(),por:por,em:em,antigo:R.termos[trocar]});R.termos[trocar]=nm}
         else R.termos.push(nm);R.termosHist.push({acao:"anexado",nome:f.name,por:por,em:em});nomes.push(f.name)}
@@ -3765,6 +3765,9 @@ async function entrarGestor(){
 var FS={lista:[],quem:null,tok:null,op:{cursos:[],bases:[]},chave:null};
 var PROD={grad:"Graduação",pos:"Pós-graduação",prof:"Profissionalizante"};
 function fotoDe(n){if(/^unidade$/i.test(n||""))return IMGS.logoUnidade||"";return (IMGS.fotos||{})[n]||""}
+function termoOk(f){return /^(application\/pdf|image\/|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml)/.test(f.type||"")||/\.(pdf|jpe?g|png|webp|heic|heif|gif|bmp|tiff?|docx?)$/i.test(f.name)}
+function termoTipo(f){if(f.type)return f.type;var e=(f.name.split(".").pop()||"").toLowerCase();return {pdf:"application/pdf",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",heic:"image/heic",heif:"image/heif",gif:"image/gif",bmp:"image/bmp",tif:"image/tiff",tiff:"image/tiff",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"}[e]||"application/octet-stream"}
+function termoExt(f){var t=termoTipo(f);return {"application/pdf":".pdf","image/jpeg":".jpg","image/png":".png","image/webp":".webp","image/heic":".heic","image/heif":".heif","image/gif":".gif"}[t]||""}
 async function formInicio(){
   document.body.className="h-boot h-form";
   try{var t=JSON.parse(localStorage.getItem("pace_form_tok")||"null");
@@ -3808,7 +3811,7 @@ async function formTela(){
    '<fieldset><legend>Origem e bolsa</legend><label>Qual a ação comercial dessa matrícula?<select name="origem">'+opt(["","Conversão de Base","Meu Forms","Atendimento Unidade","Indicação","Ação Externa","PD Lokal"])+'</select></label><label>Qual base foi convertida?<input name="base" list="dl-bases" maxlength="80" autocomplete="off"></label>'+
    '<label>Bolsa ofertada<select name="bolsa">'+opt(["Incentivo","Convênio Empresa","Voucher","Servidor Público 20%","Servidor Público 30%","Winback + 1 ano","Bolsa Enem","Egresso","Transferência Externa","OBNT - Portador de Diploma","Não"])+'</select></label>'+
    '<div class="fm-l">Foi ofertada a bolsa operação?'+rad("bop",["Sim","Não"],"Não")+'</div><div class="fm-bop fm-c" hidden><label>Qual o percentual da bolsa operação? *<input name="bopPct" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="0 a 100"></label></div>'+
-   '<div class="fm-l fm-c">Anexe o termo de condição comercial (PDF) *<label class="fm-up">📎 Adicionar PDF<input type="file" id="fm-pdf" accept="application/pdf,.pdf" multiple hidden></label><div id="fm-pdfs" class="fm-pdfs"></div><small class="fm-dica">Até 5 arquivos PDF, 10 MB cada.</small></div>'+
+   '<div class="fm-l fm-c">Anexe o termo de condição comercial (PDF ou foto) *<label class="fm-up">📎 Adicionar arquivo ou foto<input type="file" id="fm-pdf" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png,.webp,.heic,.heif,.gif,.bmp,.tif,.tiff,.doc,.docx" multiple hidden></label><div id="fm-pdfs" class="fm-pdfs"></div><small class="fm-dica">PDF, foto (JPG, PNG, HEIC…) ou Word · até 5 arquivos, 10 MB cada.</small></div>'+
    '<div class="fm-l">Veio de empresa parceira?'+rad("parc",["Sim","Não"],"Não")+'</div><label class="fm-emp" hidden>Nome da empresa parceira<input name="emp" maxlength="120"></label></fieldset>'+
    '<fieldset><legend>Situação</legend><div class="fm-l fm-c">Qual etapa *'+rad("etapa",["Tudo OK — aguardando subir como cursando","Pendente de aceite","Pendente de vestibular","Pendente de redação","Pendente de pag"],"")+'</div>'+
    '<div class="fm-l fm-c">Pediu avaliação no Google?'+rad("g",["Sim","Não","Ainda não, vou pedir a avaliação"],"")+'</div></fieldset>'+
@@ -3819,14 +3822,14 @@ async function formTela(){
   F.prod.onchange=function(){if(F.prod.value!=="Graduação"){F.mod.value="EAD";F.canal.value="Hunter"}};
   var PDFS=[];function listaPdf(){var el=document.getElementById("fm-pdfs");el.innerHTML=PDFS.map(function(f,i){return '<span class="fm-pdf">📄 '+esc(f.name)+' <small>'+Math.round(f.size/1024)+' KB</small><button type="button" data-rmpdf="'+i+'" aria-label="Remover">✕</button></span>'}).join("");
     el.querySelectorAll("[data-rmpdf]").forEach(function(b){b.onclick=function(){PDFS.splice(+b.getAttribute("data-rmpdf"),1);listaPdf()}})}
-  document.getElementById("fm-pdf").onchange=function(){var er=document.getElementById("fm-err");er.textContent="";Array.from(this.files).forEach(function(f){if(!/\.pdf$/i.test(f.name)&&f.type!=="application/pdf"){er.textContent="Só arquivos PDF.";return}if(f.size>10485760){er.textContent=f.name+" passa de 10 MB.";return}if(PDFS.length>=5){er.textContent="Máximo de 5 PDFs.";return}PDFS.push(f)});this.value="";listaPdf()};
+  document.getElementById("fm-pdf").onchange=function(){var er=document.getElementById("fm-err");er.textContent="";Array.from(this.files).forEach(function(f){if(!termoOk(f)){er.textContent=f.name+": envie PDF, foto ou Word.";return}if(f.size>10485760){er.textContent=f.name+" passa de 10 MB.";return}if(PDFS.length>=5){er.textContent="Máximo de 5 arquivos.";return}PDFS.push(f)});this.value="";listaPdf()};
   F.querySelectorAll('[name="bop"]').forEach(function(e){e.onchange=function(){F.querySelector(".fm-bop").hidden=F.bop.value!=="Sim"}});
   F.querySelectorAll('[name="parc"]').forEach(function(e){e.onchange=function(){F.querySelector(".fm-emp").hidden=F.parc.value!=="Sim"}});
   F.onsubmit=async function(e){e.preventDefault();var er=document.getElementById("fm-err"),b=F.querySelector(".fm-env");er.textContent="";
     var d={nome:F.nome.value.trim(),cpf:F.cpf.value.replace(/\D/g,""),pay:F.pay.value,prod:F.prod.value,curso:F.curso.value.trim(),mod:F.mod.value,canal:F.canal.value,base:F.base.value.trim(),origem:F.origem.value,bolsa:F.bolsa.value,
       bop:F.bop.value||"Não",bopPct:F.bop.value==="Sim"?String(F.bopPct.value).replace(",",".").replace("%","").trim():"",tel:F.tel.value.trim(),turno:F.turno.value.trim(),parc:F.parc.value||"Não",emp:F.parc.value==="Sim"?F.emp.value.trim():"",etapa:F.etapa.value||"",g:F.g.value||"",pf:F.pf.value||""};
     var falta=[];if(d.nome.split(/\s+/).length<2)falta.push("nome completo do aluno");if(d.cpf.length!==11)falta.push("CPF com 11 números");if(!d.pay)falta.push("data do pagamento");if(!d.curso)falta.push("curso");if(!d.etapa)falta.push("etapa");if(!d.pf)falta.push("Pague Fácil (1, 2 ou 3)");if(d.tel.replace(/\D/g,"").length<8)falta.push("telefone do aluno");
-    if(d.bop==="Sim"){var pc=parseFloat(d.bopPct);if(d.bopPct===""||isNaN(pc)||pc<0||pc>100)falta.push("percentual da bolsa operação (0 a 100)");}if(!PDFS.length)falta.push("termo de condição comercial em PDF");
+    if(d.bop==="Sim"){var pc=parseFloat(d.bopPct);if(d.bopPct===""||isNaN(pc)||pc<0||pc>100)falta.push("percentual da bolsa operação (0 a 100)");}if(!PDFS.length)falta.push("termo de condição comercial (PDF ou foto)");
     if(falta.length){er.textContent="Preencha: "+falta.join(", ")+".";return}
     b.disabled=true;b.textContent="ENVIANDO…";
     try{var res;
@@ -3836,8 +3839,8 @@ async function formTela(){
         d.termos=PDFS.map(function(f,i){return "demo/"+i+"-"+f.name});var et=d.etapa;
         var dd=Object.assign({t:t,c:p.nome,st:"Pendente",pag:/Pendente de pag/.test(et)?"Pendente":"Realizado",vest:/Pendente de (vest|reda)/.test(et)?"Pendente":"Aprovado",contr:/Pendente de aceite/.test(et)?"Pendente":"Aceito",stHist:[],cpfM:"***."+d.cpf.slice(3,6)+"."+d.cpf.slice(6,9)+"-**",nomeA:d.nome.split(/\s+/)[0]+" "+d.nome.split(/\s+/).pop()[0].toUpperCase()+".",src:{a:"Formulário PACE",s:"Formulário",em:t,por:p.nome,id:"form"}},d);
         dd.bopPct=dd.bopPct?+dd.bopPct:null;db.rows.push({id:uuid(),dados:dd,origem:"formulario"});localStorage.setItem("pace_demo_db",JSON.stringify(db));localStorage.setItem("pace_demo_marca",String(Date.now()));res={ok:true,em:t}}
-      else{d.termos=[];if(d.bop==="Sim"){for(var pi=0;pi<PDFS.length;pi++){var fx=PDFS[pi],nm=FS.chave+"/"+pi+"-"+fx.name.normalize("NFD").replace(/[^\w.-]+/g,"_").slice(-80);if(!/\.pdf$/i.test(nm))nm+=".pdf";
-          b.textContent="ENVIANDO TERMO "+(pi+1)+" DE "+PDFS.length+"…";var up=await sb.storage.from("pace-termos").upload(nm,fx,{contentType:"application/pdf",upsert:false});if(up.error&&!/exists|Duplicate/i.test(up.error.message))throw new Error("Não consegui enviar o PDF "+fx.name+": "+up.error.message);d.termos.push(nm)}}
+      else{d.termos=[];if(d.bop==="Sim"){for(var pi=0;pi<PDFS.length;pi++){var fx=PDFS[pi],nm=FS.chave+"/"+pi+"-"+fx.name.normalize("NFD").replace(/[^\w.-]+/g,"_").slice(-80);if(!/\.[a-z0-9]{2,5}$/i.test(nm))nm+=termoExt(fx);
+          b.textContent="ENVIANDO TERMO "+(pi+1)+" DE "+PDFS.length+"…";var up=await sb.storage.from("pace-termos").upload(nm,fx,{contentType:termoTipo(fx),upsert:false});if(up.error&&!/exists|Duplicate/i.test(up.error.message))throw new Error("Não consegui enviar o arquivo "+fx.name+": "+up.error.message);d.termos.push(nm)}}
         var r;if(/^unidade$/i.test(p.nome)){var et2=d.etapa;
           /* Unidade: grava direto no Controle, sem consultor (soma só no total da unidade) */
           r=await sb.rpc("pace_enviar_unidade",{p_dados:Object.assign({},d,{st:"Pendente",pag:/Pendente de pag/.test(et2)?"Pendente":"Realizado",vest:/Pendente de (vest|reda)/.test(et2)?"Pendente":"Aprovado",contr:/Pendente de aceite/.test(et2)?"Pendente":"Aceito",stHist:[],
