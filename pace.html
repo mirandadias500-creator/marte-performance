@@ -3326,7 +3326,9 @@ function arCfg(){var A=CFG.arena=CFG.arena||{};/* a batalha vale desde o dia em 
   return A}
 function arGestor(){return !window.PACE_HOST||!PACE_HOST.adm||!PACE_HOST.adm()}
 function arDias(ini,fim){var n=0;for(var d=day0(ini);d<=day0(fim);d=addD(d,1))if(d.getDay()!==0&&!FER[dkey(d)])n++;return n}
+EXT.arVis=EXT.arVis||(function(){try{return localStorage.getItem("pace-arena-vis")||"acum"}catch(e){return "acum"}})();
 function arData(X){var A=arCfg(),ini=pd(A.inicio)||TODAY,fimC=A.fim?pd(A.fim):null,hoje=day0(X.D),ate=fimC&&fimC<hoje?fimC:hoje;
+  if(EXT.arVis==="dia"){ini=hoje;ate=hoje}
   var ok=function(r){if(r.prod!=="Graduação"||!r.elig||r.dup==="confirmada"||merged(r)||r.stk==="cancel"||/winback/i.test(r.st||""))return false;
     if(A.canais.indexOf(r.canal)<0||A.mods.indexOf(r.mod)<0||!r.pay)return false;var p=day0(r.pay);return p>=day0(ini)&&p<=ate};
   var R=(X.R||[]).filter(ok),dias=Math.max(1,arDias(ini,ate)),pc=+A.pace||2;
@@ -3387,6 +3389,7 @@ function arConfig(A){var todos=(CFG.consultores.grad||[]).slice(),ck=function(li
     (H.length?'<div class="ar-hist"><b>Histórico</b>'+H.map(function(h){return '<div>'+esc(h.inicio)+' a '+esc(h.fim)+' · Alienígenas '+h.az+' x '+h.vm+' Monstros · campeão: <b>'+esc(h.campeao)+'</b></div>'}).join("")+'</div>':'')+'</details>'}
 function arSalvar(msg){STATE.msg={up:1,html:msg};render()}
 function arWire(){var g=byId2("arena");if(!g)return;var A=arCfg();
+  document.querySelectorAll("[data-arvis]").forEach(function(b){b.onclick=function(){EXT.arVis=b.getAttribute("data-arvis");try{localStorage.setItem("pace-arena-vis",EXT.arVis)}catch(e){}render()}});
   var cfg=document.querySelector(".ar-cfg");if(cfg)cfg.addEventListener("toggle",function(){EXT.arCfgOpen=cfg.open});
   var sv=byId2("ar-salvar");if(sv)sv.onclick=function(){var az=[].slice.call(document.querySelectorAll('[data-art="azul"]:checked')).map(function(i){return i.value}),vm=[].slice.call(document.querySelectorAll('[data-art="verm"]:checked')).map(function(i){return i.value});
     if(az.some(function(c){return vm.indexOf(c)>=0})){toast("Um consultor não pode estar nos dois times.");return}
@@ -3400,7 +3403,7 @@ function arWire(){var g=byId2("arena");if(!g)return;var A=arCfg();
   var nv=byId2("ar-nova");if(nv)nv.onclick=function(){if(!confirm("Começar uma nova batalha a partir de hoje? O placar volta a zero (o histórico fica salvo)."))return;A.inicio=dkey(TODAY);A.fim=null;A.encerrada=false;try{localStorage.removeItem("pace-arena-last")}catch(e){}arSalvar("Nova batalha iniciada.")};
   arAnimar()}
 /* animações: compara com a última vez que a Arena foi vista neste aparelho */
-function arAnimar(){var X=window.__X;if(!X)return;var D=arData(X),now={az:D.az.tot,vm:D.vm.tot,lid:D.lider,p:{},top:{az:D.az.top&&D.az.top.c,vm:D.vm.top&&D.vm.top.c},ini:D.A.inicio};
+function arAnimar(){var X=window.__X;if(!X)return;var D=arData(X),now={az:D.az.tot,vm:D.vm.tot,lid:D.lider,p:{},top:{az:D.az.top&&D.az.top.c,vm:D.vm.top&&D.vm.top.c},ini:D.A.inicio+"|"+EXT.arVis+"|"+dkey(D.ate)};
   D.az.P.concat(D.vm.P).forEach(function(x){now.p[x.c]=x.tot});
   var old=null;try{old=JSON.parse(localStorage.getItem("pace-arena-last")||"null")}catch(e){}
   try{localStorage.setItem("pace-arena-last",JSON.stringify(now))}catch(e){}
@@ -3523,15 +3526,15 @@ arView=function(X){var D=arData(X),A=D.A,az=D.az,vm=D.vm,ges=arGestor();
   var dif=Math.abs(az.tot-vm.tot),lid=D.lider==="az"?'<b class="az">ALIENÍGENAS</b> na liderança':D.lider==="vm"?'<b class="vm">MONSTROS</b> na liderança':'Empate técnico';
   return '<div class="ar ab" id="arena"><div class="ab-sky"></div><div class="ab-art l">'+AR2.alienCena+'</div><div class="ab-art r">'+AR2.monstroCena+'</div>'+
    '<div class="ab-grid">'+ab2Time(az,"az")+
-   '<div class="ab-mid"><div class="ab-tit"><span class="ab-marca">ANHANGUERA</span><span class="ab-crown">'+AR2.coroa+'</span><div class="ab-tl"><span class="ab-lo l">'+AR2.louro+'</span><h3>ARENA<br>COMERCIAL</h3><span class="ab-lo r">'+AR2.louro+'</span></div><div class="ab-rib">BATALHA DE MATRÍCULAS</div></div>'+
+   '<div class="ab-mid"><div class="ab-tit"><span class="ab-marca">ANHANGUERA</span><span class="ab-crown">'+AR2.coroa+'</span><div class="ab-tl"><span class="ab-lo l">'+AR2.louro+'</span><h3>ARENA<br>COMERCIAL</h3><span class="ab-lo r">'+AR2.louro+'</span></div><div class="ab-rib">BATALHA DE MATRÍCULAS</div><div class="ab-vis"><button type="button" data-arvis="dia" class="'+(EXT.arVis==="dia"?"on":"")+'">☀️ DIA '+ddmm(X.D)+'</button><button type="button" data-arvis="acum" class="'+(EXT.arVis!=="dia"?"on":"")+'">🏆 ACUMULADO desde '+ddmm(pd(A.inicio)||TODAY)+'</button></div></div>'+
     '<div class="ab-vs"><div class="ab-hx az'+(D.lider==="az"?' lead':'')+'"><b data-arn="az">'+az.tot+'</b><small>MATRÍCULAS</small></div><span class="ab-vst">VS</span><div class="ab-hx vm'+(D.lider==="vm"?' lead':'')+'"><b data-arn="vm">'+vm.tot+'</b><small>MATRÍCULAS</small></div></div>'+
     '<div class="ab-cmp"><i class="az" style="width:'+(az.tot+vm.tot?az.tot/(az.tot+vm.tot)*100:50)+'%"></i><i class="vm"></i></div><div class="ab-lid">'+lid+(dif?' · diferença de <b>'+dif+'</b>':'')+' · total <b>'+D.total+'</b></div>'+
     '<div class="ab-pr"><span class="ab-pri">'+AR2.alvo+'</span>PACE DA BATALHA</div><div class="ab-pc"><span class="ab-fg">'+AR2.foguete+'</span><div><b>'+D.pc+' MATRÍCULAS</b><small>POR CONSULTOR/DIA</small></div></div>'+
     '<div class="ab-pt"><div class="az"><span>'+AR_SVG.alien+'</span><div><small>PACE DO TIME</small><em>ALIENÍGENAS</em><b>'+az.paceDia+' MATRÍCULAS</b><i>'+(az.p==null?'—':pct(az.p))+' atingido</i></div></div><div class="vm"><span>'+AR_SVG.monstro+'</span><div><small>PACE DO TIME</small><em>MONSTROS</em><b>'+vm.paceDia+' MATRÍCULAS</b><i>'+(vm.p==null?'—':pct(vm.p))+' atingido</i></div></div></div>'+
     '<div class="ab-tro"><span class="ab-lo l">'+AR2.louro+'</span>'+AR_SVG.trofeu+'<span class="ab-lo r">'+AR2.louro+'</span><div class="ab-ped"><b>RUMO À</b><strong>VITÓRIA</strong></div></div>'+
-    '<div class="ab-per">'+ddmm(D.ini)+' a '+ddmm(D.ate)+' · '+D.dias+' dia'+(D.dias>1?'s':'')+' de batalha'+(A.premio?' · 🏆 '+esc(A.premio):'')+'</div></div>'+
+    '<div class="ab-per">'+(EXT.arVis==="dia"?'Visão do dia '+ddmm(D.ate)+' · PACE do dia':ddmm(D.ini)+' a '+ddmm(D.ate)+' · '+D.dias+' dia'+(D.dias>1?'s':'')+' de batalha')+''+(A.premio?' · 🏆 '+esc(A.premio):'')+'</div></div>'+
    ab2Time(vm,"vm")+'</div>'+
-   '<div class="ar-leg"><span class="arc-r">● 0 hoje</span><span class="arc-y">● abaixo do PACE</span><span class="arc-g">● PACE atingido</span><span class="arc-o">● PACE superado</span><span>· meta do time = '+D.pc+' × consultores × dias de batalha (seg a sáb)</span></div>'+
+   '<div class="ar-leg"><span class="arc-r">● 0 hoje</span><span class="arc-y">● abaixo do PACE</span><span class="arc-g">● PACE atingido</span><span class="arc-o">● PACE superado</span><span>· '+(EXT.arVis==="dia"?'meta do time = '+D.pc+' × consultores (PACE do dia)':'meta do time = '+D.pc+' × consultores × dias de batalha (seg a sáb)')+'</span></div>'+
    (ges?arConfig(A):'')+'</div>'};
 (function(){var _af=arFinal;arFinal=function(D){return _af(D).replace('<div class="ar-bg"></div>','<div class="ab-sky"></div><div class="ab-art l">'+AR2.alienCena+'</div><div class="ab-art r">'+AR2.monstroCena+'</div>')}})();
 (function(){var st=document.createElement("style");st.textContent=[
@@ -3575,6 +3578,7 @@ arView=function(X){var D=arData(X),A=D.A,az=D.az,vm=D.vm,ges=arGestor();
 '.ab-col.az .ab-meta{background:linear-gradient(180deg,rgba(15,42,110,.9),rgba(7,20,55,.95));box-shadow:inset 0 0 0 2.5px #38bdf8,0 0 22px rgba(56,189,248,.5)}.ab-col.vm .ab-meta{background:linear-gradient(180deg,rgba(90,11,11,.92),rgba(42,5,5,.95));box-shadow:inset 0 0 0 2.5px #ef4444}',
 '.ab-bar{height:16px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}.ab-bar i{display:block;height:100%;border-radius:99px;transition:width 1s}.ab-col.az .ab-bar i{background:linear-gradient(90deg,#67e8f9,#38bdf8,#e0f2fe);box-shadow:0 0 12px #38bdf8}.ab-col.vm .ab-bar i{background:linear-gradient(90deg,#fde047,#f59e0b,#fef3c7);box-shadow:0 0 12px #f59e0b}',
 '.ab-mv{display:flex;justify-content:space-between;margin-top:6px;font:900 20px "Manrope",sans-serif;font-style:italic;color:#fff}',
+'.ab-vis{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}.ab-vis button{font:900 12.5px "Manrope",sans-serif;letter-spacing:.4px;color:#fff;background:rgba(0,0,0,.45);border:1.5px solid rgba(244,197,82,.6);border-radius:999px;padding:7px 14px;cursor:pointer;transition:.15s}.ab-vis button:hover{background:rgba(244,197,82,.2)}.ab-vis button.on{background:linear-gradient(180deg,#fff3b0,#f4c552 55%,#c58d22);color:#2b1200;border-color:#f4c552;box-shadow:0 0 16px rgba(244,197,82,.7)}',
 '@media (max-width:1150px){.ab-grid{grid-template-columns:1fr;padding-top:0}.ab-mid{margin-top:0;order:-1}.ab-art{width:48%;opacity:.45}}',
 '@media (max-width:560px){.ab-th,.ab-l{grid-template-columns:30px 44px 1fr 70px;gap:6px}.ab-n{min-width:60px;font-size:24px}.ab-pt{grid-template-columns:1fr}.ab-art{width:60%}}'
 ].join("\n");document.head.appendChild(st)})();
